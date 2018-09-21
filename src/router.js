@@ -10,9 +10,30 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
-      name: "home",
-      component: _import_(`home/Index`)
+      path: "",
+      name: "",
+      component: _import_(`Layout`),
+      redirect: "/",
+      children: [
+        {
+          path: "/",
+          name: "home",
+          component: _import_(`home/Index`)
+        }
+      ]
+    },
+    {
+      path: "play",
+      name: "",
+      component: _import_(`Layout`),
+      redirect: "/play",
+      children: [
+        {
+          path: "/play",
+          name: "play",
+          component: _import_(`play/Index`)
+        }
+      ]
     }
   ]
 });

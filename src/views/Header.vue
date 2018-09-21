@@ -6,7 +6,7 @@
 </template>
 <style lang="scss" scoped>
 header{
-  height: 0.9rem;color: #fff;position: relative;background-color: #d44439;position: fixed;top: 0;left: 0;z-index:2;width: 100%;
+  height: 0.9rem;color: #fff;background-color: #d44439;position: fixed;top: 0;left: 0;z-index:2;width: 100%;
   h1{
     font-size: 0.36rem;color: #fff;text-align: center;line-height: 0.9rem;
   }

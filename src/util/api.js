@@ -15,5 +15,17 @@ export default {
   // 获取最新音乐
   newSong: data => {
     return axios(`/personalized/newsong`, data);
+  },
+  // 获取专辑详情
+  album: data => {
+    return axios(`/album`, data);
+  },
+  // 获取歌曲详情
+  songDetail: data => {
+    return axios(`/song/detail`, data);
+  },
+  // 获取音乐url
+  musicUrl: data => {
+    return axios(`/music/url`, data);
   }
 };

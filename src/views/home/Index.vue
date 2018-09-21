@@ -1,6 +1,5 @@
 <template>
-  <div class="pt-header">
-    <Header></Header>
+  <div>
     <div class="banner">
       <div class="slide-render-view">
         <div class="slide-wrapper">
@@ -50,9 +49,11 @@
       <p class="title"><a href="javascript:;">最新音乐 <i class="iconfont youjiantou"></i></a></p>
       <ul>
         <li v-for="item in newSongList" :key="item.id">
-          <img v-lazy="item.picUrl" alt="">
-          <p class="songName">{{item.name}}</p>
-          <p class="singer">{{item.singer}}</p>
+          <router-link :to="`/play?id=${item.id}`">
+            <img v-lazy="item.picUrl" alt="">
+            <p class="songName">{{item.name}}</p>
+            <p class="singer">{{item.singer}}</p>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -64,7 +65,6 @@ import Scroll from '@/components/scroll/Index'
 import Slider from '@/components/slider/Index' 
 
 export default {
-  name: "home",
   components: {
     Header,
     Scroll,
@@ -120,7 +120,6 @@ export default {
           name: item.name,
           singer: item.song.album.artists[0].name
         }
-        debugger
         return obj
       })
     }
