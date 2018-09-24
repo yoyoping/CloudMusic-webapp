@@ -4,7 +4,7 @@
       <h2>云音乐官方榜</h2>
       <div class="cls" v-for="cls in topYunList" :key="cls.playlist.id">
         <router-link :to="`/top/${cls.playlist.idx}`">
-          <img :src="cls.playlist.coverImgUrl" alt="">
+          <img v-lazy="cls.playlist.coverImgUrl" alt="">
           <ul>
             <li v-for="(item, index) in cls.playlist.tracks" :key="index" v-if="index < 3">
               {{`${index + 1}. ${item.name} - ${item.ar[0].name}`}}
@@ -18,7 +18,7 @@
       <ul>
         <li v-for="item in topOtherList" :key="item.playlist.id">
           <div>
-            <img :src="item.playlist.coverImgUrl" alt="">
+            <img v-lazy="item.playlist.coverImgUrl" alt="">
             <!-- <span>{{item.playlist.creator.signature}}</span> -->
           </div>
           <p>{{item.playlist.name}}</p>
@@ -77,7 +77,7 @@ h2{
 }
 .part-yun{
   a{
-    display: block;width: 100%;height: 100%;padding: 0;margin: 0;
+    display: block;width: 100%;height: 100%;padding: 0;margin: 0;display: flex;justify-content: space-between;
   }
   .cls{
     display: flex;justify-content: space-between;height: 31v;margin-bottom: 0.6vw;
@@ -86,7 +86,7 @@ h2{
     width: 32vw;height: 32vw;border-radius: 0.1rem;
   }
   ul{
-    width: 63vw;height: 100%;padding-top: 0.28rem;
+    width: 63vw;height: 32vw;padding-top: 0.28rem;border-bottom: 0.01rem solid #ddd;box-sizing: border-box;
   }
   li{
     line-height: 0.6rem;color: #666;font-size: 0.25rem;
@@ -95,10 +95,13 @@ h2{
 .part-other{
   margin-top: 0.5rem;
   ul{
-    display: flex;justify-content: flex-start;flex-flow: row wrap;
+    display: flex;justify-content: space-between;flex-flow: row wrap;
   }
   li{
-    width: 32vw;margin-bottom: 0.4rem;margin-right: 0.5vw;
+    width: 32vw;margin-bottom: 0.4rem;
+    &:last-child{
+      float: left;
+    }
     div{
       width: 32vw;height: 32vw;position: relative;
     }

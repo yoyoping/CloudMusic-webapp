@@ -5,9 +5,9 @@
         <div class="slide-wrapper">
           <div class="slide-content">
             <Slider ref="slide" :autoPlay="true" :loop="true" :showDot="true" :interval="4000" :threshold="0.3" :speed="400">
-              <div v-for="item in banner">
+              <div v-for="item in banner" :key="item.id">
                 <a href="javascript:;">
-                  <img :src="item.picUrl">
+                  <img v-lazy="item.picUrl">
                 </a>
               </div>
             </Slider>
