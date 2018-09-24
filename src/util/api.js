@@ -27,5 +27,9 @@ export default {
   // 获取音乐url
   musicUrl: data => {
     return axios(`/music/url`, data);
+  },
+  // 获取排行榜
+  musicTop: data => {
+    return axios(`/top/list`, data)
   }
 };

@@ -1,10 +1,11 @@
 <template>
-  <div>
-    <audio id="audio" ref="audio" autoplay="autoplay" controls="controls"></audio>
-    <button @click="$refs.audio.play()">播放</button>
+  <div class="player">
+    <audio id="audio" ref="audio" autoplay controls="controls" :src="songUrl"></audio>
+    <!-- <button @click="$refs.audio.play()">播放</button> -->
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -12,9 +13,13 @@ export default {
       musicUrl: '' // 音乐地址
     }
   },
+  computed: {
+    ...mapState(['songUrl'])
+  },
   created () {
-    this.songDetail()
-    this.getMusicUrl()
+    // this.$refs.audio.pause()
+    // this.songDetail()
+    // this.getMusicUrl()
     // this.autoPlayMusic()
   },
   methods: {
@@ -50,11 +55,18 @@ export default {
     }
   },
   watch: {
-    musicUrl (newUrl) {
-      this.$nextTick(() => {
-        this.$refs.audio.play()
-      })
+    songUrl (newUrl) {
+      this.$refs.audio.src = this.newUrl
+      this.$refs.audio.play()
+      // this.$nextTick(() => {
+      //   this.$refs.audio.play()
+      // })
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+.player{
+  position: fixed;bottom: 0;left: 0;
+}
+</style>

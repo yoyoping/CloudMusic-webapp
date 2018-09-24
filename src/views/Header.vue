@@ -1,7 +1,7 @@
 <template>
   <header>
     <h1>cloudMusic</h1>
-    <router-link class="search" to=""><i class="iconfont icon-test"></i></router-link>
+    <router-link class="toplay" to=""><i class="iconfont zhengzaibofang"></i></router-link>
   </header>
 </template>
 <style lang="scss" scoped>
@@ -11,7 +11,7 @@ header{
     font-size: 0.36rem;color: #fff;text-align: center;line-height: 0.9rem;
   }
 }
-.search{
+.toplay{
   display: block;height: 100%;position: absolute;top: 0;right: 0.3rem;color: #fff;text-align: center;line-height: 0.9rem;
 }
 .iconfont{

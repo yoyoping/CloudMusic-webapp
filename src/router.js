@@ -23,15 +23,28 @@ export default new Router({
       ]
     },
     {
-      path: "play",
+      path: "",
       name: "",
       component: _import_(`Layout`),
-      redirect: "/play",
+      redirect: "/toplist",
       children: [
         {
-          path: "/play",
-          name: "play",
-          component: _import_(`play/Index`)
+          path: "/toplist",
+          name: "toplist",
+          component: _import_(`top/TopList`)
+        }
+      ]
+    },
+    {
+      path: "",
+      name: "",
+      component: _import_(`Layout`),
+      redirect: "/top/:idx",
+      children: [
+        {
+          path: "/top/:idx",
+          name: "top",
+          component: _import_(`top/Topdetail`)
         }
       ]
     }

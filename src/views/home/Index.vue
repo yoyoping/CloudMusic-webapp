@@ -28,12 +28,12 @@
         </span>
         推荐歌单
       </a>
-      <a href="javascript:;">
+      <router-link to="/toplist">
         <span>
           <i class="iconfont paixingbang"></i>
         </span>
         排行榜
-      </a>
+      </router-link>
     </nav>
     <div class="songCls">
       <p class="title"><a href="javascript:;">推荐歌单 <i class="iconfont youjiantou"></i></a></p>
@@ -48,12 +48,12 @@
     <div class="songCls">
       <p class="title"><a href="javascript:;">最新音乐 <i class="iconfont youjiantou"></i></a></p>
       <ul>
-        <li v-for="item in newSongList" :key="item.id">
-          <router-link :to="`/play?id=${item.id}`">
+        <li v-for="item in newSongList" :key="item.id" @click="getMusicUrl(item.id)">
+          <a>
             <img v-lazy="item.picUrl" alt="">
             <p class="songName">{{item.name}}</p>
             <p class="singer">{{item.singer}}</p>
-          </router-link>
+          </a>
         </li>
       </ul>
     </div>
@@ -63,7 +63,7 @@
 import Header from '@/views/Header.vue'
 import Scroll from '@/components/scroll/Index' 
 import Slider from '@/components/slider/Index' 
-
+import { mapActions } from 'vuex'
 export default {
   components: {
     Header,
@@ -83,6 +83,7 @@ export default {
     this.newSong()
   },
   methods: {
+    ...mapActions(['getMusicUrl']),
     /**
      * 初始化banner
      */
