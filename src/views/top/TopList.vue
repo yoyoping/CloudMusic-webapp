@@ -23,6 +23,7 @@
           </div>
           <p>{{item.playlist.name}}</p>
         </li>
+        <li v-if="topOtherList.length % 3 === 2"></li>
       </ul>
     </div>
   </div>
@@ -59,6 +60,7 @@ export default {
     async getTopOther () {
       const otherMusic = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
       const res = await axios.all(otherMusic.map(item => this.$api.musicTop({idx: item})))
+      console.log(res)
       this.topOtherList = res
       this.topOtherList.forEach((item, index) => {
         item.playlist.idx = otherMusic[index]
@@ -96,8 +98,10 @@ h2{
   margin-top: 0.5rem;
   ul{
     display: flex;justify-content: space-between;flex-flow: row wrap;
+
   }
   li{
+    align-items: baseline;
     width: 32vw;margin-bottom: 0.4rem;
     &:last-child{
       float: left;

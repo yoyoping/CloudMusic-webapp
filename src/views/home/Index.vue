@@ -38,7 +38,7 @@
     <div class="songCls">
       <p class="title"><a href="javascript:;">推荐歌单 <i class="iconfont youjiantou"></i></a></p>
       <ul>
-        <li v-for="item in personalizedList" :key="item.id">
+        <li v-for="(item, index) in personalizedList" :key="index">
           <img v-lazy="item.picUrl" alt="">
           <p>{{item.name}}</p>
           <span><i class="iconfont erji"></i>{{item.playCount}}</span>
@@ -55,6 +55,7 @@
             <p class="singer">{{item.singer}}</p>
           </a>
         </li>
+        <li v-if="newSongList.length % 3 === 2"></li>
       </ul>
     </div>
   </div>
