@@ -95,7 +95,7 @@ h2{
 .part-other{
   margin-top: 0.5rem;
   ul{
-    display: flex;justify-content: flex-start;flex-flow: row wrap;
+    display: flex;justify-content: space-between;flex-flow: row wrap;
   }
   li{
     width: 32vw;margin-bottom: 0.4rem;margin-right: 0.5vw;
