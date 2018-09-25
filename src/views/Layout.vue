@@ -1,7 +1,10 @@
 <template>
   <div class="pt-header">
     <Header></Header>
-    <router-view />
+    <keep-alive v-if="$route.meta.isKeep">
+      <router-view />
+    </keep-alive>
+    <router-view v-else />
   </div>
 </template>
 <script>

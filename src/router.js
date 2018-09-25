@@ -18,7 +18,10 @@ export default new Router({
         {
           path: "/",
           name: "home",
-          component: _import_(`home/Index`)
+          component: _import_(`home/Index`),
+          meta: {
+            isKeep: true
+          }
         }
       ]
     },
@@ -31,7 +34,10 @@ export default new Router({
         {
           path: "/toplist",
           name: "toplist",
-          component: _import_(`top/TopList`)
+          component: _import_(`top/TopList`),
+          meta: {
+            isKeep: true
+          }
         }
       ]
     },

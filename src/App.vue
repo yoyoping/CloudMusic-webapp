@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view/>
+    <keep-alive v-if="$route.meta.isKeep">
+      <router-view />
+    </keep-alive>
+    <router-view v-else />
     <player></player>
   </div>
 </template>
@@ -15,5 +18,5 @@ export default {
 
 <style lang="scss">
 @import './assets/style/style.scss';
-@import url('//at.alicdn.com/t/font_844551_sct5kq2wize.css'); // 引入图标库
+@import url('//at.alicdn.com/t/font_844551_3xs6v35qo9y.css'); // 引入图标库
 </style>
