@@ -5,7 +5,7 @@
         <div class="slide-wrapper">
           <div class="slide-content">
             <Slider ref="slide" :autoPlay="true" :loop="true" :showDot="true" :interval="4000" :threshold="0.3" :speed="400">
-              <div v-for="item in banner" :key="item.id">
+              <div v-for="(item, index) in banner" :key="index">
                 <a href="javascript:;">
                   <img v-lazy="item.picUrl">
                 </a>
@@ -48,7 +48,7 @@
     <div class="songCls">
       <p class="title"><a href="javascript:;">最新音乐 <i class="iconfont youjiantou"></i></a></p>
       <ul>
-        <li v-for="item in newSongList" :key="item.id" @click="getMusicUrl(item.id)">
+        <li v-for="(item, index) in newSongList" :key="index" @click="getMusic(item.id)">
           <a>
             <img v-lazy="item.picUrl" alt="">
             <p class="songName">{{item.name}}</p>
@@ -84,7 +84,7 @@ export default {
     this.newSong()
   },
   methods: {
-    ...mapActions(['getMusicUrl']),
+    ...mapActions(['getMusic']),
     /**
      * 初始化banner
      */

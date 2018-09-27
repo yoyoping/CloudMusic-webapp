@@ -18,5 +18,5 @@ export default {
 
 <style lang="scss">
 @import './assets/style/style.scss';
-@import url('//at.alicdn.com/t/font_844551_3xs6v35qo9y.css'); // 引入图标库
+@import url('//at.alicdn.com/t/font_844551_yygpi6yeqg.css'); // 引入图标库
 </style>

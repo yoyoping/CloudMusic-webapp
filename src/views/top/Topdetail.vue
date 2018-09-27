@@ -24,7 +24,7 @@
       <ul>
         <li v-for="(item, index) in topDetail.tracks" :key="item.id">
           <label :class="{red: index < 3}">{{(index < 9) ? `0${index + 1}` : (index + 1)}}</label>
-          <div @click="getMusicUrl(item.id)">
+          <div @click="getMusic(item.id)">
             <h3>{{item.name}}<span class="des" v-if="item.alia[0]">({{item.alia[0]}})</span></h3>
             <p>{{item.ar | arName}} - {{item.al.name}}</p>
           </div>
@@ -54,7 +54,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getMusicUrl']),
+    ...mapActions(['getMusic']),
     async getTopList () {
       const res = await this.$api.musicTop({idx: this.$route.params.idx})
       this.topDetail = res.playlist

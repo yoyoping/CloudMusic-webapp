@@ -28,6 +28,10 @@ export default {
   musicUrl: data => {
     return axios(`/music/url`, data);
   },
+  // 获取歌曲歌词
+  musicLyric: data => {
+    return axios(`/lyric`, data)
+  },
   // 获取排行榜
   musicTop: data => {
     return axios(`/top/list`, data)
