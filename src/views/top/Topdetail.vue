@@ -22,9 +22,9 @@
         播放全部<span>(共{{topDetail.trackCount}}首)</span>
       </h2>
       <ul>
-        <li v-for="(item, index) in topDetail.tracks" :key="item.id">
+        <li v-for="(item, index) in topDetail.tracks" :key="item.id" :class="{active: item.id === currentSongId}">
           <label :class="{red: index < 3}">{{(index < 9) ? `0${index + 1}` : (index + 1)}}</label>
-          <div @click="getMusic(item.id)">
+          <div @click="play(item.id)">
             <h3>{{item.name}}<span class="des" v-if="item.alia[0]">({{item.alia[0]}})</span></h3>
             <p>{{item.ar | arName}} - {{item.al.name}}</p>
           </div>
@@ -34,31 +34,38 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState, mapMutations } from 'vuex'
 export default {
   data () {
     return {
       topDetail: {}
     }
   },
+  computed: {
+    ...mapState(['currentSongId'])
+  },
   created () {
     this.getTopList()
   },
   filters:{
     arName (arr) {
-      let name = []
-      arr.forEach(item => {
-        name.push(item.name)
-      })
-      return name.join('/')
+      const name = arr.map(item => {
+        return item.name;
+      });
+      return name.join(`/`);
     }
   },
   methods: {
     ...mapActions(['getMusic']),
+    ...mapMutations(['SET_OPENPLAYER']),
     async getTopList () {
       const res = await this.$api.musicTop({idx: this.$route.params.idx})
       this.topDetail = res.playlist
       console.log(res)
+    },
+    play (id) {
+      this.getMusic(id)
+      this.SET_OPENPLAYER(true)
     }
   }
 }
@@ -102,6 +109,9 @@ export default {
   }
   li{
     width: 100vw;display: flex;justify-content: space-between;height: 1rem;
+    &.active{
+      background-color: #ddd;
+    }
     label{
       width: 10vw;height: 100%;line-height: 1rem;text-align: center;font-size: 0.3rem;color: #999;
     }

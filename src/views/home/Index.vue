@@ -48,7 +48,7 @@
     <div class="songCls">
       <p class="title"><a href="javascript:;">最新音乐 <i class="iconfont youjiantou"></i></a></p>
       <ul>
-        <li v-for="(item, index) in newSongList" :key="index" @click="getMusic(item.id)">
+        <li v-for="(item, index) in newSongList" :key="index" @click="play(item.id)">
           <a>
             <img v-lazy="item.picUrl" alt="">
             <p class="songName">{{item.name}}</p>
@@ -64,7 +64,7 @@
 import Header from '@/views/Header.vue'
 import Scroll from '@/components/scroll/Index' 
 import Slider from '@/components/slider/Index' 
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   components: {
     Header,
@@ -84,6 +84,7 @@ export default {
     this.newSong()
   },
   methods: {
+    ...mapMutations(['SET_OPENPLAYER']),
     ...mapActions(['getMusic']),
     /**
      * 初始化banner
@@ -124,6 +125,10 @@ export default {
         }
         return obj
       })
+    },
+    play (id) {
+      this.getMusic(id)
+      this.SET_OPENPLAYER(true)
     }
   },
   watch: {

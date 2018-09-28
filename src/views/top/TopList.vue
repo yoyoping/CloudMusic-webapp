@@ -17,11 +17,13 @@
       <h2>全球榜</h2>
       <ul>
         <li v-for="item in topOtherList" :key="item.playlist.id">
-          <div>
-            <img v-lazy="item.playlist.coverImgUrl" alt="">
-            <!-- <span>{{item.playlist.creator.signature}}</span> -->
-          </div>
-          <p>{{item.playlist.name}}</p>
+          <router-link :to="`/top/${item.playlist.idx}`">
+            <div>
+              <img v-lazy="item.playlist.coverImgUrl" alt="">
+              <!-- <span>{{item.playlist.creator.signature}}</span> -->
+            </div>
+            <p>{{item.playlist.name}}</p>
+          </router-link>
         </li>
         <li v-if="topOtherList.length % 3 === 2"></li>
       </ul>

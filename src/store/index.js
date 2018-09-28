@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import api from "@/util/api";
+import { singer } from "@/util";
+import _ from "lodash/array";
 
 Vue.use(Vuex);
 
@@ -9,7 +11,22 @@ export default new Vuex.Store({
     songUrl: ``, // 歌曲播放地址
     currentSongId: ``, // 当前播放歌曲id
     songDetail: {}, // 当前歌曲详情
-    songBgPic: `` // 歌曲的背景图片
+    openPlayer: false, // 是否打开播放页
+    musicDetail: {
+      name: ``,
+      singer: ``,
+      picUrl: ``
+    },
+    // 播放列表
+    playList: [
+      {
+        id: ``,
+        musicurl: ``, // 歌曲播放地址
+        name: ``, // 歌名
+        singer: ``, // 歌手名
+        pic: `` // 歌曲图片
+      }
+    ]
   },
   mutations: {
     // 修改歌曲播放地址
@@ -19,7 +36,45 @@ export default new Vuex.Store({
     // 获取歌曲详情
     GET_SONGDEATIL(state, res) {
       state.songDetail = res;
-      state.songBgPic = res.songs[0].al.picUrl;
+      const song = res.songs[0];
+      const detail_ = {
+        name: song.name,
+        picUrl: song.al.picUrl,
+        singer: singer(song.ar)
+      };
+      this.commit(`SET_MUSICDETAIL`, detail_);
+      // 添加到播放记录里面
+      const param = {
+        id: song.id,
+        musicurl: res.musicurl_,
+        name: song.name,
+        singer: singer(song.ar),
+        pic: song.al.picUrl
+      };
+      this.commit(`SET_PLAYLIST`, param);
+    },
+    // 设置当前是否正在播放歌曲
+    SET_OPENPLAYER(state, res) {
+      state.openPlayer = res;
+    },
+    // 设置当前播放的歌曲的信息
+    SET_MUSICDETAIL(state, res) {
+      Object.assign(state.musicDetail, res);
+    },
+    SET_PLAYLIST(state, res) {
+      if (!state.playList[0].id) {
+        state.playList = [];
+      }
+      const index = _.findIndex(state.playList, { id: res.id });
+      // 判断当前播放的歌曲是否存在记录列表中
+      if (index !== -1) { // 如果存在就删掉重新添加到数组最后
+        state.playList.splice(index, 1);
+      }
+      state.playList.push(res);
+      console.log(state.playList);
+    },
+    SET_MUSICID(state, id) {
+      state.currentSongId = id; // 当前歌曲id
     }
   },
   actions: {
@@ -27,8 +82,8 @@ export default new Vuex.Store({
      * 通过id获取音乐url
      * @param {*} id id
      */
-    getMusic({ commit, state }, id) {
-      state.currentSongId = id; // 当前歌曲id
+    getMusic({ commit }, id) {
+      commit(`SET_MUSICID`, id);
       (async () => {
         // 获取歌曲url
         const musicurl = await api.musicUrl({
@@ -39,6 +94,7 @@ export default new Vuex.Store({
         const songDetail = await api.songDetail({
           ids: id
         });
+        songDetail.musicurl_ = musicurl.data[0].url; // 将当前歌曲地址添加到详情里面
         commit(`GET_SONGDEATIL`, songDetail);
       })();
     }

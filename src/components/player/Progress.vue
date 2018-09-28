@@ -5,6 +5,7 @@
     @touchmove.prevent="touchMove">
       <span></span>
     </div>
+    <i class="iconfont jiazai"></i>
     <p class="line-b"></p>
     <p class="current" :style="{width: currentTime + '%'}"></p>
   </div>

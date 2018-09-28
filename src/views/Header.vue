@@ -1,9 +1,18 @@
 <template>
   <header>
     <h1>cloudMusic</h1>
-    <router-link class="toplay" to=""><i class="iconfont zhengzaibofang"></i></router-link>
+    <span class="toplay" @click="SET_OPENPLAYER(true)"><i class="iconfont zhengzaibofang"></i></span>
   </header>
 </template>
+<script>
+import { mapMutations } from 'vuex'
+export default {
+  methods: {
+    ...mapMutations(['SET_OPENPLAYER'])
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 header{
   height: 0.9rem;color: #fff;background-color: #d44439;position: fixed;top: 0;left: 0;z-index:2;width: 100%;
