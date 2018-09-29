@@ -2,7 +2,7 @@
 <div>
   <transition name="move">
     <div class="player" v-show="showFlag">
-      <audio id="audio" ref="audio" autoplay :src="songUrl" loop></audio>
+      <audio id="audio" ref="audio" autoplay :src="songUrl" :loop="mode === 3"></audio>
       <div class="info">
         <div class="th">
           <i class="iconfont xiajiantou" @click="$store.commit('SET_OPENPLAYER', false)"></i>
@@ -15,14 +15,23 @@
         </div>
       </div>
       <div class="contr">
+        <p class="action">
+          <i class="iconfont weixihuan"></i>
+          <i class="iconfont fenxiang"></i>
+          <span class="comment">
+            <i class="iconfont pinglun"></i>
+            <em>999+</em>
+          </span>
+          <i class="iconfont gengduoxiao"></i>
+        </p>
         <div class="mainProgress">
           <Format :count="songDta.currentTime" class="time"></Format>
-          <Progress :currentTime="songDta.timeProgress" class="progress"></Progress>
+          <Progress :currentTime="songDta.timeProgress" class="progress" @change="changeCurrentTime"></Progress>
           <Format :count="songDta.duration" class="time rg"></Format>
         </div>
         <div class="ctrBtn">
           <p class="mode">
-            <i class="iconfont xunhuanbofang"></i>
+            <i class="iconfont" :class="{xunhuanbofang: mode === 1, suijibofang: mode === 2, danquxunhuan: mode === 3}" @click="swichMode"></i>
           </p>
           <p class="imCtr">
             <i class="iconfont shangyishoushangyige" @click="playSwitch('prev')"></i>
@@ -43,12 +52,14 @@
 import { mapState, mapMutations } from 'vuex'
 import Progress from './Progress'
 import Format from '../format/Index'
+import { randomNum } from '@/util'
 export default {
   components: {
     Progress, Format
   },
   data () {
     return {
+      mode: 1, // 播放模式，1-顺序 2-随机 3-单曲
       paused: true, // 当前音乐是否暂停
       showFlag: false, // 是否显示播放页
       songDta: {
@@ -58,7 +69,8 @@ export default {
         isPlay: false // 是否正在播放中，默认暂停
       }, // 歌曲详情
       musicUrl: '', // 音乐地址
-      timer: null
+      timer: null,
+      isLeave: true // 手指是否还在进度条上
     }
   },
   computed: {
@@ -82,7 +94,9 @@ export default {
     songInfo () {
       this.paused = this.$refs.audio.paused // 当前音乐状态
       this.songDta.duration = isNaN(parseInt(this.$refs.audio.duration)) ? 0 : parseInt(this.$refs.audio.duration) // 当前歌曲总时长
-      this.songDta.currentTime = parseInt(this.$refs.audio.currentTime) // 当前播放时间
+      if (this.isLeave) {
+        this.songDta.currentTime = parseInt(this.$refs.audio.currentTime) // 当前播放时间
+      }
       // console.log(this.songDta.currentTime)
       this.songDta.timeProgress = (this.songDta.currentTime / this.songDta.duration) * 100 // 当前播放的时间占百分比
       if (this.songDta.timeProgress === 100) {
@@ -120,16 +134,22 @@ export default {
     playSwitch (type) {
       let currentIndex = this._.findIndex(this.playList, { id: this.currentSongId }); // 获取当前音乐的在记录列表中的下标
       let redeyMusic
-      if (type === 'prev') { // 上一首
-        if (currentIndex === 0) {
-          currentIndex = this.playList.length
+      if (this.mode === 1 || this.mode === 3) { // 顺序循环播放(当单曲模式切换也是顺序播放，只有如果不切换会单曲循环)
+        if (type === 'prev') { // 上一首
+          if (currentIndex === 0) {
+            currentIndex = this.playList.length
+          }
+          redeyMusic = this.playList[currentIndex - 1];
+        } else { // 下一首
+          if (currentIndex === (this.playList.length - 1)) {
+            currentIndex = -1
+          }
+          redeyMusic = this.playList[currentIndex + 1];
         }
-        redeyMusic = this.playList[currentIndex - 1];
-      } else { // 下一首
-        if (currentIndex === (this.playList.length - 1)) {
-          currentIndex = -1
-        }
-        redeyMusic = this.playList[currentIndex + 1];
+      } else if (this.mode === 2) { // 随机播放
+        const index = randomNum(0, this.playList.length - 1)
+        console.log(index)
+        redeyMusic = this.playList[index]
       }
       // 将播放的信息同步到vuex
       this.SET_SONGURL(redeyMusic.musicurl)
@@ -139,6 +159,26 @@ export default {
         singer: redeyMusic.singer,
         picUrl: redeyMusic.pic
       })
+    },
+    /**
+     * 切换模式
+     */
+    swichMode () {
+      this.mode += 1
+      if (this.mode === 4) this.mode = 1
+    },
+    /**
+     * 设置歌曲播放时间
+     */
+    changeCurrentTime (param, isEnd) {
+      const current = this.songDta.duration * param / 100 // 当前拖动进度条后的播放时间
+      if (isEnd) {
+        this.$refs.audio.currentTime = parseInt(current)
+        this.isLeave = true
+      } else {
+        this.songDta.currentTime = parseInt(current)
+        this.isLeave = false
+      }
     }
   },
   watch: {
@@ -172,10 +212,22 @@ export default {
   }
 }
 .contr{
-  position: absolute;left: 0;bottom: 0;height: 15vh;z-index: 2;
+  position: absolute;left: 0;bottom: 0;height: 22vh;z-index: 2;
+}
+.action{
+  width: 100%;color: #fff;display: flex;justify-content: space-between;padding: 0 14vw;font-size: 0.5rem;margin-bottom: 0.4rem;
+  .iconfont{
+    font-size: 0.5rem;
+  }
+  span{
+    position: relative;
+    em{
+      position: absolute;top: -0.1rem;right: -0.3rem;font-style: normal;font-size: 0.2rem;
+    }
+  }
 }
 .ctrBtn{
-  color: #fff;display: flex;justify-content: space-between;
+  color: #fff;display: flex;justify-content: space-between;margin-top: 0.4rem;
   p{
     line-height: 0.6rem;
   }

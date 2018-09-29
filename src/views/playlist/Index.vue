@@ -3,7 +3,7 @@
     <div class="bg">
       <img v-lazy="topDetail.coverImgUrl" alt="">
       <div class="info">
-        <h2><em>云音乐飙升榜</em></h2>
+        <h2><em>{{topDetail.name}}</em></h2>
         <ul>
           <li>
             <i class="iconfont pinglun"></i>
@@ -23,7 +23,8 @@
       </h2>
       <ul>
         <li v-for="(item, index) in topDetail.tracks" :key="item.id" :class="{active: item.id === currentSongId}">
-          <label :class="{red: index < 3}">{{(index < 9) ? `0${index + 1}` : (index + 1)}}</label>
+          <label class="red" v-if="item.id === currentSongId"><i class="iconfont laba"></i></label>
+          <label v-else :class="{red: index < 3}" v-if="">{{(index < 9) ? `0${index + 1}` : (index + 1)}}</label>
           <div @click="play(item.id)">
             <h3>{{item.name}}<span class="des" v-if="item.alia[0]">({{item.alia[0]}})</span></h3>
             <p>{{item.ar | arName}} - {{item.al.name}}</p>
@@ -59,9 +60,13 @@ export default {
     ...mapActions(['getMusic']),
     ...mapMutations(['SET_OPENPLAYER']),
     async getTopList () {
-      const res = await this.$api.musicTop({idx: this.$route.params.idx})
+      let res
+      if (this.$route.name === 'playlist') {
+        res = await this.$api.songList({id: this.$route.params.id})
+      } else {
+        res = await this.$api.musicTop({idx: this.$route.params.idx})
+      }
       this.topDetail = res.playlist
-      console.log(res)
     },
     play (id) {
       this.getMusic(id)

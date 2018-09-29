@@ -30,10 +30,14 @@ export default {
   },
   // 获取歌曲歌词
   musicLyric: data => {
-    return axios(`/lyric`, data)
+    return axios(`/lyric`, data);
   },
   // 获取排行榜
   musicTop: data => {
-    return axios(`/top/list`, data)
+    return axios(`/top/list`, data);
+  },
+  // 获取歌单详情
+  songList: data => {
+    return axios(`/playlist/detail`, data);
   }
 };

@@ -94,6 +94,7 @@ export default new Vuex.Store({
         const songDetail = await api.songDetail({
           ids: id
         });
+        console.log(songDetail);
         songDetail.musicurl_ = musicurl.data[0].url; // 将当前歌曲地址添加到详情里面
         commit(`GET_SONGDEATIL`, songDetail);
       })();

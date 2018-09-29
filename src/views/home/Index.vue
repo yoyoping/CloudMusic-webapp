@@ -39,9 +39,11 @@
       <p class="title"><a href="javascript:;">推荐歌单 <i class="iconfont youjiantou"></i></a></p>
       <ul>
         <li v-for="(item, index) in personalizedList" :key="index">
-          <img v-lazy="item.picUrl" alt="">
-          <p>{{item.name}}</p>
-          <span><i class="iconfont erji"></i>{{item.playCount}}</span>
+          <router-link :to="`/playlist/${item.id}`">
+            <img v-lazy="item.picUrl" alt="">
+            <p>{{item.name}}</p>
+            <span><i class="iconfont erji"></i>{{item.playCount | formatNum}}</span>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -82,6 +84,15 @@ export default {
     this.getBanner()
     this.personalized()
     this.newSong()
+  },
+  filters: {
+    formatNum (val) {
+      if (val > 100000) {
+        return ` ${Math.round(val / 10000)}万 `
+      } else {
+        return ` ${parseInt(val)} `
+      }
+    }
   },
   methods: {
     ...mapMutations(['SET_OPENPLAYER']),

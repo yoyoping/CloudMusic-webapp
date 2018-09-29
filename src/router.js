@@ -50,7 +50,20 @@ export default new Router({
         {
           path: "/top/:idx",
           name: "top",
-          component: _import_(`top/Topdetail`)
+          component: _import_(`playlist/Index`)
+        }
+      ]
+    },
+    {
+      path: "",
+      name: "",
+      component: _import_(`Layout`),
+      redirect: "/playlist",
+      children: [
+        {
+          path: "/playlist/:id",
+          name: "playlist",
+          component: _import_(`playlist/Index`)
         }
       ]
     }

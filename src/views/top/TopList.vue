@@ -93,7 +93,7 @@ h2{
     width: 63vw;height: 32vw;padding-top: 0.28rem;border-bottom: 0.01rem solid #ddd;box-sizing: border-box;
   }
   li{
-    line-height: 0.6rem;color: #666;font-size: 0.25rem;
+    line-height: 0.6rem;color: #666;font-size: 0.25rem;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
   }
 }
 .part-other{
