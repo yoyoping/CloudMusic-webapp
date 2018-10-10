@@ -8,10 +8,15 @@
           <i class="iconfont xiajiantou" @click="$store.commit('SET_OPENPLAYER', false)"></i>
           <h2>{{musicDetail.name}} <span>{{musicDetail.singer}}</span></h2>
         </div>
-        <div class="pic" :class="{rotate: !paused}">
+        <!-- 图片 -->
+        <div class="pic" :class="{rotate: !paused}" @click="getLyric" v-show="!isLrc">
           <p>
             <img :src="musicDetail.picUrl" alt="">
           </p>
+        </div>
+        <!-- 歌词 -->
+        <div v-if="isLrc && currentLyric">
+          <p v-for="(item, index) in currentLyric.lines" :key="index">{{item.txt}}</p>
         </div>
       </div>
       <div class="contr">
@@ -53,6 +58,7 @@ import { mapState, mapMutations } from 'vuex'
 import Progress from './Progress'
 import Format from '../format/Index'
 import { randomNum } from '@/util'
+import Lyric from 'lyric-parser'
 export default {
   components: {
     Progress, Format
@@ -70,11 +76,13 @@ export default {
       }, // 歌曲详情
       musicUrl: '', // 音乐地址
       timer: null,
-      isLeave: true // 手指是否还在进度条上
+      isLeave: true, // 手指是否还在进度条上
+      currentLyric: null, // 当前歌词
+      isLrc: false // 当前是否显示歌词
     }
   },
   computed: {
-    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId'])
+    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'currentSongId'])
   },
   mounted () {
     this.listenSong()
@@ -108,9 +116,11 @@ export default {
      * 获取歌曲详情
      */
     async songDetail () {
-      const res = await this.$api.songDetail({
+      const params = {
+        url: `songDetail`,
         ids: Number(this.$route.query.id)
-      })
+      }
+      const res = await this.$axios(params)
       console.log(res)
     },
     /**
@@ -179,6 +189,26 @@ export default {
         this.songDta.currentTime = parseInt(current)
         this.isLeave = false
       }
+    },
+    /**
+     * 获取当前播放歌曲歌词
+     */
+    async getLyric () {
+      this.isLrc = !this.isLrc
+      const params = {
+        url: 'musicLyric',
+        id: this.currentSongId
+      }
+      const res = await this.$axios(params)
+      this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
+      this.currentLyric.play()
+      console.log(this.currentLyric)
+    },
+    /**
+     * 歌词更改时
+     */
+    handleLyric ({lineNum, txt}) {
+
     }
   },
   watch: {

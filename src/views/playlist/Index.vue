@@ -26,7 +26,7 @@
           <label class="red" v-if="item.id === currentSongId"><i class="iconfont laba"></i></label>
           <label v-else :class="{red: index < 3}" v-if="">{{(index < 9) ? `0${index + 1}` : (index + 1)}}</label>
           <div @click="play(item.id)">
-            <h3>{{item.name}}<span class="des" v-if="item.alia[0]">({{item.alia[0]}})</span></h3>
+            <h3 :class="{red: item.id === currentSongId}">{{item.name}}<span class="des" v-if="item.alia[0]"> ({{item.alia[0]}})</span></h3>
             <p>{{item.ar | arName}} - {{item.al.name}}</p>
           </div>
         </li>
@@ -62,9 +62,17 @@ export default {
     async getTopList () {
       let res
       if (this.$route.name === 'playlist') {
-        res = await this.$api.songList({id: this.$route.params.id})
+        const params = {
+          url: `songList`,
+          id: this.$route.params.id
+        }
+        res = await this.$axios(params)
       } else {
-        res = await this.$api.musicTop({idx: this.$route.params.idx})
+        const params = {
+          url: `musicTop`,
+          idx: this.$route.params.idx
+        }
+        res = await this.$axios(params)
       }
       this.topDetail = res.playlist
     },

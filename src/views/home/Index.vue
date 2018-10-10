@@ -114,18 +114,27 @@ export default {
      * 获取banner信息
      */
     async getBanner() {
-      const res = await this.$api.banner()
+      const params = {
+        url: 'banner'
+      }
+      const res = await this.$axios(params)
       this.banner = res.banners;
     },
     /**
      * 获取推荐歌单
      */
     async personalized() {
-      const res = await this.$api.personalized()
+      const params = {
+        url: `personalized`
+      }
+      const res = await this.$axios(params)
       this.personalizedList = res.result.splice(0, 6)
     },
     async newSong() {
-      const res = await this.$api.newSong()
+      const params = {
+        url: `newSong`
+      }
+      const res = await this.$axios(params)
       const list = res.result
       this.newSongList = list.map(item => {
         const obj = {

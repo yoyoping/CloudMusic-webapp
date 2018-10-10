@@ -5,7 +5,7 @@ import store from "./store/index";
 import fastclick from "fastclick";
 import lodash from "lodash";
 import rem from "./util/rem";
-import api from "./util/api";
+import axios from "./util/axios";
 import VueLazyload from "vue-lazyload";
 
 Vue.config.productionTip = false;
@@ -18,7 +18,7 @@ Vue.use(VueLazyload, {
 
 Vue.prototype._ = lodash;
 
-Vue.prototype.$api = api;
+Vue.prototype.$axios = axios;
 
 rem();
 window.onresize = () => {

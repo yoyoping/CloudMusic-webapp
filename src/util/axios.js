@@ -1,5 +1,6 @@
 import axios from "axios";
 import qs from "qs";
+import ApiUrl from "./newApi";
 
 // 创建axios实例
 const Axios = axios.create({
@@ -41,7 +42,7 @@ Axios.interceptors.response.use(
     } else if (error.response.status === 403) {
       alert(`权限不足`);
     } else {
-      alert(error.message);
+      console.log(error.message);
     }
     return Promise.reject(error);
   }
@@ -50,16 +51,36 @@ Axios.interceptors.response.use(
 /**
  * 判断请求的类型
  */
-export default (url, Data_, method = `GET`) => {
-  let Data = Data_ ? Data_ : {};
+// export default (url, Data_, method = `GET`) => {
+//   let Data = Data_ ? Data_ : {};
+//   if (method === `GET`) {
+//     return Axios.get(
+//       url,
+//       Data.params
+//         ? Data : {
+//             params: Data
+//           }
+//     );
+//   }
+//   return Axios.post(url, Data);
+// };
+
+export default params => {
+  // 请求的url
+  let url = ApiUrl[params.url];
+  // 请求的方法类型
+  let method = params.method || `GET`;
+  // 删除参数的url和method
+  delete params.url;
+  delete params.method;
   if (method === `GET`) {
     return Axios.get(
       url,
-      Data.params
-        ? Data : {
-            params: Data
+      params.params
+        ? params : {
+            params: params
           }
     );
   }
-  return Axios.post(url, Data);
+  return Axios.post(url, params);
 };

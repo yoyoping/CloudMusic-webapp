@@ -49,7 +49,13 @@ export default {
      */
     async getTopYun () {
       const YunMusic = [3, 0, 2, 1, 4, 22, 23]
-      const res = await axios.all(YunMusic.map(item => this.$api.musicTop({idx: item})))
+      const res = await axios.all(YunMusic.map(item => {
+        const params = {
+          url: `musicTop`,
+          idx: item
+        }
+        return this.$axios(params)
+        }))
       console.log(res)
       this.topYunList = res
       this.topYunList.forEach((item, index) => {
@@ -61,7 +67,13 @@ export default {
      */
     async getTopOther () {
       const otherMusic = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
-      const res = await axios.all(otherMusic.map(item => this.$api.musicTop({idx: item})))
+      const res = await axios.all(otherMusic.map(item => {
+        const params = {
+          url: `musicTop`,
+          idx: item
+        }
+        return this.$axios(params)
+      }))
       console.log(res)
       this.topOtherList = res
       this.topOtherList.forEach((item, index) => {

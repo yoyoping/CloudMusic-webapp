@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import api from "@/util/api";
+import axios from "@/util/axios";
 import { singer } from "@/util";
 import _ from "lodash/array";
 
@@ -86,14 +86,18 @@ export default new Vuex.Store({
       commit(`SET_MUSICID`, id);
       (async () => {
         // 获取歌曲url
-        const musicurl = await api.musicUrl({
+        const paramsMusicUrl = {
+          url: `musicUrl`,
           id: id
-        });
+        }
+        const musicurl = await axios(paramsMusicUrl);
         commit(`SET_SONGURL`, musicurl.data[0].url);
         // 获取歌曲信息
-        const songDetail = await api.songDetail({
+        const paramsSongDetail = {
+          url: `songDetail`,
           ids: id
-        });
+        }
+        const songDetail = await axios(paramsSongDetail);
         console.log(songDetail);
         songDetail.musicurl_ = musicurl.data[0].url; // 将当前歌曲地址添加到详情里面
         commit(`GET_SONGDEATIL`, songDetail);
