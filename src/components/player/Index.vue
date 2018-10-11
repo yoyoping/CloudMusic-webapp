@@ -2,6 +2,7 @@
 <div>
   <transition name="move">
     <div class="player" v-show="showFlag">
+      <div class="mark"></div>
       <audio id="audio" ref="audio" autoplay :src="songUrl" :loop="mode === 3"></audio>
       <div class="info">
         <div class="th">
@@ -9,15 +10,17 @@
           <h2>{{musicDetail.name}} <span>{{musicDetail.singer}}</span></h2>
         </div>
         <!-- 图片 -->
-        <div class="pic" :class="{rotate: !paused}" @click="getLyric" v-show="!isLrc">
+        <div class="pic" :class="{rotate: !paused}" @click="isLrc = true" v-show="!isLrc">
           <p>
             <img :src="musicDetail.picUrl" alt="">
           </p>
         </div>
         <!-- 歌词 -->
-        <div v-if="isLrc && currentLyric">
-          <p v-for="(item, index) in currentLyric.lines" :key="index">{{item.txt}}</p>
-        </div>
+        <Scroll v-if="isLrc && currentLyric" @switch="isLrc = false">
+          <!-- <div class="content">
+            <p v-for="(item, index) in currentLyric.lines" :key="index">{{item.txt}}</p>
+          </div> -->
+        </Scroll>
       </div>
       <div class="contr">
         <p class="action">
@@ -59,9 +62,10 @@ import Progress from './Progress'
 import Format from '../format/Index'
 import { randomNum } from '@/util'
 import Lyric from 'lyric-parser'
+import Scroll from '../scroll/Index'
 export default {
   components: {
-    Progress, Format
+    Progress, Format, Scroll
   },
   data () {
     return {
@@ -82,7 +86,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'currentSongId'])
+    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'currentSongId', 'lyric'])
   },
   mounted () {
     this.listenSong()
@@ -194,15 +198,9 @@ export default {
      * 获取当前播放歌曲歌词
      */
     async getLyric () {
-      this.isLrc = !this.isLrc
-      const params = {
-        url: 'musicLyric',
-        id: this.currentSongId
-      }
-      const res = await this.$axios(params)
-      this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
-      this.currentLyric.play()
+      this.currentLyric = new Lyric(this.lyric, this.handleLyric)
       console.log(this.currentLyric)
+      this.currentLyric.play()
     },
     /**
      * 歌词更改时
@@ -221,6 +219,10 @@ export default {
     },
     openPlayer (newVal) {
       this.showFlag = newVal
+    },
+    // 歌词变化
+    lyric (newVal) {
+      this.getLyric()
     }
   }
 }
@@ -344,5 +346,8 @@ export default {
 }
 .move-enter {
   transform: translate(0, 100vh)
+}
+.mark{
+  width: 100vw;height: 100vh;background-color: rgba(0, 0, 0, 0.15);position: absolute;top: 0;left: 0;z-index: 0;
 }
 </style>

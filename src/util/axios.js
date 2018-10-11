@@ -67,20 +67,23 @@ Axios.interceptors.response.use(
 
 export default params => {
   // 请求的url
-  let url = ApiUrl[params.url];
+  const url_ = ApiUrl[params.url];
   // 请求的方法类型
-  let method = params.method || `GET`;
-  // 删除参数的url和method
-  delete params.url;
-  delete params.method;
-  if (method === `GET`) {
+  const method_ = params.method || `GET`;
+
+  // 获取传给后端的参数
+  let param = JSON.parse(JSON.stringify(params));
+  delete param.url;
+  delete param.method;
+  if (method_ === `GET`) {
     return Axios.get(
-      url,
-      params.params
-        ? params : {
-            params: params
+      url_,
+      param.params
+        ? param
+        : {
+            params: param
           }
     );
   }
-  return Axios.post(url, params);
+  return Axios.post(url_, param);
 };

@@ -1,7 +1,45 @@
 <template>
-  <p ref="wrapper">
-    <slot></slot>
-  </p>
+  <div class="wrapper" ref="wrapper" @click="$emit('switch')">
+    <ul class="content">
+      <li>111111111</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+      <li>222222222</li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -47,20 +85,27 @@
       }
     },
     mounted() {
-      setTimeout(() => {
-        this._initScroll()
-      }, 20)
+      this.$nextTick(() => {
+        if (!this.scroll) {
+          this.scroll = new BScroll(this.$refs.rongqi, {
+            click: true
+          });
+        } else {
+          this.scroll.refresh();
+        };
+      })
     },
     methods: {
       _initScroll() {
         if (!this.$refs.wrapper) {
           return
         }
+        debugger
         this.scroll = new BScroll(this.$refs.wrapper, {
           probeType: this.probeType,
           click: this.click
         })
-
+        console.log(this.scroll)
         if (this.listenScroll) {
           let me = this
           // pos为位置参数
@@ -118,5 +163,8 @@
     }
   }
 </script>
-<style>
+<style lang="scss" scoped>
+.wrapper{
+  height: 50vh;overflow: auto;
+}
 </style>
