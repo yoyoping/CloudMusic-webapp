@@ -24,3 +24,9 @@ export function randomNum(minNum, maxNum) {
       return 0;
   }
 }
+
+// 判断是否是ios客户端
+const u = navigator.userAgent;
+export const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+
+export const isAndroid = u.indexOf(`Android`) > -1 || u.indexOf(`Adr`) > -1;

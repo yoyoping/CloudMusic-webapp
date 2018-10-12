@@ -16,11 +16,33 @@
           </p>
         </div>
         <!-- 歌词 -->
-        <Scroll v-if="isLrc && currentLyric" @switch="isLrc = false">
-          <!-- <div class="content">
+        <!-- <Scroll v-if="isLrc && currentLyric" @switch="isLrc = false">
+          <div class="content">
             <p v-for="(item, index) in currentLyric.lines" :key="index">{{item.txt}}</p>
-          </div> -->
-        </Scroll>
+          </div>
+        </Scroll> -->
+        <!-- <Scroll class="lyric-wrapper" ref="lyricList" :data="currentLyric && currentLyric.lines" v-if="isLrc && currentLyric" @switch="isLrc = false">
+          <div>
+            <div class="lyric">
+              <p v-for="(line,index) in currentLyric.lines" ref="lyricLine"
+                  :class="{'current':currentLineNum===index}"
+                  class="text">{{line.txt}}</p>
+            </div>
+          </div>
+        </Scroll> -->
+        <div class="lyricWrapper">
+          <Scroll class="middle-r" ref="lyricList" v-show="isLrc" :data="currentLyric && currentLyric.lines">
+            <div class="lyric-wrapper">
+              <div class="currentLyric" v-if="currentLyric">
+                <p ref="lyricLine" class="text" :class="{'current': currentLineNum === index}"
+                  v-for="(line, index) in currentLyric.lines" :key="line.key">
+                  {{line.txt}}
+                </p>
+              </div>
+                <p class="no-lyric" v-if="currentLyric === null">歌词加载中</p>
+            </div>
+          </Scroll>
+        </div>
       </div>
       <div class="contr">
         <p class="action">
@@ -60,7 +82,7 @@
 import { mapState, mapMutations } from 'vuex'
 import Progress from './Progress'
 import Format from '../format/Index'
-import { randomNum } from '@/util'
+import { randomNum, isiOS } from '@/util'
 import Lyric from 'lyric-parser'
 import Scroll from '../scroll/Index'
 export default {
@@ -82,7 +104,8 @@ export default {
       timer: null,
       isLeave: true, // 手指是否还在进度条上
       currentLyric: null, // 当前歌词
-      isLrc: false // 当前是否显示歌词
+      isLrc: false, // 当前是否显示歌词
+      currentLineNum: 0 // 高亮行
     }
   },
   computed: {
@@ -90,6 +113,7 @@ export default {
   },
   mounted () {
     this.listenSong()
+    console.log(this.$route)
   },
   methods: {
     ...mapMutations(['SET_SONGURL', 'SET_MUSICID', 'SET_MUSICDETAIL']),
@@ -141,6 +165,16 @@ export default {
         this.songDta.isPlay = false
       }
       this.songInfo()
+
+      // 是否播放歌词
+      if (!this.paused) {
+        this.currentLyric.play()
+        // 歌词重载以后 高亮行设置为 0
+        this.currentLineNum = 0
+        this.$refs.lyricList.scrollTo(0, 0, 1000)
+      } else {
+        this.currentLyric.stop()
+      }
     },
     /**
      * 切换音乐
@@ -199,20 +233,37 @@ export default {
      */
     async getLyric () {
       this.currentLyric = new Lyric(this.lyric, this.handleLyric)
-      console.log(this.currentLyric)
-      this.currentLyric.play()
+      if (!this.paused) {
+        this.currentLyric.play()
+        // 歌词重载以后 高亮行设置为 0
+        this.currentLineNum = 0
+        this.$refs.lyricList.scrollTo(0, 0, 1000)
+      }
     },
     /**
      * 歌词更改时
      */
     handleLyric ({lineNum, txt}) {
-
+      this.currentLineNum = lineNum
+      if (lineNum > 4) {
+        let lineEl = this.$refs.lyricLine[lineNum - 4]
+        console.log(lineEl)
+        this.$refs.lyricList.scrollToElement(lineEl, 1000)
+      } else {
+        this.$refs.lyricList.scrollTo(0, 0, 1000)
+      }
     }
   },
   watch: {
     songUrl (newUrl) {
       this.$refs.audio.src = this.newUrl
       this.$refs.audio.play()
+      if (!isiOS) {
+        this.paused = false
+      }
+      if (this.lyric) {
+        this.getLyric()
+      }
       // this.$nextTick(() => {
       //   this.$refs.audio.play()
       // })
@@ -222,7 +273,9 @@ export default {
     },
     // 歌词变化
     lyric (newVal) {
-      this.getLyric()
+      if (this.songUrl) {
+        this.getLyric()
+      }
     }
   }
 }
@@ -349,5 +402,17 @@ export default {
 }
 .mark{
   width: 100vw;height: 100vh;background-color: rgba(0, 0, 0, 0.15);position: absolute;top: 0;left: 0;z-index: 0;
+}
+.info{
+  position: relative;z-index: 1;
+}
+.lyricWrapper{
+  width: 90vw;height: 53vh;margin: 8vh auto;text-align: center;color: #bbb;font-size: 0.28rem;
+  p.text{
+    margin: 0.4rem 0;
+  }
+  p.current{
+    color: #fff;
+  }
 }
 </style>

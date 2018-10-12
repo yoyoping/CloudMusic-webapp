@@ -7,7 +7,7 @@
     @touchend.prevent="touchEnd">
       <span></span>
     </div>
-    <i class="iconfont jiazai"></i>
+    <!-- <i class="iconfont jiazai"></i> -->
     <p class="line-b"></p>
     <p class="current" :style="{width: progressRate + '%'}"></p>
   </div>
