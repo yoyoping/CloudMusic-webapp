@@ -18,7 +18,8 @@ const state = {
       pic: `` // 歌曲图片
     }
   ],
-  lyric: `` // 歌词
+  lyric: ``, // 歌词
+  collectList: [] // 收藏列表（歌曲的id）
 };
 
 export default state;

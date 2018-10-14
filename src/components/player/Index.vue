@@ -46,7 +46,7 @@
       </div>
       <div class="contr">
         <p class="action">
-          <i class="iconfont weixihuan"></i>
+          <i class="iconfont" :class="{xihuan: collectList.includes(currentSongId), weixihuan: !collectList.includes(currentSongId)}" @click="ACTION_COLLECT(currentSongId)"></i>
           <i class="iconfont fenxiang"></i>
           <span class="comment">
             <i class="iconfont pinglun"></i>
@@ -65,8 +65,8 @@
           </p>
           <p class="imCtr">
             <i class="iconfont shangyishoushangyige" @click="playSwitch('prev')"></i>
-            <i class="iconfont bofang1 play" @click="play(true)" v-show="!songDta.isPlay"></i>
-            <i class="iconfont zanting play" @click="play(false)" v-show="songDta.isPlay"></i>
+            <i class="iconfont bofang1 play" @click="play(true)" v-show="paused"></i>
+            <i class="iconfont zanting play" @click="play(false)" v-show="!paused"></i>
             <i class="iconfont xiayigexiayishou" @click="playSwitch('next')"></i>
           </p>
           <p class="list"><i class="iconfont liebiao"></i></p>
@@ -109,14 +109,14 @@ export default {
     }
   },
   computed: {
-    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'currentSongId', 'lyric'])
+    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'lyric', 'collectList'])
   },
   mounted () {
     this.listenSong()
     console.log(this.$route)
   },
   methods: {
-    ...mapMutations(['SET_SONGURL', 'SET_MUSICID', 'SET_MUSICDETAIL']),
+    ...mapMutations(['SET_SONGURL', 'SET_MUSICID', 'SET_MUSICDETAIL', 'ACTION_COLLECT']),
     /**
      * 监听歌曲信息
      */
@@ -167,14 +167,15 @@ export default {
       this.songInfo()
 
       // 是否播放歌词
-      if (!this.paused) {
-        this.currentLyric.play()
-        // 歌词重载以后 高亮行设置为 0
-        this.currentLineNum = 0
-        this.$refs.lyricList.scrollTo(0, 0, 1000)
-      } else {
-        this.currentLyric.stop()
-      }
+      // if (!this.paused) {
+      //   this.currentLyric.play()
+      //   // 歌词重载以后 高亮行设置为 0
+      //   this.currentLineNum = 0
+      //   this.$refs.lyricList.scrollTo(0, 0, 1000)
+      // } else {
+      //   this.currentLyric.stop()
+      // }
+      this.currentLyric.togglePlay()
     },
     /**
      * 切换音乐
@@ -232,12 +233,13 @@ export default {
      * 获取当前播放歌曲歌词
      */
     async getLyric () {
+      console.log('重新加载歌词')
+      // 歌词重载以后 高亮行设置为 0
+      this.currentLineNum = 0
+      this.$refs.lyricList.scrollTo(0, 0, 1000)
       this.currentLyric = new Lyric(this.lyric, this.handleLyric)
       if (!this.paused) {
         this.currentLyric.play()
-        // 歌词重载以后 高亮行设置为 0
-        this.currentLineNum = 0
-        this.$refs.lyricList.scrollTo(0, 0, 1000)
       }
     },
     /**
@@ -245,12 +247,12 @@ export default {
      */
     handleLyric ({lineNum, txt}) {
       this.currentLineNum = lineNum
+      console.log(lineNum)
       if (lineNum > 4) {
         let lineEl = this.$refs.lyricLine[lineNum - 4]
-        console.log(lineEl)
         this.$refs.lyricList.scrollToElement(lineEl, 1000)
       } else {
-        this.$refs.lyricList.scrollTo(0, 0, 1000)
+        // this.$refs.lyricList.scrollTo(0, 0, 20)
       }
     }
   },
@@ -258,6 +260,7 @@ export default {
     songUrl (newUrl) {
       this.$refs.audio.src = this.newUrl
       this.$refs.audio.play()
+      console.log(isiOS)
       if (!isiOS) {
         this.paused = false
       }
@@ -414,5 +417,8 @@ export default {
   p.current{
     color: #fff;
   }
+}
+i.xihuan{
+  color: #d44439
 }
 </style>

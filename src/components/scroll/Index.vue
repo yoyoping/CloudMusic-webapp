@@ -80,6 +80,7 @@ export default {
   },
   watch: {
     data () {
+      console.log('改变')
       setTimeout(() => {
         this.refresh()
       }, this.refreshDelay)

@@ -54,6 +54,16 @@ const mutations = {
   // 设置歌词
   SET_LYRIC(state, res) {
     state.lyric = res;
+  },
+  // 加入/取消 收藏歌曲
+  ACTION_COLLECT(state, id) {
+    const collectList = state.collectList
+    // 判断当前歌曲是否存在于收藏列表中
+    if(collectList.includes(id)) {
+      collectList.splice(collectList.indexOf(id), 1)
+    } else {
+      collectList.push(id)
+    }
   }
 };
 export default mutations;
