@@ -1,19 +1,23 @@
 <template>
   <div id="app">
-    <keep-alive v-if="$route.meta.isKeep">
-      <router-view />
-    </keep-alive>
-    <router-view v-else />
-    <transition name="move">
-      <player @close_="close" v-show="playerFlag"></player>
-    </transition>
+    <div class="pt-header">
+      <Header></Header>
+      <keep-alive v-if="$route.meta.isKeep">
+        <router-view />
+      </keep-alive>
+      <router-view v-else />
+      <transition name="move">
+        <player @close_="close" v-show="playerFlag"></player>
+      </transition>
+    </div>
   </div>
 </template>
 <script>
 import player from '@/components/player/Index'
+import Header from '@/views/Header.vue'
 export default {
   components: {
-    player
+    player, Header
   },
   data () {
     return {
@@ -29,5 +33,5 @@ export default {
 </script>
 <style lang="scss">
 @import './assets/style/style.scss';
-@import url('//at.alicdn.com/t/font_844551_pgh3t9m91cd.css'); // 引入图标库
+@import url('//at.alicdn.com/t/font_844551_l9pn2cp6xy.css'); // 引入图标库
 </style>
