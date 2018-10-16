@@ -20,7 +20,8 @@ export default new Router({
           name: "home",
           component: _import_(`home/Index`),
           meta: {
-            isKeep: true
+            isKeep: true,
+            menuName: "music"
           }
         }
       ]
@@ -36,7 +37,9 @@ export default new Router({
           name: "toplist",
           component: _import_(`top/TopList`),
           meta: {
-            isKeep: true
+            isKeep: true,
+            menuName: "music",
+            goback: "/"
           }
         }
       ]
@@ -50,7 +53,11 @@ export default new Router({
         {
           path: "/top/:idx",
           name: "top",
-          component: _import_(`playlist/Index`)
+          component: _import_(`playlist/Index`),
+          meta: {
+            menuName: "music",
+            goback: "/toplist"
+          }
         }
       ]
     },
@@ -63,7 +70,11 @@ export default new Router({
         {
           path: "/playlist/:id",
           name: "playlist",
-          component: _import_(`playlist/Index`)
+          component: _import_(`playlist/Index`),
+          meta: {
+            menuName: "music",
+            goback: "/"
+          }
         }
       ]
     }

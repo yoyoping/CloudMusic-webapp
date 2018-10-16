@@ -1,19 +1,23 @@
 <template>
   <div id="app">
-    <keep-alive v-if="$route.meta.isKeep">
-      <router-view />
-    </keep-alive>
-    <router-view v-else />
-    <transition name="move">
-      <player @close_="close" v-show="playerFlag"></player>
-    </transition>
+    <div class="pt-header">
+      <Header></Header>
+      <keep-alive v-if="$route.meta.isKeep">
+        <router-view />
+      </keep-alive>
+      <router-view v-else />
+      <transition name="move">
+        <player @close_="close" v-show="playerFlag"></player>
+      </transition>
+    </div>
   </div>
 </template>
 <script>
 import player from '@/components/player/Index'
+import Header from '@/views/Header.vue'
 export default {
   components: {
-    player
+    player, Header
   },
   data () {
     return {

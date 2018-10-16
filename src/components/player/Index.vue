@@ -374,51 +374,51 @@ export default {
 }
 @-webkit-keyframes rotate{
   from{
-    -webkit-transform: rotate(0deg)
+    -webkit-transform: rotate(0deg);
   }
   to{
-    -webkit-transform: rotate(360deg)
+    -webkit-transform: rotate(360deg);
   }
 }
 @keyframes rotate{
   from{
-    -webkit-transform: rotate(0deg)
+    -webkit-transform: rotate(0deg);
   }
   to{
-    -webkit-transform: rotate(360deg)
+    -webkit-transform: rotate(360deg);
   }
 }
 
 .move-leave-active {
   transition: all .2s linear;
-  transform: translate(0, 100vh)
+  transform: translate(0, 100vh);
 }
 .move-leave {
   transform: translate(0, 0)
 }
 .move-enter-active {
   transition: all .2s linear;
-  transform: translate(0, 0)
+  transform: translate(0, 0);
 }
 .move-enter {
-  transform: translate(0, 100vh)
+  transform: translate(0, 100vh);
 }
-.mark{
+.mark {
   width: 100vw;height: 100vh;background-color: rgba(0, 0, 0, 0.15);position: absolute;top: 0;left: 0;z-index: 0;
 }
-.info{
+.info {
   position: relative;z-index: 1;
 }
-.lyricWrapper{
+.lyricWrapper {
   width: 90vw;height: 53vh;margin: 8vh auto;text-align: center;color: #bbb;font-size: 0.28rem;
-  p.text{
+  p.text {
     margin: 0.4rem 0;
   }
-  p.current{
+  p.current {
     color: #fff;
   }
 }
-i.xihuan{
-  color: #d44439
+i.xihuan {
+  color: #d44439;
 }
 </style>

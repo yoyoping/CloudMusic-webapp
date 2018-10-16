@@ -80,6 +80,14 @@ export default {
         item.playlist.idx = otherMusic[index]
       })
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    if (from.name === 'top') {
+      to.meta.isKeep = true
+    } else {
+      to.meta.isKeep = false
+    }
+    next()
   }
 }
 </script>

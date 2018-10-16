@@ -1,5 +1,8 @@
 <template>
   <header>
+    <router-link :to="$route.meta.goback" class="back" v-if="$route.meta.goback">
+      <i class="iconfont zuojiantou"></i>
+    </router-link>
     <h1>cloudMusic</h1>
     <span class="toplay" @click="SET_OPENPLAYER(true)"><i class="iconfont zhengzaibofang"></i></span>
   </header>
@@ -24,6 +27,10 @@ header{
   display: block;height: 100%;position: absolute;top: 0;right: 0.3rem;color: #fff;text-align: center;line-height: 0.9rem;
 }
 .iconfont{
-  font-size: 25px;
+  font-size: 0.5rem;
+}
+.back{
+  width: 0.6rem;
+  display: block;height: 100%;position: absolute;top: 0;left: 0.2rem;color: #fff;text-align: center;line-height: 0.9rem;
 }
 </style>
