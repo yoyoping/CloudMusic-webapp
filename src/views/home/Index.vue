@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="banner">
-      <div class="slide-render-view">
+      <!-- <div class="slide-render-view">
         <div class="slide-wrapper">
           <div class="slide-content">
             <Slider ref="slide" :autoPlay="true" :loop="true" :showDot="true" :interval="4000" :threshold="0.3" :speed="400">
@@ -13,7 +13,30 @@
             </Slider>
           </div>
         </div>
-      </div>
+      </div> -->
+      <!-- <van-swipe :autoplay="3000">
+        <van-swipe-item v-for="(image, index) in banner" :key="index">
+          <img v-lazy="image.picUrl" />
+        </van-swipe-item>
+      </van-swipe> -->
+      <van-row class="user-links">
+        <van-col span="6">
+          <van-icon name="pending-payment" />
+          待付款
+        </van-col>
+        <van-col span="6">
+          <van-icon name="pending-orders" />
+          待接单
+        </van-col>
+        <van-col span="6">
+          <van-icon name="pending-deliver" />
+          待发货
+        </van-col>
+        <van-col span="6">
+          <van-icon name="logistics" />
+          待发货
+        </van-col>
+      </van-row>
     </div>
     <nav>
       <a href="javascript:;">
@@ -67,11 +90,16 @@ import Header from '@/views/Header.vue'
 import Scroll from '@/components/scroll/Index' 
 import Slider from '@/components/slider/Index' 
 import { mapActions, mapMutations } from 'vuex'
+// import { Swipe, SwipeItem } from 'vant'
+// import { Row, Col, Icon } from 'vant'
 export default {
   components: {
     Header,
     Scroll,
     Slider
+    // [Row.name]: Row,
+    // [Col.name]: Col,
+    // [Icon.name]: Icon,
   },
   data() {
     return {
