@@ -29,5 +29,6 @@ export default {
 </script>
 <style lang="scss">
 @import './assets/style/style.scss';
-@import url('//at.alicdn.com/t/font_844551_pgh3t9m91cd.css'); // 引入图标库
+// @import url('./assets/iconfont/iconfont.css'); // 引入图标库
+@import url('//at.alicdn.com/t/font_844551_l9pn2cp6xy.css'); // 引入图标库
 </style>
