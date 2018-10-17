@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="pt-header">
+    <div :class="{'pt-header': $route.meta.headerbg !== 'no'}">
       <Header></Header>
       <keep-alive v-if="$route.meta.isKeep">
         <router-view />

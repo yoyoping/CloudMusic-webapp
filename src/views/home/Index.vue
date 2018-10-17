@@ -14,29 +14,11 @@
           </div>
         </div>
       </div> -->
-      <!-- <van-swipe :autoplay="3000">
-        <van-swipe-item v-for="(image, index) in banner" :key="index">
-          <img v-lazy="image.picUrl" />
+      <van-swipe :autoplay="3000">
+        <van-swipe-item v-for="(item, index) in banner" :key="index">
+          <img v-lazy="item.picUrl" />
         </van-swipe-item>
-      </van-swipe> -->
-      <van-row class="user-links">
-        <van-col span="6">
-          <van-icon name="pending-payment" />
-          待付款
-        </van-col>
-        <van-col span="6">
-          <van-icon name="pending-orders" />
-          待接单
-        </van-col>
-        <van-col span="6">
-          <van-icon name="pending-deliver" />
-          待发货
-        </van-col>
-        <van-col span="6">
-          <van-icon name="logistics" />
-          待发货
-        </van-col>
-      </van-row>
+      </van-swipe>
     </div>
     <nav>
       <a href="javascript:;">
@@ -90,20 +72,18 @@ import Header from '@/views/Header.vue'
 import Scroll from '@/components/scroll/Index' 
 import Slider from '@/components/slider/Index' 
 import { mapActions, mapMutations } from 'vuex'
-// import { Swipe, SwipeItem } from 'vant'
-// import { Row, Col, Icon } from 'vant'
+import { Swipe, SwipeItem } from 'vant'
 export default {
   components: {
     Header,
     Scroll,
-    Slider
-    // [Row.name]: Row,
-    // [Col.name]: Col,
-    // [Icon.name]: Icon,
+    Slider,
+    [Swipe.name]: Swipe,
+    [SwipeItem.name]: SwipeItem
   },
   data() {
     return {
-      banner: this.initBanner(), // 初始化8个空的banner对象,(如果不初始化会导致slide异常)
+      banner: [], // 初始化8个空的banner对象,(如果不初始化会导致slide异常)
       personalizedList: [], // 推荐歌单
       newSongList: [] // 最新音乐
     };
@@ -125,19 +105,6 @@ export default {
   methods: {
     ...mapMutations(['SET_OPENPLAYER']),
     ...mapActions(['getMusic']),
-    /**
-     * 初始化banner
-     */
-    initBanner() {
-      const _obj = {
-        linkUrl: '',
-        picUrl: '',
-        id: 0
-      };
-      return this._.times(7, () => {
-        return _obj
-      })
-    },
     /**
      * 获取banner信息
      */
@@ -193,6 +160,18 @@ export default {
   position: relative;
   height: 17vh;
   margin-bottom: 10vh;
+  .van-swipe{
+    width: 94vw;height: 3rem;position: absolute;
+    left: 3vw;
+    border-radius: 0.1rem;
+    overflow: hidden;
+  }
+  .van-swipe-item{
+    border-radius: 0.1rem;overflow: hidden;
+    img{
+      width: 100%;border-radius: 0.1rem;overflow: hidden;
+    }
+  }
 }
 
 nav{

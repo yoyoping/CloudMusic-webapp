@@ -1,9 +1,9 @@
 <template>
-  <header>
+  <header :class="{noBg: $route.meta.headerbg === 'no'}">
     <router-link :to="$route.meta.goback" class="back" v-if="$route.meta.goback">
       <i class="iconfont zuojiantou"></i>
     </router-link>
-    <h1>cloudMusic</h1>
+    <h1 v-if="$route.meta.headerbg !== 'no'">cloudMusic</h1>
     <span class="toplay" @click="SET_OPENPLAYER(true)"><i class="iconfont zhengzaibofang"></i></span>
   </header>
 </template>
@@ -19,6 +19,9 @@ export default {
 <style lang="scss" scoped>
 header{
   height: 0.9rem;color: #fff;background-color: #d44439;position: fixed;top: 0;left: 0;z-index:2;width: 100%;
+  &.noBg{
+    background-color: transparent;
+  }
   h1{
     font-size: 0.36rem;color: #fff;text-align: center;line-height: 0.9rem;
   }

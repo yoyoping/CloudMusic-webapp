@@ -77,6 +77,23 @@ export default new Router({
           }
         }
       ]
+    },
+    {
+      path: "",
+      name: "",
+      component: _import_(`Layout`),
+      redirect: "/mine",
+      children: [
+        {
+          path: "/mine",
+          name: "mine",
+          component: _import_(`mine/Index`),
+          meta: {
+            menuName: "mine",
+            headerbg: "no"
+          }
+        }
+      ]
     }
   ]
 });

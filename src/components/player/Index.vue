@@ -404,13 +404,13 @@ export default {
   transform: translate(0, 100vh);
 }
 .mark {
-  width: 100vw;height: 100vh;background-color: rgba(0, 0, 0, 0.15);position: absolute;top: 0;left: 0;z-index: 0;
+  width: 100vw;height: 100vh;background-color: rgba(0, 0, 0, 0.28);position: absolute;top: 0;left: 0;z-index: 0;
 }
 .info {
   position: relative;z-index: 1;
 }
 .lyricWrapper {
-  width: 90vw;height: 53vh;margin: 8vh auto;text-align: center;color: #bbb;font-size: 0.28rem;
+  width: 90vw;height: 53vh;margin: 8vh auto;text-align: center;color: #ccc;font-size: 0.28rem;
   p.text {
     margin: 0.4rem 0;
   }

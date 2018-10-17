@@ -7,7 +7,7 @@
 			</router-link>
 		</p>
 		<p>
-			<router-link to="" :class="{active: $route.meta.menuName === 'mine'}">
+			<router-link to="/mine" :class="{active: $route.meta.menuName === 'mine'}">
 				<i class="iconfont wode"></i>
 				我的
 			</router-link>
