@@ -5,7 +5,7 @@ import { Toast } from "vant";
 
 // 创建axios实例
 const Axios = axios.create({
-  // timeout: 15000
+  // timeout: 5000
 });
 
 Axios.defaults.baseURL = process.env.NODE_ENV === `production` ? `` : ``;
@@ -36,11 +36,10 @@ Axios.interceptors.response.use(
     }
   },
   error => {
-    if (error.response.status === 401) {
-      Toast.fail(`登录失效`);
-      window.location.reload();
-    } else if (error.response.status === 403) {
-      Toast.fail(`权限不足`);
+    if (error.response.status === 500) {
+      Toast.fail(error.response.statusText);
+    } else if (error.response.status === 404) {
+      Toast.fail(`资源未找到`);
     } else {
       Toast.fail(error.response.data.msg);
     }

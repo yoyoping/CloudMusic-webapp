@@ -14,7 +14,7 @@ export default {
   // 歌曲详情
   songDetail: `/song/detail`,
   // 音乐url
-  musicUrl: `/music/url`,
+  musicUrl: `/song/url`,
   // 歌曲歌词
   musicLyric: `/lyric`,
   // 排行榜
@@ -24,5 +24,7 @@ export default {
   // 登录
   login: `/login/cellphone`,
   // 用户详情
-  userDetail: `/user/detail`
+  userDetail: `/user/detail`,
+  // 获取用户歌单
+  userPlaylist: `/user/playlist`
 };

@@ -21,9 +21,7 @@ const state = {
   ],
   lyric: ``, // 歌词
   collectList: [], // 收藏列表（歌曲的id）
-  user: {
-    uid: Cookies.get("uid") // 用户id
-  }
+  uid: Cookies.get("uid") // 用户id
 };
 
 export default state;

@@ -1,73 +1,69 @@
 <template>
   <div>
     <div class="cls">
-      <h2>歌单(10)</h2>
+      <h2>歌单({{myPlaylist.length}})</h2>
       <ul>
-        <li>
-          <img src="~@/assets/images/default.png" alt="">
+        <li v-for="(item, index) in myPlaylist" :key="index" @click="link(item.id)">
+          <img v-lazy="item.coverImgUrl" alt="">
           <dl>
-            <dt>歌单名字</dt>
-            <dd>10首，播放20次</dd>
-          </dl>
-        </li>
-        <li>
-          <img src="~@/assets/images/default.png" alt="">
-          <dl>
-            <dt>歌单名字</dt>
-            <dd>10首，播放20次</dd>
-          </dl>
-        </li>
-        <li>
-          <img src="~@/assets/images/default.png" alt="">
-          <dl>
-            <dt>歌单名字</dt>
-            <dd>10首，播放20次</dd>
-          </dl>
-        </li>
-        <li>
-          <img src="~@/assets/images/default.png" alt="">
-          <dl>
-            <dt>歌单名字</dt>
-            <dd>10首，播放20次</dd>
+            <dt>{{item.name}}</dt>
+            <dd>{{item.trackCount}}首，播放{{item.playCount}}次</dd>
           </dl>
         </li>
       </ul>
     </div>
     <div class="cls">
-      <h2>收藏的歌单</h2>
+      <h2>收藏的歌单({{collList.length}})</h2>
       <ul>
-        <li>
-          <img src="~@/assets/images/default.png" alt="">
+        <li v-for="(item, index) in collList" :key="index" @click="link(item.id)">
+          <img v-lazy="item.coverImgUrl" alt="">
           <dl>
-            <dt>歌单名字</dt>
-            <dd>10首，播放20次</dd>
-          </dl>
-        </li>
-        <li>
-          <img src="~@/assets/images/default.png" alt="">
-          <dl>
-            <dt>歌单名字</dt>
-            <dd>10首，播放20次</dd>
-          </dl>
-        </li>
-        <li>
-          <img src="~@/assets/images/default.png" alt="">
-          <dl>
-            <dt>歌单名字</dt>
-            <dd>10首，播放20次</dd>
-          </dl>
-        </li>
-        <li>
-          <img src="~@/assets/images/default.png" alt="">
-          <dl>
-            <dt>歌单名字</dt>
-            <dd>10首，播放20次</dd>
+            <dt>{{item.name}}</dt>
+            <dd>{{item.trackCount}}首，播放{{item.playCount}}次</dd>
           </dl>
         </li>
       </ul>
     </div>
   </div>
 </template>
+<script>
+import Cookies from 'js-cookie'
+export default {
+  data () {
+    return {
+      myPlaylist: [], // 自己创建的歌单
+      collList: [] // 收藏歌单
+    }
+  },
+  created () {
+    this.getplaylist()
+  },
+  methods: {
+    // 获取用户歌单
+    async getplaylist () {
+      const params = {
+        url: 'userPlaylist',
+        uid: Cookies.get('uid')
+      }
+      const res = await this.$axios(params)
+      console.log(res)
+      // 遍历判断是否是自己创建的歌单
+      res.playlist.forEach(item => {
+        if (item.creator.userId === Number(Cookies.get('uid'))){
+          this.myPlaylist.push(item)
+        } else {
+          this.collList.push(item)
+        }
+      });
+    },
+    // 跳转歌单
+    link (id) {
+      this.$router.push(`/playlist/${id}`)
+    }
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 .cls{
   h2{
