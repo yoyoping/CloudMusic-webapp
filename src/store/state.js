@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 const state = {
   songUrl: ``, // 歌曲播放地址
   currentSongId: ``, // 当前播放歌曲id
@@ -19,7 +20,10 @@ const state = {
     }
   ],
   lyric: ``, // 歌词
-  collectList: [] // 收藏列表（歌曲的id）
+  collectList: [], // 收藏列表（歌曲的id）
+  user: {
+    uid: Cookies.get("uid") // 用户id
+  }
 };
 
 export default state;

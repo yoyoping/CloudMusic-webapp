@@ -7,6 +7,7 @@ import lodash from "lodash";
 import rem from "./util/rem";
 import axios from "./util/axios";
 import VueLazyload from "vue-lazyload";
+import "@/util/interceptor";
 
 Vue.config.productionTip = false;
 

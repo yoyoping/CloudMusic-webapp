@@ -1,17 +1,18 @@
 <template>
   <div class="mine">
     <div class="info">
+      <img v-lazy="userinfo.backgroundUrl" class="bg" alt="">
       <p class="mark"></p>
       <div class="top">
-        <img src="~@/assets/images/logo.jpg" class="avatar" alt="">
-        <h1>张三</h1>
+        <img v-lazy="userinfo.avatarUrl" class="avatar" alt="">
+        <h1>{{userinfo.nickname}}</h1>
         <p class="fan">
-          <span>关注 5</span>
-          <span>粉丝 5</span>
+          <span>关注 {{userinfo.follows}}</span>
+          <span>粉丝 {{userinfo.followeds}}</span>
         </p>
         <p class="tag">
           <span><i class="iconfont nan"></i> 95后</span>
-          <span><i class="iconfont level"></i> 8</span>
+          <span><i class="iconfont level"></i> {{userinfo.level}}</span>
           <span>成都</span>
           <span>水瓶座</span>
         </p>
@@ -32,6 +33,7 @@
 <script>
 import { Tab, Tabs, Button } from 'vant'
 import SongList from './SongList'
+import Cookies from 'js-cookie'
 export default {
   components: {
     [Tab.name]: Tab,
@@ -41,12 +43,31 @@ export default {
   },
   data () {
     return {
-      active: 0
+      active: 0,
+      userinfo: {} // 用户信息
     }
   },
+  created () {
+    this.getUserInfo()
+  },
   methods: {
+    /**
+     * 退出登录
+     */
     logout () {
       this.$router.push('/login')
+    },
+    /**
+     * 获取用户详情
+     */
+    async getUserInfo () {
+      const params = {
+        url: 'userDetail',
+        uid: Cookies.get('uid')
+      }
+      const res = await this.$axios(params)
+      this.userinfo = res.profile
+      this.userinfo.level = res.level
     }
   }
 }
@@ -54,7 +75,10 @@ export default {
 
 <style lang="scss" scoped>
 .info{
-  width: 100%;height: 47vh;background: url('~@/assets/images/default.png') no-repeat;background-size: 103% 103%;
+  .bg{
+    width: 100%;position: absolute;left: 0;top: 0;
+  }
+  width: 100%;height: 47vh;background-size: 103% 103%;
   background-position: 50% 50%;box-sizing: border-box;padding: 0.9rem 5vw 0;text-align: center;position: relative;
   .avatar{
     width: 1.5rem;height: 1.5rem;border-radius: 50%;

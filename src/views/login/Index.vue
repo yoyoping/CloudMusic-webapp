@@ -11,6 +11,7 @@
 <script>
 import { Field, Button } from 'vant'
 import { phoneNumber } from '@/util/check'
+import Cookies from 'js-cookie'
 export default {
   components: {
     [Field.name]: Field,
@@ -59,7 +60,9 @@ export default {
         password: this.loginData.password
       }
       const res = await this.$axios(params)
-      console.log(res)
+      Cookies.set('uid', res.account.id)
+      Cookies.set('loginStatus', true)
+      this.$router.push('/mine')
     }
   }
 }

@@ -22,5 +22,7 @@ export default {
   // 歌单详情
   songList: `/playlist/detail`,
   // 登录
-  login: `/login/cellphone`
+  login: `/login/cellphone`,
+  // 用户详情
+  userDetail: `/user/detail`
 };

@@ -19,7 +19,7 @@
 	height: 0.9rem;color: #666;background-color: rgba(238, 238, 238, 0.98);position: fixed;bottom: 0;left: 0;z-index:2;width: 100vw;
 	display: flex;justify-content: space-around;border-top: 0.01rem solid #ccc;
 	a{
-		font-size: 0.2rem;text-align: center;
+		font-size: 0.2rem;text-align: center;display: block;padding: 0 0.2rem;
 	}
 	.active{
 		color: #d44439;
