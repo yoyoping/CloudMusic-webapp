@@ -94,6 +94,23 @@ export default new Router({
           }
         }
       ]
+    },
+    {
+      path: "",
+      name: "",
+      component: () => import(`./App.vue`),
+      redirect: "/login",
+      children: [
+        {
+          path: "/login",
+          name: "login",
+          component: _import_(`login/Index`),
+          meta: {
+            menuName: "mine",
+            goback: "/"
+          }
+        }
+      ]
     }
   ]
 });

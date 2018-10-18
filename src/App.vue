@@ -34,5 +34,5 @@ export default {
 <style lang="scss">
 @import './assets/style/style.scss';
 // @import url('./assets/iconfont/iconfont.css'); // 引入图标库
-@import url('//at.alicdn.com/t/font_844551_l9pn2cp6xy.css'); // 引入图标库
+@import url('//at.alicdn.com/t/font_844551_ott60pjbqb8.css'); // 引入图标库
 </style>

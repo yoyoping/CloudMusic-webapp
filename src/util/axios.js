@@ -1,6 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 import ApiUrl from "./newApi";
+import { Toast } from "vant";
 
 // 创建axios实例
 const Axios = axios.create({
@@ -31,18 +32,17 @@ Axios.interceptors.response.use(
     if (data.code === 200) {
       return data;
     } else {
-      alert(data.msg);
       return Promise.reject(data);
     }
   },
   error => {
     if (error.response.status === 401) {
-      alert(`登录失效`);
+      Toast.fail(`登录失效`);
       window.location.reload();
     } else if (error.response.status === 403) {
-      alert(`权限不足`);
+      Toast.fail(`权限不足`);
     } else {
-      console.log(error.message);
+      Toast.fail(error.response.data.msg);
     }
     return Promise.reject(error);
   }
