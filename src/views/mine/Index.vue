@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import { Tab, Tabs, Button } from 'vant'
+import { Tab, Tabs, Button, Dialog } from 'vant'
 import SongList from './SongList'
 import Cookies from 'js-cookie'
 export default {
@@ -55,7 +55,14 @@ export default {
      * 退出登录
      */
     logout () {
-      this.$router.push('/login')
+      Dialog.confirm({
+        title: '退出提示',
+        message: '确认退出当前账号吗 ？'
+      }).then(() => {
+        Cookies.remove('loginStatus')
+        Cookies.remove('uid')
+        this.$router.push('/login')
+      })
     },
     /**
      * 获取用户详情

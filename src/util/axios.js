@@ -66,7 +66,12 @@ Axios.interceptors.response.use(
 
 export default params => {
   // 请求的url
-  const url_ = ApiUrl[params.url];
+  let url_ = ApiUrl[params.url];
+  // if (url_.indexOf("?") === -1) {
+  //   url_ += "?proxy=http://120.78.128.49:3000";
+  // } else {
+  //   url_ += "&proxy=http://120.78.128.49:3000";
+  // }
   // 请求的方法类型
   const method_ = params.method || `GET`;
 
