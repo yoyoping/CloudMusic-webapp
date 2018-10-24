@@ -1,22 +1,9 @@
 <template>
   <div>
     <div class="banner">
-      <!-- <div class="slide-render-view">
-        <div class="slide-wrapper">
-          <div class="slide-content">
-            <Slider ref="slide" :autoPlay="true" :loop="true" :showDot="true" :interval="4000" :threshold="0.3" :speed="400">
-              <div v-for="(item, index) in banner" :key="index">
-                <a href="javascript:;">
-                  <img v-lazy="item.picUrl">
-                </a>
-              </div>
-            </Slider>
-          </div>
-        </div>
-      </div> -->
       <van-swipe :autoplay="3000">
         <van-swipe-item v-for="(item, index) in banner" :key="index">
-          <img v-lazy="item.picUrl" />
+          <img v-lazy="item.imageUrl" @click="link(item.url)" />
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -114,6 +101,7 @@ export default {
       }
       const res = await this.$axios(params)
       this.banner = res.banners;
+      console.log(this.banner)
     },
     /**
      * 获取推荐歌单
@@ -144,6 +132,12 @@ export default {
     play (id) {
       this.getMusic(id)
       this.SET_OPENPLAYER(true)
+    },
+    /**
+     * 跳转
+     */
+    link (url) {
+      location.href = url
     }
   },
   watch: {
