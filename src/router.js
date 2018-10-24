@@ -30,6 +30,24 @@ export default new Router({
       path: "",
       name: "",
       component: _import_(`Layout`),
+      redirect: "/recommendSong",
+      children: [
+        {
+          path: "/recommendSong",
+          name: "recommendSong",
+          component: _import_(`recommendSong/Index`),
+          meta: {
+            isKeep: true,
+            menuName: "music",
+            toLogin: true
+          }
+        }
+      ]
+    },
+    {
+      path: "",
+      name: "",
+      component: _import_(`Layout`),
       redirect: "/toplist",
       children: [
         {
@@ -90,7 +108,8 @@ export default new Router({
           component: _import_(`mine/Index`),
           meta: {
             menuName: "mine",
-            headerbg: "no"
+            headerbg: "no",
+            toLogin: true
           }
         }
       ]

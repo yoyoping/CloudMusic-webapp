@@ -26,5 +26,9 @@ export default {
   // 用户详情
   userDetail: `/user/detail`,
   // 获取用户歌单
-  userPlaylist: `/user/playlist`
+  userPlaylist: `/user/playlist`,
+  // 获取每日推荐歌曲
+  recommendSong: `/recommend/songs`,
+  // 获取每日推荐歌单
+  recommendResource: `/recommend/resource`
 };

@@ -8,12 +8,12 @@
       </van-swipe>
     </div>
     <nav>
-      <a href="javascript:;">
+      <router-link to="/recommendSong">
         <span>
           <i class="iconfont rili"></i>
         </span>
         每日推荐
-      </a>
+      </router-link>
       <a href="javascript:;">
         <span>
           <i class="iconfont dianyingzhiye-gequbang"></i>
