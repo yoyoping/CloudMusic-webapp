@@ -8,7 +8,8 @@ const Axios = axios.create({
   // timeout: 5000
 });
 
-Axios.defaults.baseURL = process.env.NODE_ENV === `production` ? `` : ``;
+// Axios.defaults.baseURL = process.env.NODE_ENV === `production` ? `http:120.78.128.49:9527` : ``;
+Axios.defaults.baseURL = `http://120.78.128.49:9527`;
 // 添加请求拦截器
 Axios.interceptors.request.use(
   config => {
@@ -67,14 +68,8 @@ Axios.interceptors.response.use(
 export default params => {
   // 请求的url
   let url_ = ApiUrl[params.url];
-  // if (url_.indexOf("?") === -1) {
-  //   url_ += "?proxy=http://120.78.128.49:3000";
-  // } else {
-  //   url_ += "&proxy=http://120.78.128.49:3000";
-  // }
   // 请求的方法类型
   const method_ = params.method || `GET`;
-
   // 获取传给后端的参数
   let param = JSON.parse(JSON.stringify(params));
   delete param.url;
