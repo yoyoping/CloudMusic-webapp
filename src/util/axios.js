@@ -8,8 +8,7 @@ const Axios = axios.create({
   // timeout: 5000
 });
 
-// Axios.defaults.baseURL = process.env.NODE_ENV === `production` ? `http:120.78.128.49:9527` : ``;
-Axios.defaults.baseURL = `http://120.78.128.49:9527`;
+Axios.defaults.baseURL = process.env.NODE_ENV === `production` ? `http://120.78.128.49:9527` : ``;
 // 添加请求拦截器
 Axios.interceptors.request.use(
   config => {
