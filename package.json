@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.9.1",
     "better-scroll": "^1.12.6",

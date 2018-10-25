@@ -9,8 +9,8 @@
 				<label class="red" v-if="item.id === currentSongId"><i class="iconfont laba"></i></label>
 				<label v-else :class="{red: index < 3}">{{index < 9 ? `0${index + 1}` : (index + 1)}}</label>
 				<div @click="play(item.id)">
-					<h3 :class="{red: item.id === currentSongId}">{{item.name}}<span class="des" v-if="item.alia[0]"> ({{item.alia[0]}})</span></h3>
-					<p>{{item.ar | arName}} - {{item.al.name}}</p>
+					<h3 :class="{red: item.id === currentSongId}">{{item.name}}<span class="des" v-if="item.alias[0]"> ({{item.alias[0]}})</span></h3>
+					<p>{{item.artists | arName}} - {{item.album.name}}</p>
 				</div>
 			</li>
 		</ul>
@@ -61,7 +61,7 @@ export default {
 <style lang="scss">
 .content{
   width: 100%;background-color: #fff;border-radius: 0.2rem;
-  position: relative;top: -29vw;
+  // position: relative;top: -29vw;
   h2{
     font-size: 0.3rem;padding: 0.17rem 0.14rem;
     .iconfont{
@@ -74,7 +74,7 @@ export default {
   li{
     width: 100vw;display: flex;justify-content: space-between;height: 1rem;
     &.active{
-      background-color: #ddd;
+      background-color: #eee;
     }
     label{
       width: 10vw;height: 100%;line-height: 1rem;text-align: center;font-size: 0.3rem;color: #999;

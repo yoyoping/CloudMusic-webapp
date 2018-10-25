@@ -74,7 +74,7 @@ export default {
   li{
     width: 100vw;display: flex;justify-content: space-between;height: 1rem;
     &.active{
-      background-color: #ddd;
+      background-color: #eee;
     }
     label{
       width: 10vw;height: 100%;line-height: 1rem;text-align: center;font-size: 0.3rem;color: #999;

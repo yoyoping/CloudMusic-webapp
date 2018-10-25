@@ -42,6 +42,7 @@ export default {
           id: this.$route.params.id
         }
         res = await this.$axios(params)
+        
       } else {
         const params = {
           url: `musicTop`,
@@ -50,6 +51,7 @@ export default {
         res = await this.$axios(params)
       }
       this.topDetail = res.playlist
+      console.log(this.topDetail.tracks)
     }
   }
 }
