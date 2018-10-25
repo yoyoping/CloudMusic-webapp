@@ -4,7 +4,7 @@
 	</div>
 </template>
 <script>
-import List from '@/components/list/Index'
+import List from './List'
 export default {
 	components: {
 		List
