@@ -1,3 +1,11 @@
+/**
+ * meta属性说明
+ * isKeep：是否需要缓存
+ * menuName：当前路由属于哪个版块
+ * toLogin：是否需要登录才能访问
+ * needLoading：是否需要加载中状态
+ */
+
 import Vue from "vue";
 import Router from "vue-router";
 
@@ -57,7 +65,8 @@ export default new Router({
           meta: {
             isKeep: true,
             menuName: "music",
-            goback: "/"
+            goback: "/",
+            needLoading: true
           }
         }
       ]

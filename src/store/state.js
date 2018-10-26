@@ -21,7 +21,8 @@ const state = {
   ],
   lyric: ``, // 歌词
   collectList: [], // 收藏列表（歌曲的id）
-  uid: Cookies.get("uid") // 用户id
+  uid: Cookies.get("uid"), // 用户id
+  loadState: true // 加载状态（默认加载中）
 };
 
 export default state;

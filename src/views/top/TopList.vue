@@ -32,6 +32,7 @@
 </template>
 <script>
 import axios from 'axios'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -44,6 +45,9 @@ export default {
     this.getTopOther()
   },
   methods: {
+    ...mapMutations({
+      setLoad: 'SET_LOAD'
+    }),
     /**
      * 获取云音乐官方排行榜
      */
@@ -57,6 +61,7 @@ export default {
         return this.$axios(params)
         }))
       console.log(res)
+      this.setLoad(false)
       this.topYunList = res
       this.topYunList.forEach((item, index) => {
         item.playlist.idx = YunMusic[index]

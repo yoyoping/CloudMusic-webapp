@@ -3,11 +3,11 @@ import _ from "lodash/array";
 
 const mutations = {
   // 修改歌曲播放地址
-  SET_SONGURL(state, res) {
+  [`SET_SONGURL`](state, res) {
     state.songUrl = res;
   },
   // 获取歌曲详情
-  GET_SONGDEATIL(state, res) {
+  [`GET_SONGDEATIL`](state, res) {
     state.songDetail = res;
     const song = res.songs[0];
     const detail_ = {
@@ -27,14 +27,14 @@ const mutations = {
     this.commit(`SET_PLAYLIST`, param);
   },
   // 设置当前是否正在播放歌曲
-  SET_OPENPLAYER(state, res) {
+  [`SET_OPENPLAYER`](state, res) {
     state.openPlayer = res;
   },
   // 设置当前播放的歌曲的信息
-  SET_MUSICDETAIL(state, res) {
+  [`SET_MUSICDETAIL`](state, res) {
     Object.assign(state.musicDetail, res);
   },
-  SET_PLAYLIST(state, res) {
+  [`SET_PLAYLIST`](state, res) {
     if (!state.playList[0].id) {
       state.playList = [];
     }
@@ -48,15 +48,15 @@ const mutations = {
     console.log(state.playList);
   },
   // 设置当前播放播放歌曲的ID
-  SET_MUSICID(state, id) {
+  [`SET_MUSICID`](state, id) {
     state.currentSongId = id; // 当前歌曲id
   },
   // 设置歌词
-  SET_LYRIC(state, res) {
+  [`SET_LYRIC`](state, res) {
     state.lyric = res;
   },
   // 加入/取消 收藏歌曲
-  ACTION_COLLECT(state, id) {
+  [`ACTION_COLLECT`](state, id) {
     const collectList = state.collectList
     // 判断当前歌曲是否存在于收藏列表中
     if(collectList.includes(id)) {
@@ -64,6 +64,10 @@ const mutations = {
     } else {
       collectList.push(id)
     }
+  },
+  // 设置加载状态
+  [`SET_LOAD`](state, res) {
+    state.loadState = res;
   }
 };
 export default mutations;
