@@ -3,7 +3,7 @@
   <transition name="move">
     <div class="player" v-show="showFlag">
       <div class="mark"></div>
-      <audio id="audio" ref="audio" autoplay :src="songUrl" :loop="mode === 3"></audio>
+      <audio id="audio" ref="audio" autoplay @ended="musicEnd" :src="songUrl" :loop="mode === 3"></audio>
       <div class="info">
         <div class="th">
           <i class="iconfont xiajiantou" @click="$store.commit('SET_OPENPLAYER', false)"></i>
@@ -16,20 +16,6 @@
           </p>
         </div>
         <!-- 歌词 -->
-        <!-- <Scroll v-if="isLrc && currentLyric" @switch="isLrc = false">
-          <div class="content">
-            <p v-for="(item, index) in currentLyric.lines" :key="index">{{item.txt}}</p>
-          </div>
-        </Scroll> -->
-        <!-- <Scroll class="lyric-wrapper" ref="lyricList" :data="currentLyric && currentLyric.lines" v-if="isLrc && currentLyric" @switch="isLrc = false">
-          <div>
-            <div class="lyric">
-              <p v-for="(line,index) in currentLyric.lines" ref="lyricLine"
-                  :class="{'current':currentLineNum===index}"
-                  class="text">{{line.txt}}</p>
-            </div>
-          </div>
-        </Scroll> -->
         <div class="lyricWrapper">
           <Scroll class="middle-r" ref="lyricList" v-show="isLrc" :data="currentLyric && currentLyric.lines">
             <div class="lyric-wrapper">
@@ -39,7 +25,7 @@
                   {{line.txt}}
                 </p>
               </div>
-                <p class="no-lyric" v-if="currentLyric === null">歌词加载中</p>
+                <p class="no-lyric" v-if="currentLyric === null">歌词加载中...</p>
             </div>
           </Scroll>
         </div>
@@ -79,7 +65,7 @@
  
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import Progress from './Progress'
 import Format from '../format/Index'
 import { randomNum, isiOS } from '@/util'
@@ -105,11 +91,16 @@ export default {
       isLeave: true, // 手指是否还在进度条上
       currentLyric: null, // 当前歌词
       isLrc: false, // 当前是否显示歌词
-      currentLineNum: 0 // 高亮行
+      currentLineNum: 0, // 高亮行
+      initSongId: 40249016 // 默认歌曲id 
     }
   },
   computed: {
     ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'lyric', 'collectList'])
+  },
+  created () {
+    console.log('加载默认音乐')
+    this.initSong()
   },
   mounted () {
     this.listenSong()
@@ -117,6 +108,13 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_SONGURL', 'SET_MUSICID', 'SET_MUSICDETAIL', 'ACTION_COLLECT']),
+    ...mapActions(['getMusic']),
+    /**
+     * 加载默认音乐
+     */
+    initSong () {
+      this.getMusic(this.initSongId)
+    },
     /**
      * 监听歌曲信息
      */
@@ -128,7 +126,7 @@ export default {
      * 当前播放信息
      */
     songInfo () {
-      this.paused = this.$refs.audio.paused // 当前音乐状态
+      this.paused = this.$refs.audio.paused === 'undefined' ? true : false // 当前音乐状态
       this.songDta.duration = isNaN(parseInt(this.$refs.audio.duration)) ? 0 : parseInt(this.$refs.audio.duration) // 当前歌曲总时长
       if (this.isLeave) {
         this.songDta.currentTime = parseInt(this.$refs.audio.currentTime) // 当前播放时间
@@ -254,6 +252,12 @@ export default {
       } else {
         // this.$refs.lyricList.scrollTo(0, 0, 20)
       }
+    },
+    /**
+     * 监听音乐是否已经播放结束
+     */
+    musicEnd () {
+      this.paused = true
     }
   },
   watch: {

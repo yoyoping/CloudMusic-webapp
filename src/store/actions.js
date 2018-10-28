@@ -33,5 +33,7 @@ export const getLyric = async ({ commit }, id) => {
     id: id
   };
   const res = await axios(params);
-  commit(`SET_LYRIC`, res.lrc.lyric);
+  if (!res.nolyric) {
+    commit(`SET_LYRIC`, res.lrc.lyric);
+  }
 };

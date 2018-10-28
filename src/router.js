@@ -4,6 +4,7 @@
  * menuName：当前路由属于哪个版块
  * toLogin：是否需要登录才能访问
  * needLoading：是否需要加载中状态
+ * noTabbar：是否需要tabbar
  */
 
 import Vue from "vue";
@@ -126,7 +127,7 @@ export default new Router({
     {
       path: "",
       name: "",
-      component: () => import(`./App.vue`),
+      component: _import_(`Layout`),
       redirect: "/login",
       children: [
         {
@@ -135,10 +136,30 @@ export default new Router({
           component: _import_(`login/Index`),
           meta: {
             menuName: "mine",
+            noTabbar: true,
             goback: "/"
           }
         }
       ]
-    }
+    },
+    {
+      path: "",
+      name: "",
+      component: _import_(`Layout`),
+      redirect: "/search",
+      children: [
+        {
+          path: "/search",
+          name: "search",
+          component: _import_(`search/Index`),
+          meta: {
+            menuName: "search",
+            headerbg: "no",
+            isKeep: true,
+            noHeader: true
+          }
+        }
+      ]
+    },
   ]
 });

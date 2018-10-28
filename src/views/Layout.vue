@@ -5,7 +5,7 @@
       <router-view />
     </keep-alive>
     <router-view v-else  v-show="!loadState || !$route.meta.needLoading" />
-    <TabBar />
+    <TabBar v-show="!$route.meta.noTabbar" />
   </div>
 </template>
 <script>

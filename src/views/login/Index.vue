@@ -2,8 +2,8 @@
   <div class="login">
     <img src="~@/assets/images/logo.jpg" class="logo" alt="">
     <div class="form">
-      <van-field type="tel" v-model="loginData.phone" placeholder="请输入手机号" :error-message="errMessage.phone" label="手机号：" @blur="onblur" />
-      <van-field type="password" v-model="loginData.password" placeholder="请输入密码" :error-message="errMessage.password" label="密码："  />
+      <van-field type="tel" v-model="loginData.phone" :clearable="true" placeholder="请输入手机号" :error-message="errMessage.phone" label="手机号：" @blur="onblur" />
+      <van-field type="password" v-model="loginData.password" :clearable="true" placeholder="请输入密码" :error-message="errMessage.password" label="密码："  />
     </div>
     <van-button type="danger" class="loginBtn" @click="login">登录</van-button>
   </div>

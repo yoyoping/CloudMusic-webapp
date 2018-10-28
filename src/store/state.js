@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 const state = {
-  songUrl: `/file/start.mp3`, // 歌曲播放地址
+  songUrl: ``, // 歌曲播放地址
   currentSongId: ``, // 当前播放歌曲id
   songDetail: {}, // 当前歌曲详情
   openPlayer: false, // 是否打开播放页

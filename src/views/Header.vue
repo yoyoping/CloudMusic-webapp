@@ -1,5 +1,5 @@
 <template>
-  <header :class="{noBg: $route.meta.headerbg === 'no'}">
+  <header :class="{noBg: $route.meta.headerbg === 'no'}" v-show="!$route.meta.noHeader">
     <router-link :to="$route.meta.goback" class="back" v-if="$route.meta.goback">
       <i class="iconfont zuojiantou"></i>
     </router-link>

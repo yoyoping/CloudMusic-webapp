@@ -3,13 +3,13 @@
     <img src="~@/assets/images/start.jpg" class="start animated" v-show="isStart" :class="{zoomOut: animated}" alt="">
     <div :class="{'pt-header': $route.meta.headerbg !== 'no'}">
       <Header></Header>
+      <transition name="move">
+        <player @close_="close" v-show="playerFlag"></player>
+      </transition>
       <keep-alive v-if="$route.meta.isKeep">
         <router-view />
       </keep-alive>
       <router-view v-else />
-      <transition name="move">
-        <player @close_="close" v-show="playerFlag"></player>
-      </transition>
     </div>
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
 <style lang="scss">
 @import './assets/style/style.scss';
 // @import url('./assets/iconfont/iconfont.css'); // 引入图标库
-@import url('//at.alicdn.com/t/font_844551_ott60pjbqb8.css'); // 引入图标库
+@import url('//at.alicdn.com/t/font_844551_2tvwzuwyhdu.css'); // 引入图标库
 .start{
   width: 100vw;height: 100vh;position: fixed;top: 0;left: 0;z-index: 5;
 }

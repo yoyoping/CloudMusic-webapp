@@ -30,5 +30,9 @@ export default {
   // 获取每日推荐歌曲
   recommendSong: `/recommend/songs`,
   // 获取每日推荐歌单
-  recommendResource: `/recommend/resource`
+  recommendResource: `/recommend/resource`,
+  // 热搜
+  searchHot: `/search/hot`,
+  // 搜索
+  search: `/search`
 };

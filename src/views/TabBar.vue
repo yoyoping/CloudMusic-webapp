@@ -12,6 +12,12 @@
 				我的
 			</router-link>
 		</p>
+		<p>
+			<router-link to="/search" :class="{active: $route.meta.menuName === 'search'}">
+				<i class="iconfont icon-test"></i>
+				搜索
+			</router-link>
+		</p>
 	</div>
 </template>
 <style lang="scss" scoped>
