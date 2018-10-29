@@ -28,9 +28,9 @@
 			</ul>
 		</div>
 		<div>
-			<van-tabs class="tabs">
+			<van-tabs class="tabs" @click="changeTab">
 				<van-tab title="单曲">
-					<Tab1></Tab1>
+					<Tab1 :list="dataList"></Tab1>
 				</van-tab>
 				<van-tab title="视频">
 					视频
@@ -63,8 +63,11 @@ export default {
 	data () {
 		return {
 			placeholder: '',
+			searchType: 1, // 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频
 			keywords: '',
-			hotList: [] // 热搜
+			hotList: [], // 热搜
+			tabArr: [1, 1014, 100, 10, 1000, 1009],
+			dataList: []
 		}
 	},
 	created () {
@@ -98,10 +101,22 @@ export default {
 			this.keywords = this.keywords ? this.keywords : this.hotList[0].first
 			const params = {
 				url: 'search',
-				keywords: this.keywords
+				keywords: this.keywords,
+				type: this.searchType 
 			}
 			const res = await this.$axios(params)
 			console.log(res)
+			switch (this.searchType) {
+				case 1: 
+					this.dataList = res.result.songs
+			}
+		},
+		/**
+		 * 切换标签
+		 */
+		changeTab (index) {
+			this.searchType = this.tabArr[index]
+			this.search()
 		}
 	}
 }

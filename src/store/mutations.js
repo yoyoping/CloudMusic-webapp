@@ -53,7 +53,12 @@ const mutations = {
   },
   // 设置歌词
   [`SET_LYRIC`](state, res) {
-    state.lyric = res;
+    if (res === 'noLyric') {
+      state.noLyric = true;
+    } else {
+      state.lyric = res;
+      state.noLyric = false;
+    }
   },
   // 加入/取消 收藏歌曲
   [`ACTION_COLLECT`](state, id) {

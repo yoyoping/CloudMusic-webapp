@@ -25,7 +25,7 @@
                   {{line.txt}}
                 </p>
               </div>
-                <p class="no-lyric" v-if="currentLyric === null">歌词加载中...</p>
+                <p class="no-lyric" v-if="noLyric">无歌词</p>
             </div>
           </Scroll>
         </div>
@@ -96,7 +96,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'lyric', 'collectList'])
+    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'lyric', 'collectList', 'noLyric'])
   },
   created () {
     console.log('加载默认音乐')
@@ -120,13 +120,16 @@ export default {
      */
     listenSong () {
       this.songInfo()
-      this.timer = setInterval(this.songInfo, 1000)
+      this.timer = setInterval(this.songInfo, 100)
     },
     /**
      * 当前播放信息
      */
     songInfo () {
-      this.paused = this.$refs.audio.paused === 'undefined' ? true : false // 当前音乐状态
+      // 当前音乐状态
+      if (this.$refs.audio.paused !== 'undefined') {
+        this.paused = this.$refs.audio.paused
+      }
       this.songDta.duration = isNaN(parseInt(this.$refs.audio.duration)) ? 0 : parseInt(this.$refs.audio.duration) // 当前歌曲总时长
       if (this.isLeave) {
         this.songDta.currentTime = parseInt(this.$refs.audio.currentTime) // 当前播放时间
@@ -134,8 +137,8 @@ export default {
       // console.log(this.songDta.currentTime)
       this.songDta.timeProgress = (this.songDta.currentTime / this.songDta.duration) * 100 // 当前播放的时间占百分比
       if (this.songDta.timeProgress === 100) {
-        clearInterval(this.timer)
-        this.timer = null
+        // clearInterval(this.timer)
+        // this.timer = null
       }
     },
     /**
@@ -162,7 +165,7 @@ export default {
         this.$refs.audio.pause()
         this.songDta.isPlay = false
       }
-      this.songInfo()
+      // this.listenSong()
 
       // 是否播放歌词
       // if (!this.paused) {
@@ -173,7 +176,10 @@ export default {
       // } else {
       //   this.currentLyric.stop()
       // }
-      this.currentLyric.togglePlay()
+      if (this.currentLyric) {
+        this.currentLyric.togglePlay()
+      }
+      
     },
     /**
      * 切换音乐
