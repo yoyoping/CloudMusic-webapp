@@ -50,3 +50,21 @@ a:hover {
 .pt-header{
   padding-top: 0.9rem;
 }
+
+// 修改input placeholde样式
+.placeholder::-webkit-input-placeholder{ 
+	/* WebKit browsers */ 
+	color: rgba(255, 255, 255, 0.5); 
+} 
+.placeholder:-moz-placeholder{ 
+	/* Mozilla Firefox 4 to 18 */ 
+	color: #919191; 
+} 
+.placeholder::-moz-placeholder{ 
+	/* Mozilla Firefox 19+ */ 
+	color: #919191; 
+} 
+.placeholder:-ms-input-placeholder{ 
+	/* Internet Explorer 10+ */ 
+	color: #919191; 
+}

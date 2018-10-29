@@ -2,7 +2,7 @@
   <div class="searchCon">
 		<header>
 			<h1>
-				<input type="text" class="field" :placeholder="placeholder" v-model="keywords">
+				<input type="text" class="field placeholder" :placeholder="placeholder" v-model="keywords">
 				<i class="iconfont guanbi" @click="keywords = ''" v-show="keywords"></i>
 			</h1>
 			<span class="searchBtn" @click="search">搜索</span>
@@ -13,7 +13,7 @@
 				<li v-for="(item, index) in hotList" :key="index" @click="hotSearch(item.first)">{{item.first}}</li>
 			</ul>
 		</div>
-		<div class="recordCls van-hairline--bottom">
+		<div class="recordCls van-hairline--bottom"  v-show="false">
 			<h2>搜索记录</h2>
 			<ul class="clearfix">
 				<li>李荣浩贝贝</li>
@@ -27,14 +27,43 @@
 				<li>李荣贝贝</li>
 			</ul>
 		</div>
+		<div>
+			<van-tabs class="tabs">
+				<van-tab title="单曲">
+					<Tab1></Tab1>
+				</van-tab>
+				<van-tab title="视频">
+					视频
+				</van-tab>
+				<van-tab title="歌手">
+					歌手
+				</van-tab>
+				<van-tab title="专辑">
+					专辑
+				</van-tab>
+				<van-tab title="歌单">
+					歌单
+				</van-tab>
+				<van-tab title="主播电台">
+					主播电台
+				</van-tab>
+			</van-tabs>
+		</div>
 	</div>
 </template>
 <script>
+import { Tab, Tabs } from 'vant'
+import Tab1 from './Tab1'
 export default {
+	components: {
+		[Tab.name]: Tab,
+		[Tabs.name]: Tabs,
+		Tab1
+	},
 	data () {
 		return {
-			placeholder: '请输入歌曲名',
-			keywords: 'ddd',
+			placeholder: '',
+			keywords: '',
 			hotList: [] // 热搜
 		}
 	},
@@ -51,7 +80,7 @@ export default {
 			}
 			const res = await this.$axios(params)
 			this.hotList = res.result.hots
-			console.log(res)
+			this.placeholder = this.hotList[0].first
 		},
 		/**
 		 * 热门搜索
@@ -65,6 +94,8 @@ export default {
 		 * 搜索
 		 */
 		async search () {
+			// 如果没有输入关键字，则将热门搜索第一个做为关键词搜索
+			this.keywords = this.keywords ? this.keywords : this.hotList[0].first
 			const params = {
 				url: 'search',
 				keywords: this.keywords
@@ -104,5 +135,8 @@ header{
 		float: left;background-color: #eee;line-height: 0.6rem;padding: 0 0.25rem;border-radius: 0.5rem;
 		margin: 0 0.1rem 0.2rem;
 	}
+}
+.tabs{
+	padding-left: 1.5vw;
 }
 </style>
