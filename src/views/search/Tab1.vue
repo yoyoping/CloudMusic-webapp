@@ -4,21 +4,7 @@
       <dl>
         <dt>{{item.name}}</dt>
         <dd class="van-ellipsis">{{item.artists | arName}} - {{item.album.name}}</dd>
-        <dd class="van-ellipsis">嗲应xxxx主题曲</dd>
-      </dl>
-    </li>
-    <li class="van-hairline--bottom">
-      <dl>
-        <dt>年少心事</dt>
-        <dd class="van-ellipsis">王一波 - 年少心事</dd>
-        <dd class="van-ellipsis">嗲应xxxx主题曲</dd>
-      </dl>
-    </li>
-    <li class="van-hairline--bottom">
-      <dl>
-        <dt>年少心事</dt>
-        <dd class="van-ellipsis">王一波 - 年少心事</dd>
-        <dd class="van-ellipsis">嗲应xxxx主题曲</dd>
+        <dd class="van-ellipsis" v-if="item.alias.length">{{item.alias | alias}}</dd>
       </dl>
     </li>
   </ul>
@@ -39,6 +25,10 @@ export default {
         return item.name;
       });
       return name.join(`/`);
+    },
+    alias (arr) {
+      const name = arr.join('/')
+      return name
     }
 	}
 }

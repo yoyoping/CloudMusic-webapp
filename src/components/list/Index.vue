@@ -9,8 +9,8 @@
 				<label class="red" v-if="item.id === currentSongId"><i class="iconfont laba"></i></label>
 				<label v-else :class="{red: index < 3}">{{index < 9 ? `0${index + 1}` : (index + 1)}}</label>
 				<div @click="play(item.id)">
-					<h3 :class="{red: item.id === currentSongId}">{{item.name}}<span class="des" v-if="item.alia[0]"> ({{item.alia[0]}})</span></h3>
-					<p>{{item.ar | arName}} - {{item.al.name}}</p>
+					<h3 class="van-ellipsis" :class="{red: item.id === currentSongId}">{{item.name}}<span class="des" v-if="item.alia[0]"> ({{item.alia[0]}})</span></h3>
+					<p class="van-ellipsis">{{item.ar | arName}} - {{item.al.name}}</p>
 				</div>
 			</li>
 		</ul>
@@ -87,7 +87,6 @@ export default {
     }
     h3{
       font-size: 0.3rem;overflow: hidden;
-      white-space: nowrap;text-overflow: ellipsis;
       .des{
         color: #999;
       }

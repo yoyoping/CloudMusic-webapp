@@ -152,6 +152,9 @@ header{
 	}
 }
 .tabs{
-	padding-left: 1.5vw;
+	padding-left: 2vw;
+}
+.searchCon{
+	height: 100vh;
 }
 </style>
