@@ -295,7 +295,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .player{
-  position: fixed;bottom: 0;left: 0;height: 100vh;background-color: #666;width: 100%;z-index: 3;color: #fff;
+  position: fixed;bottom: 0;left: 0;height: 100vh;background-color: #666;width: 100%;z-index: 100;color: #fff;
 }
 .mainProgress{
   width: 100vw;margin: 0.3rem auto;display: flex;justify-content: space-between;color: #fff;

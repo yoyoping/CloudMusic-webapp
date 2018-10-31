@@ -1,8 +1,8 @@
 <template>
   <ul class="content">
-    <li class="van-hairline--bottom" v-for="(item, index) in list" :key="index">
+    <li class="van-hairline--bottom" v-for="(item, index) in list" :key="index"  @click="play(item.id)">
       <dl>
-        <dt class="van-ellipsis">{{item.name}}</dt>
+        <dt class="van-ellipsis" :class="{red: item.id === currentSongId}"><i class="iconfont laba1" v-if="item.id === currentSongId"></i>{{item.name}}</dt>
         <dd class="van-ellipsis">{{item.artists | arName}} - {{item.album.name}}</dd>
         <dd class="van-ellipsis" v-if="item.alias.length">{{item.alias | alias}}</dd>
       </dl>
@@ -10,6 +10,7 @@
   </ul>
 </template>
 <script>
+import { mapActions, mapState, mapMutations } from 'vuex'
 export default {
   props: {
     list: {
@@ -19,6 +20,9 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState(['currentSongId'])
+	},
   filters:{
     arName (arr) {
       const name = arr.map(item => {
@@ -30,7 +34,15 @@ export default {
       const name = arr.join('/')
       return name
     }
-	}
+  },
+  methods: {
+    ...mapActions(['getMusic']),
+		...mapMutations(['SET_OPENPLAYER']),
+		play (id) {
+      this.getMusic(id)
+      this.SET_OPENPLAYER(true)
+    }
+  }
 }
 </script>
 
@@ -43,6 +55,12 @@ li{
 }
 dt{
   font-size: 0.3rem;
+  &.red{
+    color: #d44439
+  }
+  i{
+    margin-right: 0.15rem;
+  }
 }
 dd{
   color: #999;

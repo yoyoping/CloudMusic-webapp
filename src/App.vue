@@ -52,7 +52,7 @@ export default {
 <style lang="scss">
 @import './assets/style/style.scss';
 // @import url('./assets/iconfont/iconfont.css'); // 引入图标库
-@import url('//at.alicdn.com/t/font_844551_2tvwzuwyhdu.css'); // 引入图标库
+@import url('//at.alicdn.com/t/font_844551_cp899enoghe.css'); // 引入图标库
 .start{
   width: 100vw;height: 100vh;position: fixed;top: 0;left: 0;z-index: 5;
 }

@@ -16,18 +16,10 @@
 				<li v-for="(item, index) in hotList" :key="index" @click="hotSearch(item.first)">{{item.first}}</li>
 			</ul>
 		</div>
-		<div class="recordCls van-hairline--bottom" v-show="!isSearch">
+		<div class="recordCls van-hairline--bottom" v-show="!isSearch && searches_list.length">
 			<h2>搜索记录</h2>
 			<ul class="clearfix">
-				<li>李荣浩贝贝</li>
-				<li>李荣浩贝</li>
-				<li>浩贝贝</li>
-				<li>李荣浩贝</li>
-				<li>李荣浩贝贝</li>
-				<li>李浩贝</li>
-				<li>李荣浩贝贝</li>
-				<li>李荣浩贝</li>
-				<li>李荣贝贝</li>
+				<li v-for="(item, index) in searches_list" :key="index" @click="hotSearch(item)">{{item}}</li>
 			</ul>
 		</div>
 		<div v-show="isSearch">
@@ -60,6 +52,8 @@
 import { Tab, Tabs } from 'vant'
 import Single from './Single'
 import BScroll from 'better-scroll'
+import { saveSearch } from '@/util/cache'
+import storage from 'good-storage'
 export default {
 	components: {
 		[Tab.name]: Tab,
@@ -74,15 +68,15 @@ export default {
 			hotList: [], // 热搜
 			tabArr: [1, 1014, 100, 10, 1000, 1009],
 			dataList: [],
+			searches_list: [], // 搜索历史
 			isSearch: false // 是否在搜索（true：不显示热搜和搜索历史，显示结果列表）
 		}
 	},
 	created () {
 		this.searchHot()
+		this.initHistory()
 	},
 	mounted() {
-		
-		
 	},
 	methods: {
 		/**
@@ -111,6 +105,9 @@ export default {
 			this.isSearch = true
 			// 失去焦点
 			this.$refs.search.blur()
+			// 保存搜索记录
+			saveSearch(this.keywords)
+			this.initHistory()
 			// 如果没有输入关键字，则将热门搜索第一个做为关键词搜索
 			this.keywords = this.keywords ? this.keywords : this.hotList[0].first
 			const params = {
@@ -138,6 +135,14 @@ export default {
 		},
 		sub () {
 			alert('ppp')
+		},
+		/**
+		 * 搜索历史
+		 */
+		initHistory () {
+			this.searches_list = [];
+			let searches=storage.get('_search_');  
+			this.searches_list = searches ? searches : [];
 		}
 	}
 }
