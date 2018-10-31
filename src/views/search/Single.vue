@@ -1,8 +1,8 @@
 <template>
-  <ul>
+  <ul class="content">
     <li class="van-hairline--bottom" v-for="(item, index) in list" :key="index">
       <dl>
-        <dt>{{item.name}}</dt>
+        <dt class="van-ellipsis">{{item.name}}</dt>
         <dd class="van-ellipsis">{{item.artists | arName}} - {{item.album.name}}</dd>
         <dd class="van-ellipsis" v-if="item.alias.length">{{item.alias | alias}}</dd>
       </dl>
@@ -46,5 +46,8 @@ dt{
 }
 dd{
   color: #999;
+}
+dl{
+  width: 80%;
 }
 </style>

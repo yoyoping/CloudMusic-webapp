@@ -2,18 +2,21 @@
   <div class="searchCon">
 		<header>
 			<h1>
-				<input type="text" class="field placeholder" :placeholder="placeholder" v-model="keywords">
+				<form action="" @submit.prevent="search">
+					<input type="search" ref="search" autocomplete="off" class="field placeholder" :placeholder="placeholder" v-model="keywords">
+				</form>
 				<i class="iconfont guanbi" @click="keywords = ''" v-show="keywords"></i>
 			</h1>
-			<span class="searchBtn" @click="search">搜索</span>
+			<span class="searchBtn" @click="search" v-show="!isSearch">搜索</span>
+			<span class="searchBtn" @click="isSearch = false" v-show="isSearch">取消</span>
 		</header>
-		<div class="recordCls van-hairline--bottom">
+		<div class="recordCls van-hairline--bottom" v-show="!isSearch">
 			<h2>热门搜索</h2>
 			<ul class="clearfix">
 				<li v-for="(item, index) in hotList" :key="index" @click="hotSearch(item.first)">{{item.first}}</li>
 			</ul>
 		</div>
-		<div class="recordCls van-hairline--bottom"  v-show="false">
+		<div class="recordCls van-hairline--bottom" v-show="!isSearch">
 			<h2>搜索记录</h2>
 			<ul class="clearfix">
 				<li>李荣浩贝贝</li>
@@ -27,10 +30,12 @@
 				<li>李荣贝贝</li>
 			</ul>
 		</div>
-		<div>
+		<div v-show="isSearch">
 			<van-tabs class="tabs" @click="changeTab">
 				<van-tab title="单曲">
-					<Tab1 :list="dataList"></Tab1>
+					<div class="wrapper" ref="wrapper">
+						<Single :list="dataList"></Single>
+					</div>
 				</van-tab>
 				<van-tab title="视频">
 					视频
@@ -53,12 +58,13 @@
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
-import Tab1 from './Tab1'
+import Single from './Single'
+import BScroll from 'better-scroll'
 export default {
 	components: {
 		[Tab.name]: Tab,
 		[Tabs.name]: Tabs,
-		Tab1
+		Single
 	},
 	data () {
 		return {
@@ -67,11 +73,16 @@ export default {
 			keywords: '',
 			hotList: [], // 热搜
 			tabArr: [1, 1014, 100, 10, 1000, 1009],
-			dataList: []
+			dataList: [],
+			isSearch: false // 是否在搜索（true：不显示热搜和搜索历史，显示结果列表）
 		}
 	},
 	created () {
 		this.searchHot()
+	},
+	mounted() {
+		
+		
 	},
 	methods: {
 		/**
@@ -97,6 +108,9 @@ export default {
 		 * 搜索
 		 */
 		async search () {
+			this.isSearch = true
+			// 失去焦点
+			this.$refs.search.blur()
 			// 如果没有输入关键字，则将热门搜索第一个做为关键词搜索
 			this.keywords = this.keywords ? this.keywords : this.hotList[0].first
 			const params = {
@@ -110,6 +124,10 @@ export default {
 				case 1: 
 					this.dataList = res.result.songs
 			}
+
+			this.$nextTick(() => {
+				this.scroll = new BScroll(this.$refs.wrapper, {})
+			})
 		},
 		/**
 		 * 切换标签
@@ -117,6 +135,9 @@ export default {
 		changeTab (index) {
 			this.searchType = this.tabArr[index]
 			this.search()
+		},
+		sub () {
+			alert('ppp')
 		}
 	}
 }
@@ -128,7 +149,11 @@ header{
   h1{
 		width: 81vw;background-color: rgba(255, 255, 255, 0.3);height: 74%;position: absolute;
 		top: 13%;left: 3vw;border-radius: 0.5rem;
+		form{
+			height: 100%;width: 100%;
+		}
   }
+
 	.field{
 		background-color:transparent;height: 100%;border-radius: 0.5rem;width: 88%;
 		padding:0 0.2rem;color: #fff;font-size: 0.24rem;border:none;display: block;
@@ -156,5 +181,12 @@ header{
 }
 .searchCon{
 	height: 100vh;
+}
+input[type="search"]::-webkit-search-cancel-button{
+    display: none;
+}
+.wrapper{
+	overflow:hidden; padding-top: 0.2rem;
+	height: calc(100vh - 1.6rem - 45px);
 }
 </style>
