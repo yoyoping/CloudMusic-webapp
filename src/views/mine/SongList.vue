@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="cls">
-      <h2>歌单({{myPlaylist.length}})</h2>
+      <h2>歌单({{minePlayList.mine ? minePlayList.mine.length : 0}})</h2>
       <ul>
-        <li v-for="(item, index) in myPlaylist" :key="index" @click="link(item.id)">
+        <li v-for="(item, index) in minePlayList.mine" :key="index" @click="link(item.id)">
           <img v-lazy="item.coverImgUrl" alt="">
           <dl>
             <dt>{{item.name}}</dt>
@@ -13,9 +13,9 @@
       </ul>
     </div>
     <div class="cls">
-      <h2>收藏的歌单({{collList.length}})</h2>
+      <h2>收藏的歌单({{minePlayList.collection ? minePlayList.collection.length : 0}})</h2>
       <ul>
-        <li v-for="(item, index) in collList" :key="index" @click="link(item.id)">
+        <li v-for="(item, index) in minePlayList.collection" :key="index" @click="link(item.id)">
           <img v-lazy="item.coverImgUrl" alt="">
           <dl>
             <dt>{{item.name}}</dt>
@@ -28,6 +28,7 @@
 </template>
 <script>
 import Cookies from 'js-cookie'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -35,18 +36,20 @@ export default {
       collList: [] // 收藏歌单
     }
   },
+  computed: {
+    ...mapState(['minePlayList'])
+  },
   created () {
-    this.getplaylist()
+    // this.getplaylist()
   },
   methods: {
     // 获取用户歌单
     async getplaylist () {
       const params = {
-        url: 'userPlaylist',
+        urlCode: 'CD012',
         uid: Cookies.get('uid')
       }
       const res = await this.$axios(params)
-      console.log(res)
       // 遍历判断是否是自己创建的歌单
       res.playlist.forEach(item => {
         if (item.creator.userId === Number(Cookies.get('uid'))){

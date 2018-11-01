@@ -66,12 +66,12 @@ Axios.interceptors.response.use(
 
 export default params => {
   // 请求的url
-  let url_ = ApiUrl[params.url];
+  let url_ = ApiUrl[params[`urlCode`]].url;
   // 请求的方法类型
   const method_ = params.method || `GET`;
   // 获取传给后端的参数
   let param = JSON.parse(JSON.stringify(params));
-  delete param.url;
+  delete param[`urlCode`];
   delete param.method;
   if (method_ === `GET`) {
     return Axios.get(

@@ -38,14 +38,14 @@ export default {
       let res
       if (this.$route.name === 'playlist') {
         const params = {
-          url: `songList`,
+          urlCode: `CD009`,
           id: this.$route.params.id
         }
         res = await this.$axios(params)
         
       } else {
         const params = {
-          url: `musicTop`,
+          urlCode: `CD008`,
           idx: this.$route.params.idx
         }
         res = await this.$axios(params)

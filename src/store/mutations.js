@@ -73,6 +73,14 @@ const mutations = {
   // 设置加载状态
   [`SET_LOAD`](state, res) {
     state.loadState = res;
+  },
+  // 我的歌单列表
+  [`SET_MINEPLAYLIST`](state, res) {
+    state.minePlayList = res
+  },
+  // 我喜欢的音乐id数组
+  [`SET_LIKEPLAYLIST`](state, res) {
+    state.likePlayList = res
   }
 };
 export default mutations;

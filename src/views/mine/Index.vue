@@ -69,7 +69,7 @@ export default {
      */
     async getUserInfo () {
       const params = {
-        url: 'userDetail',
+        urlCode: 'CD011',
         uid: Cookies.get('uid')
       }
       const res = await this.$axios(params)

@@ -84,7 +84,7 @@ export default {
 		 */
 		async searchHot () {
 			const params = {
-				url: 'searchHot'
+				urlCode: 'CD015'
 			}
 			const res = await this.$axios(params)
 			this.hotList = res.result.hots
@@ -111,7 +111,7 @@ export default {
 			// 如果没有输入关键字，则将热门搜索第一个做为关键词搜索
 			this.keywords = this.keywords ? this.keywords : this.hotList[0].first
 			const params = {
-				url: 'search',
+				urlCode: 'CD016',
 				keywords: this.keywords,
 				type: this.searchType 
 			}

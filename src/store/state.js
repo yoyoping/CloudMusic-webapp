@@ -23,7 +23,9 @@ const state = {
   noLyric: false, // 是否无歌词（默认有）
   collectList: [], // 收藏列表（歌曲的id）
   uid: Cookies.get("uid"), // 用户id
-  loadState: true // 加载状态（默认加载中）
+  loadState: true, // 加载状态（默认加载中）
+  minePlayList: [], // 我的的音乐歌单
+  likePlayList: [] // 喜欢的音乐id数组
 };
 
 export default state;

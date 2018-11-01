@@ -12,6 +12,7 @@
 import { Field, Button } from 'vant'
 import { phoneNumber } from '@/util/check'
 import Cookies from 'js-cookie'
+import { mapActions } from 'vuex'
 export default {
   components: {
     [Field.name]: Field,
@@ -30,6 +31,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getplaylist']),
     /**
      * 手机号输入框失去焦点判断是否是手机号
      */
@@ -55,13 +57,15 @@ export default {
         this.errMessage.password = ''
       }
       const params = {
-        url: 'login',
+        urlCode: 'CD010',
         phone: this.loginData.phone,
         password: this.loginData.password
       }
       const res = await this.$axios(params)
       Cookies.set('uid', res.account.id)
       Cookies.set('loginStatus', true)
+      // 登陆成功获取我的歌单列表
+      this.getplaylist()
       this.$router.push('/mine')
     }
   }

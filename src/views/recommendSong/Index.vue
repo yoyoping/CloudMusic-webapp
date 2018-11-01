@@ -20,7 +20,7 @@ export default {
 	methods: {
 		async getsong () {
 			const res = await this.$axios({
-				url: 'recommendSong'
+				urlCode: 'CD013'
 			})
 			this.recommend = res.recommend
 			console.log(this.recommend)

@@ -1,4 +1,5 @@
 import axios from "@/util/axios";
+import Cookies from "js-cookie";
 /**
  * 通过id获取音乐url
  * @param {*} id id
@@ -30,7 +31,7 @@ export const getMusic = async ({ commit }, id) => {
  */
 export const getLyric = async ({ commit }, id) => {
   const params = {
-    url: `musicLyric`,
+    urlCode: `CD007`,
     id: id
   };
   const res = await axios(params);
@@ -40,3 +41,43 @@ export const getLyric = async ({ commit }, id) => {
     commit(`SET_LYRIC`, "noLyric");
   }
 };
+
+/**
+ * 获取我的歌单列表
+ */
+export const getplaylist = async ({ commit }) => {
+  const params = {
+    urlCode: 'CD012',
+    uid: Cookies.get('uid')
+  }
+  const res = await axios(params)
+  let list = {
+    mine: [], // 我创建的
+    collection: [] // 收藏歌单
+  }
+  res.playlist.forEach(item => {
+    // 判断是自己的创建的歌单
+    if (item.creator.userId === Number(Cookies.get('uid'))){
+      list.mine.push(item)
+    } else {
+      list.collection.push(item)
+    }
+  });
+  commit(`SET_MINEPLAYLIST`, list)
+  likePlayList({ commit }, list.mine[0].id)
+}
+
+/**
+ * 获取我喜欢的音乐列表
+ */
+export const likePlayList = async ({ commit }, likeId) => {
+  const params = {
+    urlCode: `CD009`,
+    id: likeId
+  }
+  const res = await axios(params)
+  console.log(res)
+  const list = res.playlist.tracks.map(item => item.id)
+  console.log(list)
+  commit(`SET_LIKEPLAYLIST`, list)
+}
