@@ -2,7 +2,7 @@
 // 1.整个应用用到了哪些接口一目了然
 // 2.接口地址可能变化，方便管理
 // 3.所有请求都是用get明文请求，因为网易云提供的api就是这样的
-export default {
+const url = {
   // banner
   banner: `/banner`,
   // 推荐歌单
@@ -11,28 +11,48 @@ export default {
   newSong: `/personalized/newsong`,
   // 专辑详情
   album: `/album`,
-  // 歌曲详情
+  // 
   songDetail: `/song/detail`,
-  // 音乐url
+  // 
   musicUrl: `/song/url`,
-  // 歌曲歌词
+  // 
   musicLyric: `/lyric`,
-  // 排行榜
+  // 
   musicTop: `/top/list`,
-  // 歌单详情
+  // 
   songList: `/playlist/detail`,
-  // 登录
+  // 
   login: `/login/cellphone`,
-  // 用户详情
+  // 
   userDetail: `/user/detail`,
-  // 获取用户歌单
+  // 
   userPlaylist: `/user/playlist`,
-  // 获取每日推荐歌曲
+  // 
   recommendSong: `/recommend/songs`,
-  // 获取每日推荐歌单
+  // 
   recommendResource: `/recommend/resource`,
-  // 热搜
+  // 
   searchHot: `/search/hot`,
-  // 搜索
+  // 
   search: `/search`
 };
+
+const Api = {
+  CD001: { title: `Banner`, url: `/banner` },
+  CD002: { title: `推荐歌单`, url: `/personalized` },
+  CD003: { title: `最新音乐`, url: `/personalized/newsong` },
+  CD004: { title: `专辑详情`, url: `/album` },
+  CD005: { title: `歌曲详情`, url: `/song/detail` },
+  CD006: { title: `音乐url`, url: `/song/url` },
+  CD007: { title: `歌曲歌词`, url: `/lyric` },
+  CD008: { title: `排行榜`, url: `/top/list` },
+  CD009: { title: `歌单详情`, url: `/playlist/detail` },
+  CD010: { title: `登录`, url: `/login/cellphone` },
+  CD011: { title: `用户详情`, url: `/user/detail` },
+  CD012: { title: `获取用户歌单`, url: `/user/playlist` },
+  CD013: { title: `获取每日推荐歌曲`, url: `/recommend/songs` },
+  CD014: { title: `获取每日推荐歌单`, url: `/recommend/resource` },
+  CD015: { title: `热搜`, url: `/search/hot` },
+  CD016: { title: `搜索`, url: `/search` }
+};
+export default Api;

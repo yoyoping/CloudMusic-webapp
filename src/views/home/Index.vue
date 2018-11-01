@@ -97,7 +97,7 @@ export default {
      */
     async getBanner() {
       const params = {
-        url: 'banner'
+        urlCode: 'CD001'
       }
       const res = await this.$axios(params)
       this.banner = res.banners;
@@ -108,14 +108,14 @@ export default {
      */
     async personalized() {
       const params = {
-        url: `personalized`
+        urlCode: `CD002`
       }
       const res = await this.$axios(params)
       this.personalizedList = res.result.splice(0, 6)
     },
     async newSong() {
       const params = {
-        url: `newSong`
+        urlCode: `CD003`
       }
       const res = await this.$axios(params)
       const list = res.result

@@ -146,7 +146,7 @@ export default {
      */
     async songDetail () {
       const params = {
-        url: `songDetail`,
+        urlCode: `CD005`,
         ids: Number(this.$route.query.id)
       }
       const res = await this.$axios(params)
