@@ -1,24 +1,25 @@
 <template>
   <div>
-    <div class="cls">
-      <h2>歌单({{minePlayList.mine ? minePlayList.mine.length : 0}})</h2>
+    <van-loading class="customize" color="#d44439" v-show="loading" />
+    <div class="cls" v-show="!loading">
+      <h2>歌单({{myPlaylist ? myPlaylist.length : 0}})</h2>
       <ul>
-        <li v-for="(item, index) in minePlayList.mine" :key="index" @click="link(item.id)">
+        <li v-for="(item, index) in myPlaylist" :key="index" @click="link(item.id)">
           <img v-lazy="item.coverImgUrl" alt="">
-          <dl>
-            <dt>{{item.name}}</dt>
+          <dl :class="{'van-hairline--bottom': index < myPlaylist.length - 1}">
+            <dt class="van-ellipsis">{{item.name}}</dt>
             <dd>{{item.trackCount}}首，播放{{item.playCount}}次</dd>
           </dl>
         </li>
       </ul>
     </div>
-    <div class="cls">
-      <h2>收藏的歌单({{minePlayList.collection ? minePlayList.collection.length : 0}})</h2>
+    <div class="cls" v-show="!loading">
+      <h2>收藏的歌单({{collList ? collList.length : 0}})</h2>
       <ul>
-        <li v-for="(item, index) in minePlayList.collection" :key="index" @click="link(item.id)">
+        <li v-for="(item, index) in collList" :key="index" @click="link(item.id)">
           <img v-lazy="item.coverImgUrl" alt="">
-          <dl>
-            <dt>{{item.name}}</dt>
+          <dl :class="{'van-hairline--bottom': index < collList.length - 1}">
+            <dt class="van-ellipsis">{{item.name}}</dt>
             <dd>{{item.trackCount}}首，播放{{item.playCount}}次</dd>
           </dl>
         </li>
@@ -29,18 +30,23 @@
 <script>
 import Cookies from 'js-cookie'
 import { mapState } from 'vuex'
+import { Loading } from 'vant'
 export default {
+  components: {
+    [Loading.name]: Loading
+  },
   data () {
     return {
       myPlaylist: [], // 自己创建的歌单
-      collList: [] // 收藏歌单
+      collList: [], // 收藏歌单
+      loading: true
     }
   },
   computed: {
-    ...mapState(['minePlayList'])
+    // ...mapState(['minePlayList'])
   },
   created () {
-    // this.getplaylist()
+    this.getplaylist()
   },
   methods: {
     // 获取用户歌单
@@ -58,6 +64,7 @@ export default {
           this.collList.push(item)
         }
       });
+      this.loading = false
     },
     // 跳转歌单
     link (id) {
@@ -76,18 +83,21 @@ export default {
     width: 100%;padding: 0 2vw;
   }
   li{
-    display: flex;justify-content: space-between;height: 14vw;margin: 0.1rem 0;
+    display: flex;justify-content: space-between;height: 14vw;margin: 0.1rem 0;width: 100%;
     img{
       width: 14vw;height: 14vw;border-radius: 0.2rem;
     }
     dl{
-      width: 78vw;height: 100%;padding: 0;margin: 0;padding-top: 0.1rem;border-bottom: 0.01rem solid #eee;
+      width: 78vw;height: 100%;padding: 0;margin: 0;padding-top: 0.1rem;
       dd{
         margin: 0;color: #888;font-size: 0.2rem;
       }
       dt{
         font-size: 0.3rem;
       }
+    }
+    &:last-child dl{
+      border: none;
     }
   }
 }

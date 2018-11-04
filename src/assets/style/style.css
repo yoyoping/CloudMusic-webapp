@@ -80,3 +80,7 @@ a:hover {
   /* Internet Explorer 10+ */
   color: #919191;
 }
+
+.customize.van-loading {
+  margin: 2rem auto;
+}

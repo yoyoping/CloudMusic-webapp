@@ -23,14 +23,15 @@
         <van-tab title="音乐">
           <SongList></SongList>
         </van-tab>
-        <van-tab title="动态">暂未开放，敬请期待</van-tab>
-        <van-tab title="关于我">暂未开放，敬请期待</van-tab>
+        <van-tab title="动态"><p class="center">暂未开放，敬请期待</p></van-tab>
+        <van-tab title="关于我"><p class="center">暂未开放，敬请期待</p></van-tab>
       </van-tabs>
       <van-button plain type="danger" class="exit" @click="logout">退出登录</van-button>
     </div>
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import { Tab, Tabs, Button, Dialog } from 'vant'
 import SongList from './SongList'
 import Cookies from 'js-cookie'
@@ -49,8 +50,10 @@ export default {
   },
   created () {
     this.getUserInfo()
+    this.getplaylist()
   },
   methods: {
+    ...mapActions(['getplaylist']),
     /**
      * 退出登录
      */
@@ -61,6 +64,8 @@ export default {
       }).then(() => {
         Cookies.remove('loginStatus')
         Cookies.remove('uid')
+        localStorage.removeItem('likeList')
+        localStorage.removeItem('likeListId')
         this.$router.push('/login')
       })
     },
@@ -138,6 +143,9 @@ export default {
 }
 .exit{
   width: 90%;margin: 0.5rem auto;display: block;border-radius: 0.1rem;
+}
+.center{
+  text-align: center;line-height: 2rem;
 }
 </style>
 

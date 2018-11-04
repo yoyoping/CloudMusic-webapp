@@ -10,13 +10,14 @@
 			<span class="searchBtn" @click="search" v-show="!isSearch">搜索</span>
 			<span class="searchBtn" @click="isSearch = false" v-show="isSearch">取消</span>
 		</header>
-		<div class="recordCls van-hairline--bottom" v-show="!isSearch">
+		<van-loading class="customize" color="#d44439" v-show="loading" />
+		<div class="recordCls van-hairline--bottom" v-show="!isSearch && !loading">
 			<h2>热门搜索</h2>
 			<ul class="clearfix">
 				<li v-for="(item, index) in hotList" :key="index" @click="hotSearch(item.first)">{{item.first}}</li>
 			</ul>
 		</div>
-		<div class="recordCls van-hairline--bottom" v-show="!isSearch && searches_list.length">
+		<div class="recordCls van-hairline--bottom" v-show="!isSearch && searches_list.length && !loading">
 			<h2>搜索记录</h2>
 			<ul class="clearfix">
 				<li v-for="(item, index) in searches_list" :key="index" @click="hotSearch(item)">{{item}}</li>
@@ -25,9 +26,13 @@
 		<div v-show="isSearch">
 			<van-tabs class="tabs" @click="changeTab">
 				<van-tab title="单曲">
-					<div class="wrapper" ref="wrapper">
+					<scroll
+						:data="dataList"
+						:pullup="true"
+						@pulldup="loadMore">
+						<!-- <van-loading class="customize" color="#d44439" v-if="resultLoing" /> -->
 						<Single :list="dataList"></Single>
-					</div>
+					</scroll>
 				</van-tab>
 				<van-tab title="视频">
 					视频
@@ -49,16 +54,19 @@
 	</div>
 </template>
 <script>
-import { Tab, Tabs } from 'vant'
+import { Tab, Tabs, Loading } from 'vant'
 import Single from './Single'
-import BScroll from 'better-scroll'
+// import BScroll from 'better-scroll'
+import scroll from '@/components/BScroll/Index.vue'
 import { saveSearch } from '@/util/cache'
 import storage from 'good-storage'
 export default {
 	components: {
 		[Tab.name]: Tab,
 		[Tabs.name]: Tabs,
-		Single
+		Single,
+		[Loading.name]: Loading,
+		scroll
 	},
 	data () {
 		return {
@@ -69,7 +77,11 @@ export default {
 			tabArr: [1, 1014, 100, 10, 1000, 1009],
 			dataList: [],
 			searches_list: [], // 搜索历史
-			isSearch: false // 是否在搜索（true：不显示热搜和搜索历史，显示结果列表）
+			isSearch: false, // 是否在搜索（true：不显示热搜和搜索历史，显示结果列表）
+			loading: true, // 热搜的加载中
+			resultLoing: true, // 搜索结果的加载中
+			limit: 30, // 每页数据条数
+			offset: 0 // 搜索结果的偏移（用作分页）
 		}
 	},
 	created () {
@@ -89,6 +101,7 @@ export default {
 			const res = await this.$axios(params)
 			this.hotList = res.result.hots
 			this.placeholder = this.hotList[0].first
+			this.loading = false
 		},
 		/**
 		 * 热门搜索
@@ -102,6 +115,7 @@ export default {
 		 * 搜索
 		 */
 		async search () {
+			console.log('搜索')
 			this.isSearch = true
 			// 失去焦点
 			this.$refs.search.blur()
@@ -110,21 +124,24 @@ export default {
 			this.initHistory()
 			// 如果没有输入关键字，则将热门搜索第一个做为关键词搜索
 			this.keywords = this.keywords ? this.keywords : this.hotList[0].first
+			// 每次搜索都将加载中状态改为true并将之前搜索结果清空
+			// this.dataList = []
+			this.resultLoing = true
 			const params = {
 				urlCode: 'CD016',
 				keywords: this.keywords,
-				type: this.searchType 
+				type: this.searchType,
+				offset: this.offset
 			}
 			const res = await this.$axios(params)
 			console.log(res)
 			switch (this.searchType) {
 				case 1: 
-					this.dataList = res.result.songs
+					this.dataList = this.dataList.concat(res.result.songs)
+					console.log(this.dataList)
 			}
-
-			this.$nextTick(() => {
-				this.scroll = new BScroll(this.$refs.wrapper, {})
-			})
+			// 取消加载中图标
+			this.resultLoing = false
 		},
 		/**
 		 * 切换标签
@@ -143,6 +160,12 @@ export default {
 			this.searches_list = [];
 			let searches=storage.get('_search_');  
 			this.searches_list = searches ? searches : [];
+		},
+		// 加载更多
+		loadMore () {
+			console.log('上拉加载')
+			this.offset = this.offset + this.limit
+			this.search()
 		}
 	}
 }
@@ -192,6 +215,6 @@ input[type="search"]::-webkit-search-cancel-button{
 }
 .wrapper{
 	overflow:hidden; padding-top: 0.2rem;
-	height: calc(100vh - 1.6rem - 45px);
+	height: calc(100vh - 3rem - 45px);
 }
 </style>

@@ -1,5 +1,7 @@
 import axios from "@/util/axios";
 import Cookies from "js-cookie";
+import storage from "good-storage";
+import { Toast } from "vant";
 /**
  * 通过id获取音乐url
  * @param {*} id id
@@ -65,6 +67,8 @@ export const getplaylist = async ({ commit }) => {
   });
   commit(`SET_MINEPLAYLIST`, list)
   likePlayList({ commit }, list.mine[0].id)
+  // 将喜欢的音乐歌单id存在本地，方便后面调用歌单使用
+  localStorage.likeListId = list.mine[0].id
 }
 
 /**
@@ -76,8 +80,27 @@ export const likePlayList = async ({ commit }, likeId) => {
     id: likeId
   }
   const res = await axios(params)
-  console.log(res)
   const list = res.playlist.tracks.map(item => item.id)
-  console.log(list)
   commit(`SET_LIKEPLAYLIST`, list)
+  storage.set('likeList', list)
+}
+
+/**
+ * 加入/取消 喜欢歌曲
+ * id: 音乐ID
+ * like: true - 加入喜欢，false - 取消喜欢
+ */
+export const likeSong = async ({ commit }, [id, like]) => {
+  const params = {
+    urlCode: `CD017`,
+    id: id,
+    like: like
+  }
+  const res = await axios(params)
+  if (like) {
+    Toast.success('已加入喜欢列表')
+  } else{
+    Toast.success('已取消喜欢')
+  }
+  likePlayList({ commit }, localStorage.likeListId)
 }

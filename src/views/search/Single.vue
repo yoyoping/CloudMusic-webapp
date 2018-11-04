@@ -51,7 +51,7 @@ dl,dt,dd{
   margin: 0;
 }
 li{
-  padding: 0.1rem 0 0.15rem;
+  padding: 0.1rem 0 0.15rem;height: auto;
 }
 dt{
   font-size: 0.3rem;

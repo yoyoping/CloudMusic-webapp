@@ -32,7 +32,8 @@
       </div>
       <div class="contr">
         <p class="action">
-          <i class="iconfont" :class="{xihuan: collectList.includes(currentSongId), weixihuan: !collectList.includes(currentSongId)}" @click="ACTION_COLLECT(currentSongId)"></i>
+          <i class="iconfont xihuan" v-show="likePlayList.includes(currentSongId)" @click="likeSong([currentSongId, false])"></i>
+          <i class="iconfont weixihuan" v-show="!likePlayList.includes(currentSongId)" @click="likeSong([currentSongId, true])"></i>
           <i class="iconfont fenxiang"></i>
           <span class="comment">
             <i class="iconfont pinglun"></i>
@@ -96,7 +97,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'lyric', 'collectList', 'noLyric'])
+    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'lyric', 'collectList', 'noLyric', 'likePlayList'])
   },
   created () {
     console.log('加载默认音乐')
@@ -107,8 +108,8 @@ export default {
     console.log(this.$route)
   },
   methods: {
-    ...mapMutations(['SET_SONGURL', 'SET_MUSICID', 'SET_MUSICDETAIL', 'ACTION_COLLECT']),
-    ...mapActions(['getMusic']),
+    ...mapMutations(['SET_SONGURL', 'SET_MUSICID', 'SET_MUSICDETAIL']),
+    ...mapActions(['getMusic', 'likeSong']),
     /**
      * 加载默认音乐
      */

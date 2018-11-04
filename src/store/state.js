@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import storage from 'good-storage'
 const state = {
   songUrl: ``, // 歌曲播放地址
   currentSongId: ``, // 当前播放歌曲id
@@ -25,7 +26,7 @@ const state = {
   uid: Cookies.get("uid"), // 用户id
   loadState: true, // 加载状态（默认加载中）
   minePlayList: [], // 我的的音乐歌单
-  likePlayList: [] // 喜欢的音乐id数组
+  likePlayList: storage.get('likeList') || [] // 喜欢的音乐id数组
 };
 
 export default state;

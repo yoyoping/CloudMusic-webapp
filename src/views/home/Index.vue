@@ -18,7 +18,7 @@
         <span>
           <i class="iconfont dianyingzhiye-gequbang"></i>
         </span>
-        推荐歌单
+        歌单
       </a>
       <router-link to="/toplist">
         <span>
@@ -27,7 +27,8 @@
         排行榜
       </router-link>
     </nav>
-    <div class="songCls">
+    <van-loading class="customize" color="#d44439" v-show="loading" />
+    <div class="songCls" v-show="!loading">
       <p class="title"><a href="javascript:;">推荐歌单 <i class="iconfont youjiantou"></i></a></p>
       <ul>
         <li v-for="(item, index) in personalizedList" :key="index">
@@ -39,14 +40,14 @@
         </li>
       </ul>
     </div>
-    <div class="songCls">
+    <div class="songCls" v-show="!loading">
       <p class="title"><a href="javascript:;">最新音乐 <i class="iconfont youjiantou"></i></a></p>
       <ul>
         <li v-for="(item, index) in newSongList" :key="index" @click="play(item.id)">
           <a>
             <img v-lazy="item.picUrl" alt="">
-            <p class="songName">{{item.name}}</p>
-            <p class="singer">{{item.singer}}</p>
+            <p class="songName van-ellipsis">{{item.name}}</p>
+            <p class="singer van-ellipsis">{{item.singer}}</p>
           </a>
         </li>
         <li v-if="newSongList.length % 3 === 2"></li>
@@ -59,20 +60,22 @@ import Header from '@/views/Header.vue'
 import Scroll from '@/components/scroll/Index' 
 import Slider from '@/components/slider/Index' 
 import { mapActions, mapMutations } from 'vuex'
-import { Swipe, SwipeItem } from 'vant'
+import { Swipe, SwipeItem, Loading } from 'vant'
 export default {
   components: {
     Header,
     Scroll,
     Slider,
     [Swipe.name]: Swipe,
-    [SwipeItem.name]: SwipeItem
+    [SwipeItem.name]: SwipeItem,
+    [Loading.name]: Loading
   },
   data() {
     return {
       banner: [], // 初始化8个空的banner对象,(如果不初始化会导致slide异常)
       personalizedList: [], // 推荐歌单
-      newSongList: [] // 最新音乐
+      newSongList: [], // 最新音乐
+      loading: true
     };
   },
   created() {
@@ -112,6 +115,7 @@ export default {
       }
       const res = await this.$axios(params)
       this.personalizedList = res.result.splice(0, 6)
+      this.loading = false
     },
     async newSong() {
       const params = {

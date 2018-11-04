@@ -1,8 +1,12 @@
 /*把搜索的结果保存下来*/  
 /*用export把方法暴露出来*/  
-/*定义存储搜索的key  _search_定义内部使用的key*/  
-const SEARCH_KEY='_search_'  
-const SEARCH_MAX_LENGTH=15  
+const config = {
+    // 搜索历史
+    search: {
+        [`KEY`]: '_search_',
+        [`MAX_LENGTH`]: 15
+    }
+}
 /*插入方法     arr存储的数据  val传入存储的值  compare前后比较的函数  maxlen存入的最大值*/  
 function insertArray(arr,val,compare,maxlen){  
     //findIndex()函数也是查找目标元素，找到就返回元素的位置，找不到就返回-1。  
@@ -22,12 +26,13 @@ function insertArray(arr,val,compare,maxlen){
 }  
 //开源storage的库，对localstorage和sessionstorage的封装  
 import storage from 'good-storage'
+// 保存搜索历史
 export function saveSearch(query){  
-    let searches=storage.get(SEARCH_KEY,[])  
+    let searches=storage.get(config.search[`KEY`],[])  
     /*逻辑是最后一次搜索的结果放到搜索历史的第一个*/  
     insertArray(searches,query,(item)=>{       
         return item===query //这是传入的一个比较函数 说明query在这个数组中  
-    },SEARCH_MAX_LENGTH)  
-    storage.set(SEARCH_KEY,searches)  
+    },config.search[`MAX_LENGTH`])  
+    storage.set(config.search[`KEY`],searches)  
     return searches  
 }

@@ -21,6 +21,7 @@
 </template>
 <script>
 import List from '@/components/list/Index'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     List
@@ -34,6 +35,9 @@ export default {
     this.getTopList()
   },
   methods: {
+    ...mapMutations({
+      setLoad: 'SET_LOAD'
+    }),
     async getTopList () {
       let res
       if (this.$route.name === 'playlist') {
@@ -49,7 +53,9 @@ export default {
           idx: this.$route.params.idx
         }
         res = await this.$axios(params)
+        
       }
+      this.setLoad(false)
       this.topDetail = res.playlist
       console.log(this.topDetail.tracks)
     }

@@ -48,7 +48,8 @@ export default new Router({
           meta: {
             isKeep: true,
             menuName: "music",
-            toLogin: true
+            toLogin: true,
+            needLoading: true
           }
         }
       ]
@@ -84,7 +85,8 @@ export default new Router({
           component: _import_(`playlist/Index`),
           meta: {
             menuName: "music",
-            goback: "/toplist"
+            goback: "/toplist",
+            needLoading: true
           }
         }
       ]

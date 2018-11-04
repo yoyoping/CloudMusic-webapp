@@ -2,40 +2,6 @@
 // 1.整个应用用到了哪些接口一目了然
 // 2.接口地址可能变化，方便管理
 // 3.所有请求都是用get明文请求，因为网易云提供的api就是这样的
-const url = {
-  // banner
-  banner: `/banner`,
-  // 推荐歌单
-  personalized: `/personalized`,
-  // 最新音乐
-  newSong: `/personalized/newsong`,
-  // 专辑详情
-  album: `/album`,
-  // 
-  songDetail: `/song/detail`,
-  // 
-  musicUrl: `/song/url`,
-  // 
-  musicLyric: `/lyric`,
-  // 
-  musicTop: `/top/list`,
-  // 
-  songList: `/playlist/detail`,
-  // 
-  login: `/login/cellphone`,
-  // 
-  userDetail: `/user/detail`,
-  // 
-  userPlaylist: `/user/playlist`,
-  // 
-  recommendSong: `/recommend/songs`,
-  // 
-  recommendResource: `/recommend/resource`,
-  // 
-  searchHot: `/search/hot`,
-  // 
-  search: `/search`
-};
 
 const Api = {
   CD001: { title: `Banner`, url: `/banner` },
@@ -53,6 +19,8 @@ const Api = {
   CD013: { title: `获取每日推荐歌曲`, url: `/recommend/songs` },
   CD014: { title: `获取每日推荐歌单`, url: `/recommend/resource` },
   CD015: { title: `热搜`, url: `/search/hot` },
-  CD016: { title: `搜索`, url: `/search` }
+  CD016: { title: `搜索`, url: `/search` },
+  CD017: { title: `加入/取消喜欢音乐`, url: `/like` }
 };
+
 export default Api;
