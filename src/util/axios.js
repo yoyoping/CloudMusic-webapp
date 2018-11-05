@@ -1,4 +1,5 @@
 import axios from "axios";
+import Router from "../router";
 import qs from "qs";
 import ApiUrl from "./newApi";
 import { Toast } from "vant";
@@ -40,6 +41,8 @@ Axios.interceptors.response.use(
       Toast.fail(error.response.statusText);
     } else if (error.response.status === 404) {
       Toast.fail(`资源未找到`);
+    } else if (error.response.status === 301) {
+      Toast.fail(error.response.data.msg);
     } else {
       Toast.fail(error.response.data.msg);
     }

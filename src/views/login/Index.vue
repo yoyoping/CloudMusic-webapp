@@ -61,12 +61,18 @@ export default {
         phone: this.loginData.phone,
         password: this.loginData.password
       }
-      const res = await this.$axios(params)
-      Cookies.set('uid', res.account.id)
-      Cookies.set('loginStatus', true)
-      // 登陆成功获取我的歌单列表
-      this.getplaylist()
-      this.$router.push('/mine')
+      try {
+        const res = await this.$axios(params)
+        Cookies.set('uid', res.account.id)
+        Cookies.set('loginStatus', true)
+        // 登陆成功获取我的歌单列表
+        this.getplaylist()
+        this.$router.push('/mine')
+      }
+      catch (err) {
+        this.loginData.phone = ''
+        this.loginData.password = ''
+      }
     }
   }
 }

@@ -6,7 +6,7 @@
 		</h2>
 		<ul>
 			<li v-for="(item, index) in list" :key="item.id" :class="{active: item.id === currentSongId}">
-				<label class="red" v-if="item.id === currentSongId"><i class="iconfont laba"></i></label>
+				<label class="red" v-if="item.id === currentSongId"><i class="iconfont laba1"></i></label>
 				<label v-else :class="{red: index < 3}">{{index < 9 ? `0${index + 1}` : (index + 1)}}</label>
 				<div @click="play(item.id)">
 					<h3 :class="{red: item.id === currentSongId}">{{item.name}}<span class="des" v-if="item.alias[0]"> ({{item.alias[0]}})</span></h3>

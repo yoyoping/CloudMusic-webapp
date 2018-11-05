@@ -49,8 +49,8 @@ export const getLyric = async ({ commit }, id) => {
  */
 export const getplaylist = async ({ commit }) => {
   const params = {
-    urlCode: 'CD012',
-    uid: Cookies.get('uid')
+    urlCode: `CD012`,
+    uid: Cookies.get(`uid`)
   }
   const res = await axios(params)
   let list = {
@@ -59,17 +59,17 @@ export const getplaylist = async ({ commit }) => {
   }
   res.playlist.forEach(item => {
     // 判断是自己的创建的歌单
-    if (item.creator.userId === Number(Cookies.get('uid'))){
-      list.mine.push(item)
+    if (item.creator.userId === Number(Cookies.get(`uid`))) {
+      list.mine.push(item);
     } else {
-      list.collection.push(item)
+      list.collection.push(item);
     }
   });
-  commit(`SET_MINEPLAYLIST`, list)
-  likePlayList({ commit }, list.mine[0].id)
+  commit(`SET_MINEPLAYLIST`, list);
+  likePlayList({ commit }, list.mine[0].id);
   // 将喜欢的音乐歌单id存在本地，方便后面调用歌单使用
-  localStorage.likeListId = list.mine[0].id
-}
+  localStorage.likeListId = list.mine[0].id;
+};
 
 /**
  * 获取我喜欢的音乐列表
@@ -78,11 +78,11 @@ export const likePlayList = async ({ commit }, likeId) => {
   const params = {
     urlCode: `CD009`,
     id: likeId
-  }
-  const res = await axios(params)
-  const list = res.playlist.tracks.map(item => item.id)
-  commit(`SET_LIKEPLAYLIST`, list)
-  storage.set('likeList', list)
+  };
+  const res = await axios(params);
+  const list = res.playlist.tracks.map(item => item.id);
+  commit(`SET_LIKEPLAYLIST`, list);
+  storage.set(`likeList`, list);
 }
 
 /**
@@ -91,16 +91,19 @@ export const likePlayList = async ({ commit }, likeId) => {
  * like: true - 加入喜欢，false - 取消喜欢
  */
 export const likeSong = async ({ commit }, [id, like]) => {
+  const timestamp = new Date().getTime();
   const params = {
     urlCode: `CD017`,
     id: id,
-    like: like
-  }
-  const res = await axios(params)
+    like: like,
+    timestamp: timestamp
+  };
+  await axios(params);
+  debugger;
   if (like) {
-    Toast.success('已加入喜欢列表')
-  } else{
-    Toast.success('已取消喜欢')
+    Toast.success(`已加入喜欢列表`);
+  } else {
+    Toast.success(`已取消喜欢`);
   }
-  likePlayList({ commit }, localStorage.likeListId)
-}
+  likePlayList({ commit }, localStorage.likeListId);
+};

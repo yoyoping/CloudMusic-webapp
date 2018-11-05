@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="~@/assets/images/start.jpg" class="start animated" v-show="isStart" :class="{zoomOut: animated}" alt="">
+    <img src="~@/assets/images/newStart.jpg" class="start animated" v-show="isStart" :class="{zoomOut: animated}" alt="">
     <div :class="{'pt-header': $route.meta.headerbg !== 'no'}">
       <Header></Header>
       <transition name="move">

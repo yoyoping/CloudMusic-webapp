@@ -5,6 +5,7 @@
  * toLogin：是否需要登录才能访问
  * needLoading：是否需要加载中状态
  * noTabbar：是否需要tabbar
+ * scroll: 值为true就证明需要保留滚动位置
  */
 
 import Vue from "vue";
@@ -162,6 +163,16 @@ export default new Router({
           }
         }
       ]
-    },
-  ]
+    }
+  ],
+  // 滚动行为
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      if (!to.meta.scroll) {
+        return { x: 0, y: 0 };
+      }
+    }
+  }
 });
