@@ -3,7 +3,7 @@
     <img src="~@/assets/images/logo.jpg" class="logo" alt="">
     <div class="form">
       <van-field type="tel" v-model="loginData.phone" :clearable="true" placeholder="请输入手机号" :error-message="errMessage.phone" label="手机号：" @blur="onblur" />
-      <van-field type="password" v-model="loginData.password" :clearable="true" placeholder="请输入密码" :error-message="errMessage.password" label="密码："  />
+      <van-field type="password" v-model="loginData.password" :clearable="true" placeholder="请输入密码" :error-message="errMessage.password" label="密 码："  />
     </div>
     <van-button type="danger" class="loginBtn" @click="login">登录</van-button>
   </div>
@@ -91,7 +91,7 @@ export default {
   width: 90vw;margin: 0 auto;
 }
 .loginBtn{
-  width: 90%;margin: 0.5rem auto;display: block;border-radius: 0.1rem;
+  width: 90%;margin: 0.5rem auto;display: block;border-radius: 0.1rem;font-size: 0.3rem;
 }
 </style>
 

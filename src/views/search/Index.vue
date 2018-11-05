@@ -2,7 +2,7 @@
   <div class="searchCon">
 		<header>
 			<h1>
-				<form action="" @submit.prevent="search">
+				<form action="" @submit.prevent="search(false)">
 					<input type="search" ref="search" autocomplete="off" class="field placeholder" :placeholder="placeholder" v-model="keywords">
 				</form>
 				<i class="iconfont guanbi" @click="keywords = ''" v-show="keywords"></i>
@@ -30,8 +30,7 @@
 						:data="dataList"
 						:pullup="true"
 						@pulldup="loadMore">
-						<!-- <van-loading class="customize" color="#d44439" v-if="resultLoing" /> -->
-						<Single :list="dataList"></Single>
+						<Single :list="dataList" :resultLoing="resultLoing"></Single>
 					</scroll>
 				</van-tab>
 				<van-tab title="视频">
@@ -81,7 +80,8 @@ export default {
 			loading: true, // 热搜的加载中
 			resultLoing: true, // 搜索结果的加载中
 			limit: 30, // 每页数据条数
-			offset: 0 // 搜索结果的偏移（用作分页）
+			offset: 0, // 搜索结果的偏移（用作分页）
+			prevOffset: '' // 上一次搜索的关键词
 		}
 	},
 	created () {
@@ -109,13 +109,13 @@ export default {
 		 */
 		hotSearch (keywords) {
 			this.keywords = keywords
-			this.search()
+			this.search(false)
 		},
 		/**
 		 * 搜索
+		 * type: true-加载更多 false-普通搜索
 		 */
-		async search () {
-			console.log('搜索')
+		async search (type) {
 			this.isSearch = true
 			// 失去焦点
 			this.$refs.search.blur()
@@ -125,8 +125,11 @@ export default {
 			// 如果没有输入关键字，则将热门搜索第一个做为关键词搜索
 			this.keywords = this.keywords ? this.keywords : this.hotList[0].first
 			// 每次搜索都将加载中状态改为true并将之前搜索结果清空
-			// this.dataList = []
-			this.resultLoing = true
+			if (!type) {
+				this.dataList = []
+				this.resultLoing = true
+				this.offset = 0
+			}
 			const params = {
 				urlCode: 'CD016',
 				keywords: this.keywords,
@@ -134,11 +137,10 @@ export default {
 				offset: this.offset
 			}
 			const res = await this.$axios(params)
-			console.log(res)
+			this.prevOffset = this.offset
 			switch (this.searchType) {
 				case 1: 
 					this.dataList = this.dataList.concat(res.result.songs)
-					console.log(this.dataList)
 			}
 			// 取消加载中图标
 			this.resultLoing = false
@@ -148,7 +150,7 @@ export default {
 		 */
 		changeTab (index) {
 			this.searchType = this.tabArr[index]
-			this.search()
+			this.search(false)
 		},
 		sub () {
 			alert('ppp')
@@ -163,9 +165,8 @@ export default {
 		},
 		// 加载更多
 		loadMore () {
-			console.log('上拉加载')
 			this.offset = this.offset + this.limit
-			this.search()
+			this.search(true)
 		}
 	}
 }

@@ -100,8 +100,7 @@ export default {
     ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'lyric', 'collectList', 'noLyric', 'likePlayList'])
   },
   created () {
-    console.log('加载默认音乐')
-    // this.initSong()
+    this.initSong()
   },
   mounted () {
     this.listenSong()
