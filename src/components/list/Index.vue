@@ -36,9 +36,6 @@ export default {
 	computed: {
     ...mapState(['currentSongId'])
 	},
-	created () {
-		console.log(this.list)
-	},
 	filters:{
     arName (arr) {
       const name = arr.map(item => {

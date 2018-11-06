@@ -98,8 +98,10 @@ export const likeSong = async ({ commit }, [id, like]) => {
     like: like,
     timestamp: timestamp
   };
+  if (!like) {
+    delete params.like
+  }
   await axios(params);
-  debugger;
   if (like) {
     Toast.success(`已加入喜欢列表`);
   } else {

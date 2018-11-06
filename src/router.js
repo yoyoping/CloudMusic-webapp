@@ -20,12 +20,12 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "",
-      name: "",
+      path: "/",
+      name: "Layout",
       component: _import_(`Layout`),
       redirect: "/",
       children: [
-        {
+        { // 首页
           path: "/",
           name: "home",
           component: _import_(`home/Index`),
@@ -33,16 +33,8 @@ export default new Router({
             isKeep: true,
             menuName: "music"
           }
-        }
-      ]
-    },
-    {
-      path: "",
-      name: "",
-      component: _import_(`Layout`),
-      redirect: "/recommendSong",
-      children: [
-        {
+        },
+        { // 每日推荐
           path: "/recommendSong",
           name: "recommendSong",
           component: _import_(`recommendSong/Index`),
@@ -52,16 +44,8 @@ export default new Router({
             toLogin: true,
             needLoading: true
           }
-        }
-      ]
-    },
-    {
-      path: "",
-      name: "",
-      component: _import_(`Layout`),
-      redirect: "/toplist",
-      children: [
-        {
+        },
+        { // 排行榜
           path: "/toplist",
           name: "toplist",
           component: _import_(`top/TopList`),
@@ -71,16 +55,8 @@ export default new Router({
             goback: "/",
             needLoading: true
           }
-        }
-      ]
-    },
-    {
-      path: "",
-      name: "",
-      component: _import_(`Layout`),
-      redirect: "/top/:idx",
-      children: [
-        {
+        },
+        { // 具体排行榜榜单
           path: "/top/:idx",
           name: "top",
           component: _import_(`playlist/Index`),
@@ -89,16 +65,8 @@ export default new Router({
             goback: "/toplist",
             needLoading: true
           }
-        }
-      ]
-    },
-    {
-      path: "",
-      name: "",
-      component: _import_(`Layout`),
-      redirect: "/playlist",
-      children: [
-        {
+        },
+        { // 歌单
           path: "/playlist/:id",
           name: "playlist",
           component: _import_(`playlist/Index`),
@@ -106,16 +74,8 @@ export default new Router({
             menuName: "music",
             goback: "/"
           }
-        }
-      ]
-    },
-    {
-      path: "",
-      name: "",
-      component: _import_(`Layout`),
-      redirect: "/mine",
-      children: [
-        {
+        },
+        { // 我的
           path: "/mine",
           name: "mine",
           component: _import_(`mine/Index`),
@@ -124,16 +84,8 @@ export default new Router({
             headerbg: "no",
             toLogin: true
           }
-        }
-      ]
-    },
-    {
-      path: "",
-      name: "",
-      component: _import_(`Layout`),
-      redirect: "/login",
-      children: [
-        {
+        },
+        { // 登录
           path: "/login",
           name: "login",
           component: _import_(`login/Index`),
@@ -142,16 +94,8 @@ export default new Router({
             noTabbar: true,
             goback: "/"
           }
-        }
-      ]
-    },
-    {
-      path: "",
-      name: "",
-      component: _import_(`Layout`),
-      redirect: "/search",
-      children: [
-        {
+        },
+        { // 搜索
           path: "/search",
           name: "search",
           component: _import_(`search/Index`),

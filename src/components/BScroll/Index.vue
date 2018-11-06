@@ -84,7 +84,6 @@ export default {
 			if (!this.$refs.wrapper) {
 				return
 			}
-			console.log('----------------')
 			// better-scroll的初始化
 			this.scroll = new BScroll(this.$refs.wrapper, {
 				click: true,

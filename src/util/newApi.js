@@ -4,7 +4,7 @@
 // 3.所有请求都是用get明文请求，因为网易云提供的api就是这样的
 
 const Api = {
-  CD001: { title: `Banner`, url: `/banner` },
+  CD001: {title: `Banner`, url: `/banner` },
   CD002: { title: `推荐歌单`, url: `/personalized` },
   CD003: { title: `最新音乐`, url: `/personalized/newsong` },
   CD004: { title: `专辑详情`, url: `/album` },
@@ -20,7 +20,8 @@ const Api = {
   CD014: { title: `获取每日推荐歌单`, url: `/recommend/resource` },
   CD015: { title: `热搜`, url: `/search/hot` },
   CD016: { title: `搜索`, url: `/search` },
-  CD017: { title: `加入/取消喜欢音乐`, url: `/like` }
+  CD017: { title: `加入/取消喜欢音乐`, url: `/like` },
+  CD018: { title: `获取歌曲评论`, url: `/comment/music` }
 };
 
 export default Api;
