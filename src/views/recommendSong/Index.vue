@@ -1,14 +1,14 @@
 <template>
 	<div>
 		<div class="info">
-			<img src="http://p1.music.126.net/OA4Ss5eWp7B7TjeBKZXB5g==/109951163647947761.jpg">
+			<img v-lazy="firstBanner">
 		</div>
 		<List :trackCount="5" :list="recommend"></List>
 	</div>
 </template>
 <script>
 import List from './List'
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
 	components: {
 		List
@@ -17,6 +17,9 @@ export default {
 		return {
 			recommend: []
 		}
+	},
+	computed: {
+		...mapState(['firstBanner'])
 	},
 	created () {
 		this.getsong()

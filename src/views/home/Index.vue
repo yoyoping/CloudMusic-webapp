@@ -93,7 +93,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_OPENPLAYER']),
+    ...mapMutations(['SET_OPENPLAYER', 'SET_FIRSTBANNER']),
     ...mapActions(['getMusic']),
     /**
      * 获取banner信息
@@ -103,7 +103,8 @@ export default {
         urlCode: 'CD001'
       }
       const res = await this.$axios(params)
-      this.banner = res.banners;
+      this.banner = res.banners
+      this.SET_FIRSTBANNER(this.banner[0].imageUrl)
       console.log(this.banner)
     },
     /**
@@ -117,6 +118,9 @@ export default {
       this.personalizedList = res.result.splice(0, 6)
       this.loading = false
     },
+    /**
+     * 获取最新音乐
+     */
     async newSong() {
       const params = {
         urlCode: `CD003`
@@ -133,6 +137,9 @@ export default {
         return obj
       })
     },
+    /**
+     * 播放音乐
+     */
     play (id) {
       this.getMusic(id)
       this.SET_OPENPLAYER(true)

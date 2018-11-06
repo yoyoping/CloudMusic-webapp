@@ -53,7 +53,7 @@ const mutations = {
   },
   // 设置歌词
   [`SET_LYRIC`](state, res) {
-    if (res === 'noLyric') {
+    if (res === `noLyric`) {
       state.noLyric = true;
     } else {
       state.lyric = res;
@@ -64,7 +64,7 @@ const mutations = {
   [`ACTION_COLLECT`](state, id) {
     const collectList = state.collectList
     // 判断当前歌曲是否存在于收藏列表中
-    if(collectList.includes(id)) {
+    if (collectList.includes(id)) {
       collectList.splice(collectList.indexOf(id), 1)
     } else {
       collectList.push(id)
@@ -76,11 +76,15 @@ const mutations = {
   },
   // 我的歌单列表
   [`SET_MINEPLAYLIST`](state, res) {
-    state.minePlayList = res
+    state.minePlayList = res;
   },
   // 我喜欢的音乐id数组
   [`SET_LIKEPLAYLIST`](state, res) {
-    state.likePlayList = res
+    state.likePlayList = res;
+  },
+  // 我喜欢的音乐id数组
+  [`SET_FIRSTBANNER`](state, res) {
+    state.firstBanner = res;
   }
 };
 export default mutations;
