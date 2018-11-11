@@ -9,6 +9,7 @@ import axios from "./util/axios";
 import VueLazyload from "vue-lazyload";
 import "@/util/interceptor";
 import animate from "animate.css";
+import Cookies from "js-cookie";
 
 Vue.config.productionTip = false;
 
@@ -28,6 +29,13 @@ rem();
 window.onresize = () => {
   rem();
 };
+
+// 如果当前登陆状态为false,清空当前所有的本地存储，sessionStorage除外。
+if (!Cookies.get('loginStatus')) {
+  Cookies.remove('uid')
+  Cookies.remove('loginStatus')
+  localStorage.clear()
+}
 
 new Vue({
   router,

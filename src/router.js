@@ -105,6 +105,16 @@ export default new Router({
             isKeep: true,
             noHeader: true
           }
+        },
+        { // 评论
+          path: "/comment/:id",
+          name: "comment",
+          component: _import_(`comment/List`),
+          meta: {
+            menuName: "comment",
+            noTabbar: true,
+            goback: "prev"
+          }
         }
       ]
     }

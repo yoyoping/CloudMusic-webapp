@@ -26,7 +26,7 @@ const mutations = {
     };
     this.commit(`SET_PLAYLIST`, param);
   },
-  // 设置当前是否正在播放歌曲
+  // 设置当前是否打开播放页
   [`SET_OPENPLAYER`](state, res) {
     state.openPlayer = res;
   },
@@ -82,9 +82,17 @@ const mutations = {
   [`SET_LIKEPLAYLIST`](state, res) {
     state.likePlayList = res;
   },
-  // 我喜欢的音乐id数组
+  // 首张banner图
   [`SET_FIRSTBANNER`](state, res) {
     state.firstBanner = res;
+  },
+  // 当前播放歌曲的评论数
+  [`SET_COMMENTCOUNT`](state, count) {
+    state.commentCount = count;
+  },
+  // 头部标题
+  [`SET_TITLE`](state, res) {
+    state.title = res || 'CLOUD MUSIC';
   }
 };
 export default mutations;

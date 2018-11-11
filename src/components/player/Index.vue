@@ -35,9 +35,9 @@
           <i class="iconfont xihuan" v-show="likePlayList.includes(currentSongId)" @click="likeSong([currentSongId, false])"></i>
           <i class="iconfont weixihuan" v-show="!likePlayList.includes(currentSongId)" @click="likeSong([currentSongId, true])"></i>
           <i class="iconfont fenxiang"></i>
-          <span class="comment">
+          <span class="comment" @click="toComment">
             <i class="iconfont pinglun"></i>
-            <em>999+</em>
+            <em>{{commentCount}}</em>
           </span>
           <i class="iconfont gengduoxiao"></i>
         </p>
@@ -97,11 +97,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'lyric', 'collectList', 'noLyric', 'likePlayList'])
+    ...mapState(['songUrl', 'openPlayer', 'musicDetail', 'playList', 'currentSongId', 'lyric', 'collectList', 'noLyric', 'likePlayList', 'commentCount'])
   },
   created () {
     console.log('加载默认音乐')
-    this.initSong()
+    // this.initSong()
   },
   mounted () {
     this.listenSong()
@@ -265,6 +265,16 @@ export default {
      */
     musicEnd () {
       this.paused = true
+    },
+    // 跳转评论页
+    toComment () {
+      this.$router.push({
+        name: 'comment',
+        params: {
+          id: this.currentSongId
+        }
+      })
+      this.$store.commit('SET_OPENPLAYER', false)
     }
   },
   watch: {
@@ -318,8 +328,8 @@ export default {
   .iconfont{
     font-size: 0.5rem;
   }
-  span{
-    position: relative;
+  .comment{
+    position: relative;color: #fff;
     em{
       position: absolute;top: -0.1rem;right: -0.3rem;font-style: normal;font-size: 0.2rem;
     }

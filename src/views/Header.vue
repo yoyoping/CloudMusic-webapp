@@ -1,17 +1,46 @@
 <template>
   <header :class="{noBg: $route.meta.headerbg === 'no'}" v-show="!$route.meta.noHeader">
-    <router-link :to="$route.meta.goback" class="back" v-if="$route.meta.goback">
+    <a @click.stop="goback" class="back" v-if="$route.meta.goback === 'prev'">
+      <i class="iconfont zuojiantou"></i>
+    </a>
+    <router-link :to="$route.meta.goback" v-if="$route.meta.goback && $route.meta.goback !== 'prev'" class="back">
       <i class="iconfont zuojiantou"></i>
     </router-link>
-    <h1 v-if="$route.meta.headerbg !== 'no'">cloudMusic</h1>
+    <h1 v-if="$route.meta.headerbg !== 'no'">{{title}}</h1>
     <span class="toplay" @click="SET_OPENPLAYER(true)"><i class="iconfont zhengzaibofang"></i></span>
   </header>
 </template>
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
+  data () {
+    return {
+      prevPath: '', // 上一页的地址
+      prevName: '' // 上一页的名称
+    }
+  },
+  computed: {
+    ...mapState(['title'])
+  },
   methods: {
-    ...mapMutations(['SET_OPENPLAYER'])
+    ...mapMutations(['SET_OPENPLAYER']),
+    goback () {
+      if (this.prevPath && this.prevName) {
+        this.$router.go(-1)
+      } else {
+        this.$router.push('/')
+      }
+    }
+  },
+  watch: {
+    $route (newVal, oldVal) {
+      if (localStorage.prevPath) {
+        this.prevPath = localStorage.prevPath
+      }
+      localStorage.prevPath = oldVal.fullPath
+      this.prevPath = oldVal.fullPath
+      this.prevName = oldVal.name
+    }
   }
 }
 </script>

@@ -24,7 +24,11 @@ export const getMusic = async ({ commit }, id) => {
   console.log(songDetail);
   songDetail.musicurl_ = musicurl.data[0].url; // 将当前歌曲地址添加到详情里面
   commit(`GET_SONGDEATIL`, songDetail);
+  // 歌词
   getLyric({ commit }, id);
+  // 歌曲评论
+  commentList({ commit }, id);
+  
 };
 
 /**
@@ -109,3 +113,31 @@ export const likeSong = async ({ commit }, [id, like]) => {
   }
   likePlayList({ commit }, localStorage.likeListId);
 };
+
+/**
+ * 获取歌曲评论
+ */
+export const commentList = async ({ commit }, id) => {
+  const params = {
+    urlCode: `CD018`,
+    id: id
+  }
+  const res = await axios(params)
+  let count = res.total
+  if (count > 10000000) {
+    count = '1000w+'
+  }
+  if (count > 1000000) {
+    count = '100w+'
+  }
+  if (count > 100000) {
+    count = '10w+'
+  }
+  if (count > 10000) {
+    count = '1w+'
+  }
+  if (count > 1000){
+    count = '999+'
+  }
+  commit('SET_COMMENTCOUNT', count)
+}
