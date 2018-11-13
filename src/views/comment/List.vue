@@ -1,53 +1,67 @@
 <template>
 	<div class="comment">
-		<div class="link">
-			<img v-lazy="musicDetail.picUrl" alt="">
-			<dl>
-				<dt class="van-ellipsis">耳朵</dt>
-				<dd><a href="javascript:;" class="singer">李荣浩</a></dd>
-			</dl>
-			<i class="iconfont youjiantou"></i>
+		<Scroll
+			:data="comments"
+			:pullup="true"
+			@pulldup="loadMore"
+		>
+		<div>
+			<div class="link">
+				<img v-lazy="musicDetail.picUrl" alt="">
+				<dl>
+					<dt class="van-ellipsis">耳朵</dt>
+					<dd><a href="javascript:;" class="singer">李荣浩</a></dd>
+				</dl>
+				<i class="iconfont youjiantou"></i>
+			</div>
+			<div class="cls">
+				<h2>精彩评论</h2>
+				<ul>
+					<li v-for="(item, index) in hotComments" :key="item.time">
+						<img class="aut" v-lazy="item.user.avatarUrl" alt="">
+						<div class="rg" :class="{'van-hairline--bottom': index !== hotComments.length - 1}">
+							<dl>
+								<dt>{{item.user.nickname}} <a href="javascript:;">{{item.likedCount}} <i class="iconfont dianzan" :class="{liked: item.liked}"></i></a></dt>
+								<dd>{{format_(item.time)}}</dd>
+							</dl>
+							<p>{{item.content}}</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="cls">
+				<h2>全部评论</h2>
+				<ul>
+					<li v-for="(item, index) in comments" :key="item.time">
+						<img class="aut" v-lazy="item.user.avatarUrl" alt="">
+						<div class="rg" :class="{'van-hairline--bottom': index !== comments.length - 1}">
+							<dl>
+								<dt>{{item.user.nickname}} <a href="javascript:;">{{item.likedCount}} <i class="iconfont dianzan" :class="{liked: item.liked}"></i></a></dt>
+								<dd>{{format_(item.time)}}</dd>
+							</dl>
+							<p>{{item.content}}</p>
+						</div>
+					</li>
+				</ul>
+			</div>
 		</div>
-		<div class="cls">
-			<h2>精彩评论</h2>
-			<ul>
-				<li v-for="(item, index) in hotComments" :key="item.time">
-					<img class="aut" v-lazy="item.user.avatarUrl" alt="">
-					<div class="rg" :class="{'van-hairline--bottom': index !== hotComments.length - 1}">
-						<dl>
-							<dt>{{item.user.nickname}} <a href="javascript:;">{{item.likedCount}} <i class="iconfont dianzan" :class="{liked: item.liked}"></i></a></dt>
-							<dd>{{format_(item.time)}}</dd>
-						</dl>
-						<p>{{item.content}}</p>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<div class="cls">
-			<h2>全部评论</h2>
-			<ul>
-				<li v-for="(item, index) in comments" :key="item.time">
-					<img class="aut" v-lazy="item.user.avatarUrl" alt="">
-					<div class="rg" :class="{'van-hairline--bottom': index !== hotComments.length - 1}">
-						<dl>
-							<dt>{{item.user.nickname}} <a href="javascript:;">{{item.likedCount}} <i class="iconfont dianzan" :class="{liked: item.liked}"></i></a></dt>
-							<dd>{{format_(item.time)}}</dd>
-						</dl>
-						<p>{{item.content}}</p>
-					</div>
-				</li>
-			</ul>
-		</div>
+		</Scroll>
 	</div>
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex'
 import { format } from '@/util'
+import Scroll from '@/components/BScroll/Index.vue'
 export default {
+	components: {
+		Scroll
+	},
 	data () {
 		return {
 			hotComments: [], // 精彩评论
-			comments: [] // 全部评论
+			comments: [], // 全部评论
+			offset: 0, // 搜索结果的偏移（用作分页）
+			limit: 20 // 每页数据条数
 		}
 	},
 	computed: {
@@ -64,13 +78,19 @@ export default {
 		async getList () {
 			const params = {
 				urlCode: `CD018`,
-				id: this.$route.params.id
+				id: this.$route.params.id,
+				offset: this.offset
 			}
 			const res = await this.$axios(params)
 			console.log(res)
 			this.hotComments = res.hotComments
 			this.comments = res.comments
 			this.SET_TITLE(`评论${res.total}`)
+		},
+		// 加载更多
+		loadMore () {
+			this.offset = this.offset + this.limit
+			this.getList()
 		}
 	},
 	beforeRouteLeave (to, from, next) {
@@ -128,5 +148,9 @@ export default {
 	dd{
 		font-size: 0.18rem;color: #aaa;
 	}
+}
+.wrapper{
+	overflow:hidden;
+	height: calc(100vh - 3rem);
 }
 </style>

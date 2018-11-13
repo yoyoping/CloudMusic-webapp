@@ -165,6 +165,7 @@ export default {
 		},
 		// 加载更多
 		loadMore () {
+			debugger
 			this.offset = this.offset + this.limit
 			this.search(true)
 		}
