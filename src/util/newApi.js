@@ -21,7 +21,8 @@ const Api = {
   CD015: { title: `热搜`, url: `/search/hot` },
   CD016: { title: `搜索`, url: `/search` },
   CD017: { title: `加入/取消喜欢音乐`, url: `/like` },
-  CD018: { title: `获取歌曲评论`, url: `/comment/music` }
+  CD018: { title: `获取歌曲评论`, url: `/comment/music` },
+  CD019: { title: `发送/删除评论`, url: `/comment` }
 };
 
 export default Api;
