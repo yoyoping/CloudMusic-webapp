@@ -17,7 +17,7 @@
 			<div class="cls">
 				<h2>精彩评论</h2>
 				<ul>
-					<li v-for="(item, index) in hotComments" :key="item.time">
+					<li v-for="(item, index) in hotComments" :key="index">
 						<img class="aut" v-lazy="item.user.avatarUrl" alt="">
 						<div class="rg" :class="{'van-hairline--bottom': index !== hotComments.length - 1}">
 							<dl>
@@ -32,7 +32,7 @@
 			<div class="cls">
 				<h2>全部评论</h2>
 				<ul>
-					<li v-for="(item, index) in comments" :key="item.time">
+					<li v-for="(item, index) in comments" :key="index">
 						<img class="aut" v-lazy="item.user.avatarUrl" alt="">
 						<div class="rg" :class="{'van-hairline--bottom': index !== comments.length - 1}">
 							<dl>
@@ -46,15 +46,17 @@
 			</div>
 		</div>
 		</Scroll>
+		<Comment></Comment>
 	</div>
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex'
 import { format } from '@/util'
 import Scroll from '@/components/BScroll/Index.vue'
+import Comment from './Comment'
 export default {
 	components: {
-		Scroll
+		Scroll, Comment
 	},
 	data () {
 		return {
@@ -75,7 +77,11 @@ export default {
 		format_ (val) {
 			return format(val)
 		},
-		async getList () {
+		async getList (isMore) {
+			if (!isMore) {
+				this.comments = []
+				this.offset = 0
+			}
 			const params = {
 				urlCode: `CD018`,
 				id: this.$route.params.id,
@@ -83,14 +89,17 @@ export default {
 			}
 			const res = await this.$axios(params)
 			console.log(res)
-			this.hotComments = res.hotComments
-			this.comments = res.comments
+			if (!isMore) {
+				this.hotComments = res.hotComments
+				this.comments = res.comments
+			}
+			this.comments = this.comments.concat(res.comments)
 			this.SET_TITLE(`评论${res.total}`)
 		},
 		// 加载更多
 		loadMore () {
 			this.offset = this.offset + this.limit
-			this.getList()
+			this.getList(true)
 		}
 	},
 	beforeRouteLeave (to, from, next) {
