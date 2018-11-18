@@ -101,7 +101,7 @@ export default {
   },
   created () {
     console.log('加载默认音乐')
-    // this.initSong()
+    this.initSong()
   },
   mounted () {
     this.listenSong()
