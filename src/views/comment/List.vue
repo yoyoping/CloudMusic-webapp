@@ -6,22 +6,23 @@
 			@pulldup="loadMore"
 		>
 		<div>
-			<div class="link">
+			<div class="link" @click="SET_OPENPLAYER(true)">
 				<img v-lazy="musicDetail.picUrl" alt="">
 				<dl>
-					<dt class="van-ellipsis">耳朵</dt>
-					<dd><a href="javascript:;" class="singer">李荣浩</a></dd>
+					<dt class="van-ellipsis">{{musicDetail.name}}</dt>
+					<dd><a href="javascript:;" class="singer">{{musicDetail.singer}}</a></dd>
 				</dl>
 				<i class="iconfont youjiantou"></i>
 			</div>
-			<div class="cls">
+			<van-loading class="customize" color="#d44439" v-show="loading" />
+			<div class="cls" v-show="!loading">
 				<h2>精彩评论</h2>
 				<ul>
 					<li v-for="(item, index) in hotComments" :key="index">
 						<img class="aut" v-lazy="item.user.avatarUrl" alt="">
 						<div class="rg" :class="{'van-hairline--bottom': index !== hotComments.length - 1}">
 							<dl>
-								<dt>{{item.user.nickname}} <a href="javascript:;">{{item.likedCount}} <i class="iconfont dianzan" :class="{liked: item.liked}"></i></a></dt>
+								<dt>{{item.user.nickname}} <a href="javascript:;" :class="{liked: item.liked}" @click="like(item.commentId, item.liked)">{{item.likedCount}} <i class="iconfont dianzan" :class="{liked: item.liked}"></i></a></dt>
 								<dd>{{format_(item.time)}}</dd>
 							</dl>
 							<p>{{item.content}}</p>
@@ -29,14 +30,14 @@
 					</li>
 				</ul>
 			</div>
-			<div class="cls">
+			<div class="cls" v-show="!loading">
 				<h2>全部评论</h2>
 				<ul>
 					<li v-for="(item, index) in comments" :key="index">
 						<img class="aut" v-lazy="item.user.avatarUrl" alt="">
 						<div class="rg" :class="{'van-hairline--bottom': index !== comments.length - 1}">
 							<dl>
-								<dt>{{item.user.nickname}} <a href="javascript:;">{{item.likedCount}} <i class="iconfont dianzan" :class="{liked: item.liked}"></i></a></dt>
+								<dt>{{item.user.nickname}} <a href="javascript:;" :class="{liked: item.liked}" @click="like(item.commentId)">{{item.likedCount}} <i class="iconfont dianzan" :class="{liked: item.liked}"></i></a></dt>
 								<dd>{{format_(item.time)}}</dd>
 							</dl>
 							<p>{{item.content}}</p>
@@ -46,24 +47,28 @@
 			</div>
 		</div>
 		</Scroll>
-		<Comment></Comment>
+		<Comment @comment="getList"></Comment>
 	</div>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState, mapActions } from 'vuex'
 import { format } from '@/util'
 import Scroll from '@/components/BScroll/Index.vue'
 import Comment from './Comment'
+import { Toast, Loading } from 'vant'
+import Cookies from 'js-cookie'
 export default {
 	components: {
-		Scroll, Comment
+		Scroll, Comment, Toast,
+		[Loading.name]: Loading
 	},
 	data () {
 		return {
 			hotComments: [], // 精彩评论
 			comments: [], // 全部评论
 			offset: 0, // 搜索结果的偏移（用作分页）
-			limit: 20 // 每页数据条数
+			limit: 20, // 每页数据条数
+			loading: true // 是否正在加载中
 		}
 	},
 	computed: {
@@ -71,9 +76,11 @@ export default {
 	},
 	created () {
 		this.getList()
+		this.getMusic(this.$route.params.id)
 	},
 	methods: {
-		...mapMutations(['SET_TITLE']),
+		...mapActions(['getMusic']),
+		...mapMutations(['SET_TITLE', 'SET_OPENPLAYER']),
 		format_ (val) {
 			return format(val)
 		},
@@ -95,11 +102,39 @@ export default {
 			}
 			this.comments = this.comments.concat(res.comments)
 			this.SET_TITLE(`评论${res.total}`)
+			this.loading = false
 		},
 		// 加载更多
 		loadMore () {
 			this.offset = this.offset + this.limit
 			this.getList(true)
+		},
+		/**
+		 * 点赞评论/取消点赞
+		 */
+		async like (cid, liked) {
+			if (!Cookies.get('loginStatus')) {
+				Toast.fail('请先登录！')
+				return
+			}
+			let t = 1 // 是否点赞 1-点赞 0-取消点赞
+			if (liked) {
+				t = 0
+			}
+			const params = {
+				urlCode: 'CD020',
+				id: this.$route.params.id,
+				cid: cid,
+				t: t,
+				type: 0
+			}
+			const res = await this.$axios(params)
+			console.log('点赞', res)
+			if (t) {
+				Toast.success('点赞成功')
+			} else {
+				Toast.success('已取消点赞')
+			}
 		}
 	},
 	beforeRouteLeave (to, from, next) {
@@ -133,14 +168,13 @@ export default {
 }
 .cls{
 	h2{
-    height: 0.5rem;padding-left: 0.2rem;font-size: 0.23rem;background-color: #eee;color: #888;line-height: 0.5rem;
-  }
+		height: 0.5rem;padding-left: 0.2rem;font-size: 0.23rem;background-color: #eee;color: #888;line-height: 0.5rem;
+	}
 	li{
 		width: 100vw;padding: 2.5vw 3vw 0;display: flex;justify-content: space-between;
 		p{
 			line-height: 0.43rem;color: #333;font-size: 0.25rem;margin-top: 0.15rem;
 		}
-
 	}
 	img.aut{
 		width: 8vw;height: 8vw;border-radius: 50%;
@@ -152,6 +186,9 @@ export default {
 		font-size: 0.23rem;color: #777;
 		a{
 			float: right;color: #777;
+		}
+		a.liked{
+			color: #d44439;
 		}
 	}
 	dd{
