@@ -16,8 +16,8 @@
           </p>
         </div>
         <!-- 歌词 -->
-        <div class="lyricWrapper">
-          <Scroll class="middle-r" ref="lyricList" v-show="isLrc" :data="currentLyric && currentLyric.lines">
+        <div class="lyricWrapper" @click="isLrc = false">
+          <Scroll class="middle-r" ref="lyricList" :class="{opt: !isLrc}" :data="currentLyric && currentLyric.lines">
             <div class="lyric-wrapper">
               <div class="currentLyric" v-if="currentLyric">
                 <p ref="lyricLine" class="text" :class="{'current': currentLineNum === index}"
@@ -184,6 +184,7 @@ export default {
     },
     /**
      * 切换音乐
+     * type：prev-上一首 next-下一首
      */
     playSwitch (type) {
       let currentIndex = this._.findIndex(this.playList, { id: this.currentSongId }); // 获取当前音乐的在记录列表中的下标
@@ -265,6 +266,8 @@ export default {
      */
     musicEnd () {
       this.paused = true
+      // 播放下一首
+      this.playSwitch('next')
     },
     // 跳转评论页
     toComment () {
@@ -441,5 +444,8 @@ export default {
 }
 i.xihuan {
   color: #d44439;
+}
+.opt{
+  opacity: 0;
 }
 </style>
