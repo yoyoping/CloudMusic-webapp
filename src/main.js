@@ -5,7 +5,7 @@ import store from "./store/index";
 import fastclick from "fastclick";
 import lodash from "lodash";
 import rem from "./util/rem";
-import axios from "./util/axios";
+import axios from "./fetch/axios";
 import VueLazyload from "vue-lazyload";
 import "@/util/interceptor";
 import animate from "animate.css";

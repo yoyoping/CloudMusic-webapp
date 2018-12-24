@@ -1,7 +1,7 @@
 import axios from "axios";
 import Router from "../router";
 import qs from "qs";
-import ApiUrl from "./newApi";
+import ApiUrl from "./api";
 import { Toast } from "vant";
 
 // 创建axios实例

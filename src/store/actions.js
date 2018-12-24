@@ -1,4 +1,4 @@
-import axios from "@/util/axios";
+import axios from "@/fetch/axios";
 import Cookies from "js-cookie";
 import storage from "good-storage";
 import { Toast } from "vant";
