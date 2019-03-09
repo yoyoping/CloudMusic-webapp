@@ -39,18 +39,18 @@ module.exports = {
     port: 80,
     // 设置代理
     proxy: {
-      "/prod": {
+      "": {
         target: "http://120.78.128.49:3000", // 域名
         changOrigin: true, //开启代理：在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
         pathRequiresRewrite: {
-          "^/prod": "/"
+          "^/api": ""
         }
       },
-      "": {
+      "/dev": {
         target: "http://localhost:3000", // 域名
         changOrigin: true, //开启代理：在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
         pathRequiresRewrite: {
-          "^/dev": "/"
+          "^/dev": ""
         }
       },
     }

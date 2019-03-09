@@ -282,9 +282,8 @@ export default {
   },
   watch: {
     songUrl (newUrl) {
-      this.$refs.audio.src = this.newUrl
+      this.$refs.audio.src = newUrl
       this.$refs.audio.play()
-      console.log(isiOS)
       if (!isiOS) {
         this.paused = false
       }
