@@ -31,10 +31,10 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import { Tab, Tabs, Button, Dialog } from 'vant'
-import SongList from './SongList'
-import Cookies from 'js-cookie'
+import { mapActions } from "vuex";
+import { Tab, Tabs, Button, Dialog } from "vant";
+import SongList from "./SongList";
+import Cookies from "js-cookie";
 export default {
   components: {
     [Tab.name]: Tab,
@@ -42,110 +42,152 @@ export default {
     [Button.name]: Button,
     SongList
   },
-  data () {
+  data() {
     return {
       active: 0,
       userinfo: {} // 用户信息
-    }
+    };
   },
-  created () {
-    this.getUserInfo()
-    this.getplaylist()
+  created() {
+    this.getUserInfo();
+    this.getplaylist();
   },
   methods: {
-    ...mapActions(['getplaylist']),
+    ...mapActions(["getplaylist"]),
     /**
      * 退出登录
      */
-    logout () {
+    logout() {
       Dialog.confirm({
-        title: '退出提示',
-        message: '确认退出当前账号吗 ？'
+        title: "退出提示",
+        message: "确认退出当前账号吗 ？"
       }).then(() => {
-        Cookies.remove('loginStatus')
-        Cookies.remove('uid')
-        localStorage.removeItem('likeList')
-        localStorage.removeItem('likeListId')
-        this.$router.push('/login')
-      })
+        Cookies.remove("loginStatus");
+        Cookies.remove("uid");
+        localStorage.removeItem("likeList");
+        localStorage.removeItem("likeListId");
+        this.$router.push("/login");
+      });
     },
     /**
      * 获取用户详情
      */
-    async getUserInfo () {
+    async getUserInfo() {
       const params = {
-        urlCode: 'CD011',
-        uid: Cookies.get('uid')
-      }
-      const res = await this.$axios(params)
-      this.userinfo = res.profile
-      this.userinfo.level = res.level
+        urlCode: "CD011",
+        uid: Cookies.get("uid")
+      };
+      const res = await this.$axios(params);
+      this.userinfo = res.profile;
+      this.userinfo.level = res.level;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-.info{
-  .bg{
-    width: 100%;position: absolute;left: 0;top: 0;
+.info {
+  .bg {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
-  width: 100%;height: 47vh;background-size: 103% 103%;
-  background-position: 50% 50%;box-sizing: border-box;padding: 0.9rem 5vw 0;text-align: center;position: relative;
-  .avatar{
-    width: 1.5rem;height: 1.5rem;border-radius: 50%;
+  width: 100%;
+  height: 47vh;
+  background-size: 103% 103%;
+  background-position: 50% 50%;
+  box-sizing: border-box;
+  padding: 0.9rem 5vw 0;
+  text-align: center;
+  position: relative;
+  .avatar {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
   }
-  .mark{
-    background-color: rgba(0,0,0,0.1);position: absolute;left: 0;top: 0;z-index: 0;width: 100%;height: 100%;
+  .mark {
+    background-color: rgba(0, 0, 0, 0.1);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
   }
-  .top{
-    position: relative;z-index: 2;color: #fff;
+  .top {
+    position: relative;
+    z-index: 2;
+    color: #fff;
   }
-  h1{
-    font-size: 0.4rem;font-weight: bold;margin-top: 0.1rem;
+  h1 {
+    font-size: 0.4rem;
+    font-weight: bold;
+    margin-top: 0.1rem;
   }
-  .fan{
-    margin-top: 0.13rem;text-align: center;color: #eee;font-size: 0.25rem;
-    span{
-      display: inline-block;height: 0.25rem;line-height: 0.25rem;
+  .fan {
+    margin-top: 0.13rem;
+    text-align: center;
+    color: #eee;
+    font-size: 0.25rem;
+    span {
+      display: inline-block;
+      height: 0.25rem;
+      line-height: 0.25rem;
     }
-    span:nth-of-type(1){
-      padding-right: 0.2rem;margin-right: 0.2rem;border-right: 0.01rem solid #999;
+    span:nth-of-type(1) {
+      padding-right: 0.2rem;
+      margin-right: 0.2rem;
+      border-right: 0.01rem solid #999;
     }
   }
-  .tag{
-    text-align: center;margin-top: 0.25rem;
-    span{
-      padding: 0.04rem 0.13rem;background-color:rgba(204,204,204,0.8);border-radius: 0.3rem;margin: 0 0.03rem;font-size: 0.2rem;color: #fff; 
+  .tag {
+    text-align: center;
+    margin-top: 0.25rem;
+    span {
+      padding: 0.04rem 0.13rem;
+      background-color: rgba(204, 204, 204, 0.8);
+      border-radius: 0.3rem;
+      margin: 0 0.03rem;
+      font-size: 0.2rem;
+      color: #fff;
     }
-    .iconfont{
+    .iconfont {
       font-size: 0.2rem;
     }
   }
 }
-.content{
-  background-color: #fff;border-radius: 0.12rem;position: relative;top: -0.2rem;overflow: hidden;
-  .van-tabs{
+.content {
+  background-color: #fff;
+  border-radius: 0.12rem;
+  position: relative;
+  top: -0.2rem;
+  overflow: hidden;
+  .van-tabs {
     border-top-left-radius: 0.12rem;
     border-top-right-radius: 0.12rem;
     overflow: hidden;
     position: static;
   }
-  .van-tabs__wrap.van-hairline--top-bottom{
-    width: 95%;margin: 0 auto;
+  .van-tabs__wrap.van-hairline--top-bottom {
+    width: 95%;
+    margin: 0 auto;
     border-top-left-radius: 0.12rem;
     border-top-right-radius: 0.12rem;
     overflow: hidden;
   }
-  .van-tab__pane{
+  .van-tab__pane {
     margin-top: 0.2rem;
   }
 }
-.exit{
-  width: 90%;margin: 0.5rem auto;display: block;border-radius: 0.1rem;
+.exit {
+  width: 90%;
+  margin: 0.5rem auto;
+  display: block;
+  border-radius: 0.1rem;
 }
-.center{
-  text-align: center;line-height: 2rem;
+.center {
+  text-align: center;
+  line-height: 2rem;
 }
 </style>
-

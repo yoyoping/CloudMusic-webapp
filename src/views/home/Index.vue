@@ -56,11 +56,11 @@
   </div>
 </template>
 <script>
-import Header from '@/views/Header.vue'
-import Scroll from '@/components/scroll/Index' 
-import Slider from '@/components/slider/Index' 
-import { mapActions, mapMutations } from 'vuex'
-import { Swipe, SwipeItem, Loading } from 'vant'
+import Header from "@/views/Header.vue";
+import Scroll from "@/components/scroll/Index";
+import Slider from "@/components/slider/Index";
+import { mapActions, mapMutations } from "vuex";
+import { Swipe, SwipeItem, Loading } from "vant";
 export default {
   components: {
     Header,
@@ -79,33 +79,33 @@ export default {
     };
   },
   created() {
-    this.getBanner()
-    this.personalized()
-    this.newSong()
+    this.getBanner();
+    this.personalized();
+    this.newSong();
   },
   filters: {
-    formatNum (val) {
+    formatNum(val) {
       if (val > 100000) {
-        return ` ${Math.round(val / 10000)}万 `
+        return ` ${Math.round(val / 10000)}万 `;
       } else {
-        return ` ${parseInt(val)} `
+        return ` ${parseInt(val)} `;
       }
     }
   },
   methods: {
-    ...mapMutations(['SET_OPENPLAYER', 'SET_FIRSTBANNER']),
-    ...mapActions(['getMusic']),
+    ...mapMutations(["SET_OPENPLAYER", "SET_FIRSTBANNER"]),
+    ...mapActions(["getMusic"]),
     /**
      * 获取banner信息
      */
     async getBanner() {
       const params = {
-        urlCode: 'CD001'
-      }
-      const res = await this.$axios(params)
-      this.banner = res.banners
-      this.SET_FIRSTBANNER(this.banner[0].imageUrl)
-      console.log(this.banner)
+        urlCode: "CD001"
+      };
+      const res = await this.$axios(params);
+      this.banner = res.banners;
+      this.SET_FIRSTBANNER(this.banner[0].imageUrl);
+      console.log(this.banner);
     },
     /**
      * 获取推荐歌单
@@ -113,10 +113,10 @@ export default {
     async personalized() {
       const params = {
         urlCode: `CD002`
-      }
-      const res = await this.$axios(params)
-      this.personalizedList = res.result.splice(0, 6)
-      this.loading = false
+      };
+      const res = await this.$axios(params);
+      this.personalizedList = res.result.splice(0, 6);
+      this.loading = false;
     },
     /**
      * 获取最新音乐
@@ -124,31 +124,31 @@ export default {
     async newSong() {
       const params = {
         urlCode: `CD003`
-      }
-      const res = await this.$axios(params)
-      const list = res.result
+      };
+      const res = await this.$axios(params);
+      const list = res.result;
       this.newSongList = list.map(item => {
         const obj = {
           id: item.id,
           picUrl: item.song.album.picUrl,
           name: item.name,
           singer: item.song.album.artists[0].name
-        }
-        return obj
-      })
+        };
+        return obj;
+      });
     },
     /**
      * 播放音乐
      */
-    play (id) {
-      this.getMusic(id)
-      this.SET_OPENPLAYER(true)
+    play(id) {
+      this.getMusic(id);
+      this.SET_OPENPLAYER(true);
     },
     /**
      * 跳转
      */
-    link (url) {
-      location.href = url
+    link(url) {
+      location.href = url;
     }
   },
   watch: {
@@ -165,71 +165,108 @@ export default {
   position: relative;
   height: 17vh;
   margin-bottom: 10vh;
-  .van-swipe{
-    width: 94vw;height: 3rem;position: absolute;
+  .van-swipe {
+    width: 94vw;
+    height: 3rem;
+    position: absolute;
     left: 3vw;
     border-radius: 0.1rem;
     overflow: hidden;
   }
-  .van-swipe-item{
-    border-radius: 0.1rem;overflow: hidden;
-    img{
-      width: 100%;border-radius: 0.1rem;overflow: hidden;
+  .van-swipe-item {
+    border-radius: 0.1rem;
+    overflow: hidden;
+    img {
+      width: 100%;
+      border-radius: 0.1rem;
+      overflow: hidden;
     }
   }
 }
 
-nav{
-  width: 100%;display: flex;
-  a{
-    display: block;flex: 1;-webkit-box-flex: 1;text-align: center;
+nav {
+  width: 100%;
+  display: flex;
+  a {
+    display: block;
+    flex: 1;
+    -webkit-box-flex: 1;
+    text-align: center;
   }
-  span{
-    display: block;width: 0.9rem;background-color: #d44439;margin: 0 auto 0.1rem;height: 0.9rem;
-    border-radius: 50%;color: #fff;line-height: 0.9rem;
+  span {
+    display: block;
+    width: 0.9rem;
+    background-color: #d44439;
+    margin: 0 auto 0.1rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    color: #fff;
+    line-height: 0.9rem;
   }
-  .iconfont{
+  .iconfont {
     font-size: 0.45rem;
-    
   }
 }
 
-.songCls{
-  margin-top: 0.3rem;widows: 100vw;padding: 0 1vw;
-  ul{
-    display: flex; flex-flow: row wrap;width: 100%;justify-content: space-between;
+.songCls {
+  margin-top: 0.3rem;
+  widows: 100vw;
+  padding: 0 1vw;
+  ul {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    justify-content: space-between;
   }
-  li{
-    width: 32vw;overflow: hidden;position: relative;margin-bottom: 0.12rem;padding-bottom: 0.1rem;
+  li {
+    width: 32vw;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0.12rem;
+    padding-bottom: 0.1rem;
     border-radius: 0.1rem;
-    p{
-      width: 100%;padding: 0 0.1rem;box-sizing: border-box;height: 0.67rem;overflow: hidden;
+    p {
+      width: 100%;
+      padding: 0 0.1rem;
+      box-sizing: border-box;
+      height: 0.67rem;
+      overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box; //将元素设为盒子伸缩模型显示
       -webkit-box-orient: vertical; //伸缩方向设为垂直方向
-      -webkit-line-clamp: 2;  //超出3行隐藏，并显示省略号
+      -webkit-line-clamp: 2; //超出3行隐藏，并显示省略号
     }
   }
-  .title{
+  .title {
     margin-bottom: 0.2rem;
-    a{
-      font-size: 0.28rem;color: #222;font-weight: 450
+    a {
+      font-size: 0.28rem;
+      color: #222;
+      font-weight: 450;
     }
   }
-  img{
-    width: 100%;height: 32vw;margin: 0;padding: 0;border-radius: 0.1rem;
+  img {
+    width: 100%;
+    height: 32vw;
+    margin: 0;
+    padding: 0;
+    border-radius: 0.1rem;
   }
-  span{
-    position: absolute;top: 0.1rem;right: 0.1rem;color: #fff;
+  span {
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
+    color: #fff;
   }
-  .songName{
+  .songName {
     height: 0.34rem;
   }
-  .singer{
-    height: 0.4rem;color: #666;font-size: 0.2rem;
+  .singer {
+    height: 0.4rem;
+    color: #666;
+    font-size: 0.2rem;
   }
 }
-
 
 .slider-wrapper {
   width: 100%;

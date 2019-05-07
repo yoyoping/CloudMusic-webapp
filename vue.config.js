@@ -1,5 +1,5 @@
 const path = require("path");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 function resolve(dir) {
   return path.join(__dirname, "..", dir);
 }
@@ -15,16 +15,16 @@ module.exports = {
       .set(`@util`, resolve(`src/util`))
       .set(`@views`, resolve(`src/views`));
   },
-  configureWebpack:{
+  configureWebpack: {
     optimization: {
       minimizer: [
         new UglifyJsPlugin({
           uglifyOptions: {
             compress: {
               warnings: false,
-              drop_console: true,//console
+              drop_console: true, //console
               drop_debugger: false,
-              pure_funcs: ['console.log']//移除console
+              pure_funcs: ["console.log"] //移除console
             }
           }
         })
@@ -52,7 +52,7 @@ module.exports = {
         pathRequiresRewrite: {
           "^/dev": ""
         }
-      },
+      }
     }
   }
 };

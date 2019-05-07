@@ -25,7 +25,8 @@ export default new Router({
       component: _import_(`Layout`),
       redirect: "/",
       children: [
-        { // 首页
+        {
+          // 首页
           path: "/",
           name: "home",
           component: _import_(`home/Index`),
@@ -34,7 +35,8 @@ export default new Router({
             menuName: "music"
           }
         },
-        { // 每日推荐
+        {
+          // 每日推荐
           path: "/recommendSong",
           name: "recommendSong",
           component: _import_(`recommendSong/Index`),
@@ -45,7 +47,8 @@ export default new Router({
             needLoading: true
           }
         },
-        { // 排行榜
+        {
+          // 排行榜
           path: "/toplist",
           name: "toplist",
           component: _import_(`top/TopList`),
@@ -56,7 +59,8 @@ export default new Router({
             needLoading: true
           }
         },
-        { // 具体排行榜榜单
+        {
+          // 具体排行榜榜单
           path: "/top/:idx",
           name: "top",
           component: _import_(`playlist/Index`),
@@ -66,7 +70,8 @@ export default new Router({
             needLoading: true
           }
         },
-        { // 歌单
+        {
+          // 歌单
           path: "/playlist/:id",
           name: "playlist",
           component: _import_(`playlist/Index`),
@@ -75,7 +80,8 @@ export default new Router({
             goback: "/"
           }
         },
-        { // 我的
+        {
+          // 我的
           path: "/mine",
           name: "mine",
           component: _import_(`mine/Index`),
@@ -85,7 +91,8 @@ export default new Router({
             toLogin: true
           }
         },
-        { // 登录
+        {
+          // 登录
           path: "/login",
           name: "login",
           component: _import_(`login/Index`),
@@ -95,7 +102,8 @@ export default new Router({
             goback: "/"
           }
         },
-        { // 搜索
+        {
+          // 搜索
           path: "/search",
           name: "search",
           component: _import_(`search/Index`),
@@ -106,7 +114,8 @@ export default new Router({
             noHeader: true
           }
         },
-        { // 评论
+        {
+          // 评论
           path: "/comment/:id",
           name: "comment",
           component: _import_(`comment/List`),

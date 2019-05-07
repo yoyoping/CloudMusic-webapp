@@ -31,10 +31,10 @@ window.onresize = () => {
 };
 
 // 如果当前登陆状态为false,清空当前所有的本地存储，sessionStorage除外。
-if (!Cookies.get('loginStatus')) {
-  Cookies.remove('uid')
-  Cookies.remove('loginStatus')
-  localStorage.clear()
+if (!Cookies.get("loginStatus")) {
+  Cookies.remove("uid");
+  Cookies.remove("loginStatus");
+  localStorage.clear();
 }
 
 new Vue({

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+import BScroll from "better-scroll";
 export default {
   props: {
     probeType: {
@@ -33,64 +33,65 @@ export default {
       default: 20
     }
   },
-  mounted () {
+  mounted() {
     setTimeout(() => {
-      this._initScroll()
-    })
+      this._initScroll();
+    });
   },
   methods: {
-    _initScroll () {
+    _initScroll() {
       if (!this.$refs.wrapper) {
-        return
+        return;
       }
       this.scroll = new BScroll(this.$refs.wrapper, {
         probeType: this.probeType,
         click: this.click
-      })
+      });
 
       if (this.listenScroll) {
-        let _this = this
-        this.scroll.on('scroll', (pos) => {
-          _this.$emit('scroll', pos)
-        })
+        let _this = this;
+        this.scroll.on("scroll", pos => {
+          _this.$emit("scroll", pos);
+        });
       }
       if (this.pullup) {
-        this.scroll.on('scrollEnd', () => {
-          if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
-            this.$emit('scrollToEnd')
+        this.scroll.on("scrollEnd", () => {
+          if (this.scroll.y <= this.scroll.maxScrollY + 50) {
+            this.$emit("scrollToEnd");
           }
-        })
+        });
       }
     },
-    enable () {
-      this.scroll && this.scroll.enable()
+    enable() {
+      this.scroll && this.scroll.enable();
     },
-    disable () {
-      this.scroll && this.scroll.disable()
+    disable() {
+      this.scroll && this.scroll.disable();
     },
-    refresh () {
-      this.scroll && this.scroll.refresh()
+    refresh() {
+      this.scroll && this.scroll.refresh();
     },
-    scrollTo () {
-      this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+    scrollTo() {
+      this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments);
     },
-    scrollToElement () {
-      this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
+    scrollToElement() {
+      this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments);
     }
   },
   watch: {
-    data () {
-      console.log('改变')
+    data() {
+      console.log("改变");
       setTimeout(() => {
-        this.refresh()
-      }, this.refreshDelay)
+        this.refresh();
+      }, this.refreshDelay);
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
-.wrapper{
-  height: 100%;overflow: auto;
+.wrapper {
+  height: 100%;
+  overflow: auto;
 }
 </style>

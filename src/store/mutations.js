@@ -62,12 +62,12 @@ const mutations = {
   },
   // 加入/取消 收藏歌曲
   [`ACTION_COLLECT`](state, id) {
-    const collectList = state.collectList
+    const collectList = state.collectList;
     // 判断当前歌曲是否存在于收藏列表中
     if (collectList.includes(id)) {
-      collectList.splice(collectList.indexOf(id), 1)
+      collectList.splice(collectList.indexOf(id), 1);
     } else {
-      collectList.push(id)
+      collectList.push(id);
     }
   },
   // 设置加载状态
@@ -92,7 +92,7 @@ const mutations = {
   },
   // 头部标题
   [`SET_TITLE`](state, res) {
-    state.title = res || 'CLOUD MUSIC';
+    state.title = res || "CLOUD MUSIC";
   }
 };
 export default mutations;

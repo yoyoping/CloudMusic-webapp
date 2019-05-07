@@ -9,89 +9,96 @@
   </div>
 </template>
 <script>
-import { Field, Button } from 'vant'
-import { phoneNumber } from '@/util/check'
-import Cookies from 'js-cookie'
-import { mapActions } from 'vuex'
+import { Field, Button } from "vant";
+import { phoneNumber } from "@/util/check";
+import Cookies from "js-cookie";
+import { mapActions } from "vuex";
 export default {
   components: {
     [Field.name]: Field,
     [Button.name]: Button
   },
-  data () {
+  data() {
     return {
-      loginData: { // 登录信息
-        phone: '',
-        password: ''
+      loginData: {
+        // 登录信息
+        phone: "",
+        password: ""
       },
       errMessage: {
-        phone: '',
-        password: ''
+        phone: "",
+        password: ""
       }
-    }
+    };
   },
   methods: {
-    ...mapActions(['getplaylist']),
+    ...mapActions(["getplaylist"]),
     /**
      * 手机号输入框失去焦点判断是否是手机号
      */
-    onblur () {
+    onblur() {
       if (phoneNumber(this.loginData.phone)) {
-        this.errMessage.phone = ''
+        this.errMessage.phone = "";
       } else {
-        this.errMessage.phone = '手机号码格式不正确'
+        this.errMessage.phone = "手机号码格式不正确";
       }
     },
     /**
      * 登录
      */
-    async login () {
-      if (this.loginData.phone === '') {
-        this.errMessage.phone = '请输入手机号'
-        return
+    async login() {
+      if (this.loginData.phone === "") {
+        this.errMessage.phone = "请输入手机号";
+        return;
       }
-      if (this.loginData.password === '') {
-        this.errMessage.password = '请输入密码'
-        return
+      if (this.loginData.password === "") {
+        this.errMessage.password = "请输入密码";
+        return;
       } else {
-        this.errMessage.password = ''
+        this.errMessage.password = "";
       }
       const params = {
-        urlCode: 'CD010',
+        urlCode: "CD010",
         phone: this.loginData.phone,
         password: this.loginData.password
-      }
+      };
       try {
-        const res = await this.$axios(params)
-        Cookies.set('uid', res.account.id)
-        Cookies.set('loginStatus', true)
+        const res = await this.$axios(params);
+        Cookies.set("uid", res.account.id);
+        Cookies.set("loginStatus", true);
         // 登陆成功获取我的歌单列表
-        this.getplaylist()
-        this.$router.push('/mine')
-      }
-      catch (err) {
-        this.loginData.phone = ''
-        this.loginData.password = ''
+        this.getplaylist();
+        this.$router.push("/mine");
+      } catch (err) {
+        this.loginData.phone = "";
+        this.loginData.password = "";
       }
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
-.login{
-  width: 100%;overflow: hidden;
+.login {
+  width: 100%;
+  overflow: hidden;
 }
-.logo{
-  width: 50vw;display: block;margin: 0 auto 0.5rem;
+.logo {
+  width: 50vw;
+  display: block;
+  margin: 0 auto 0.5rem;
 }
-.van-cell{
+.van-cell {
   width: 100%;
 }
-.form{
-  width: 90vw;margin: 0 auto;
+.form {
+  width: 90vw;
+  margin: 0 auto;
 }
-.loginBtn{
-  width: 90%;margin: 0.5rem auto;display: block;border-radius: 0.1rem;font-size: 0.3rem;
+.loginBtn {
+  width: 90%;
+  margin: 0.5rem auto;
+  display: block;
+  border-radius: 0.1rem;
+  font-size: 0.3rem;
 }
 </style>
-

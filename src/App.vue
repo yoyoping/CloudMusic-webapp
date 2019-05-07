@@ -14,46 +14,56 @@
   </div>
 </template>
 <script>
-import player from '@/components/player/Index'
-import Header from '@/views/Header.vue'
+import player from "@/components/player/Index";
+import Header from "@/views/Header.vue";
 export default {
   components: {
-    player, Header
+    player,
+    Header
   },
-  data () {
+  data() {
     return {
       playerFlag: true,
       isStart: false, // 是否是第一次进入
-      animated: false // 动画开启
-    }
+      animated: false, // 动画开启
+      setTimer: null // 定时器
+    };
   },
-  created () {
+  created() {
     if (sessionStorage.isStart) {
-      this.isStart = false
+      this.isStart = false;
     } else {
-      this.isStart = true
-
+      this.isStart = true;
     }
   },
-  mounted () {
-    const setTimer = setTimeout(() => {
-      this.animated = true
-      sessionStorage.isStart = true
-      this.isStart = false
-    }, 3000)
+  mounted() {
+    this.setTimer = setTimeout(() => {
+      this.animated = true;
+      sessionStorage.isStart = true;
+      this.isStart = false;
+    }, 3000);
   },
   methods: {
-    close () {
-      this.playerFlag = false
+    close() {
+      this.playerFlag = false;
     }
+  },
+  destroyed() {
+    clearTimeout(this.setTimer);
+    this.setTimer = null;
   }
-}
+};
 </script>
 <style lang="scss">
-@import './assets/style/style.scss';
+@import "./assets/style/style.scss";
 // @import url('./assets/iconfont/iconfont.css'); // 引入图标库
-@import url('//at.alicdn.com/t/font_844551_wq9wn61vyi.css'); // 引入图标库
-.start{
-  width: 100vw;height: 100vh;position: fixed;top: 0;left: 0;z-index: 5;
+@import url("//at.alicdn.com/t/font_844551_wq9wn61vyi.css"); // 引入图标库
+.start {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
 }
 </style>

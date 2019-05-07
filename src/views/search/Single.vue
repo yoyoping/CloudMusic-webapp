@@ -13,8 +13,8 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState, mapMutations } from 'vuex'
-import { Loading } from 'vant'
+import { mapActions, mapState, mapMutations } from "vuex";
+import { Loading } from "vant";
 export default {
   props: {
     resultLoing: {
@@ -24,7 +24,7 @@ export default {
     list: {
       type: Array,
       default: () => {
-        return []
+        return [];
       }
     }
   },
@@ -32,51 +32,54 @@ export default {
     [Loading.name]: Loading
   },
   computed: {
-    ...mapState(['currentSongId'])
-	},
-  filters:{
-    arName (arr) {
+    ...mapState(["currentSongId"])
+  },
+  filters: {
+    arName(arr) {
       const name = arr.map(item => {
         return item.name;
       });
       return name.join(`/`);
     },
-    alias (arr) {
-      const name = arr.join('/')
-      return name
+    alias(arr) {
+      const name = arr.join("/");
+      return name;
     }
   },
   methods: {
-    ...mapActions(['getMusic']),
-		...mapMutations(['SET_OPENPLAYER']),
-		play (id) {
-      this.getMusic(id)
-      this.SET_OPENPLAYER(true)
+    ...mapActions(["getMusic"]),
+    ...mapMutations(["SET_OPENPLAYER"]),
+    play(id) {
+      this.getMusic(id);
+      this.SET_OPENPLAYER(true);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-dl,dt,dd{
+dl,
+dt,
+dd {
   margin: 0;
 }
-li{
-  padding: 0.1rem 0 0.15rem;height: auto;
+li {
+  padding: 0.1rem 0 0.15rem;
+  height: auto;
 }
-dt{
+dt {
   font-size: 0.3rem;
-  &.red{
-    color: #d44439
+  &.red {
+    color: #d44439;
   }
-  i{
+  i {
     margin-right: 0.15rem;
   }
 }
-dd{
+dd {
   color: #999;
 }
-dl{
+dl {
   width: 80%;
 }
 </style>

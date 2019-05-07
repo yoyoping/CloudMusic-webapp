@@ -8,14 +8,14 @@ Router.beforeEach((to, from, next) => {
       next("/login");
     }
   }
-  if (to.name === 'login' && Cookie.get("loginStatus")) {
-    Toast.fail('当前已经登陆');
+  if (to.name === "login" && Cookie.get("loginStatus")) {
+    Toast.fail("当前已经登陆");
   }
   // 将加载状态设置为true
   // 首次进入Router.app.$store为undefined
   if (Router.app.$store) {
-    Router.app.$store.commit('SET_LOAD', true)
-    console.log(Router.app.$store)
+    Router.app.$store.commit("SET_LOAD", true);
+    console.log(Router.app.$store);
   }
   next();
 });

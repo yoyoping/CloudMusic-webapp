@@ -1,5 +1,5 @@
 import axios from "axios";
-import Router from "../router";
+// import Router from "../router";
 import qs from "qs";
 import ApiUrl from "./api";
 import { Toast } from "vant";
@@ -9,7 +9,8 @@ const Axios = axios.create({
   // timeout: 5000
 });
 
-Axios.defaults.baseURL = process.env.NODE_ENV === `production` ? `http://120.78.128.49:3000` : ``;
+Axios.defaults.baseURL =
+  process.env.NODE_ENV === `production` ? `http://120.78.128.49:3000` : ``;
 // 添加请求拦截器
 Axios.interceptors.request.use(
   config => {

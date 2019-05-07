@@ -29,7 +29,7 @@ Object.keys(url).forEach(item => {
     }
     // get请求
     return axios(url[item], data);
-  }
+  };
 });
 
 export default Api;

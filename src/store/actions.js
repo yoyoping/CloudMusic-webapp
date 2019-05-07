@@ -28,7 +28,6 @@ export const getMusic = async ({ commit }, id) => {
   getLyric({ commit }, id);
   // 歌曲评论
   commentList({ commit }, id);
-  
 };
 
 /**
@@ -55,12 +54,12 @@ export const getplaylist = async ({ commit }) => {
   const params = {
     urlCode: `CD012`,
     uid: Cookies.get(`uid`)
-  }
-  const res = await axios(params)
+  };
+  const res = await axios(params);
   let list = {
     mine: [], // 我创建的
     collection: [] // 收藏歌单
-  }
+  };
   res.playlist.forEach(item => {
     // 判断是自己的创建的歌单
     if (item.creator.userId === Number(Cookies.get(`uid`))) {
@@ -87,7 +86,7 @@ export const likePlayList = async ({ commit }, likeId) => {
   const list = res.playlist.tracks.map(item => item.id);
   commit(`SET_LIKEPLAYLIST`, list);
   storage.set(`likeList`, list);
-}
+};
 
 /**
  * 加入/取消 喜欢歌曲
@@ -103,7 +102,7 @@ export const likeSong = async ({ commit }, [id, like]) => {
     timestamp: timestamp
   };
   if (!like) {
-    delete params.like
+    delete params.like;
   }
   await axios(params);
   if (like) {
@@ -121,23 +120,23 @@ export const commentList = async ({ commit }, id) => {
   const params = {
     urlCode: `CD018`,
     id: id
-  }
-  const res = await axios(params)
-  let count = res.total
+  };
+  const res = await axios(params);
+  let count = res.total;
   if (count > 10000000) {
-    count = '1000w+'
+    count = "1000w+";
   }
   if (count > 1000000) {
-    count = '100w+'
+    count = "100w+";
   }
   if (count > 100000) {
-    count = '10w+'
+    count = "10w+";
   }
   if (count > 10000) {
-    count = '1w+'
+    count = "1w+";
   }
-  if (count > 1000){
-    count = '999+'
+  if (count > 1000) {
+    count = "999+";
   }
-  commit('SET_COMMENTCOUNT', count)
-}
+  commit("SET_COMMENTCOUNT", count);
+};

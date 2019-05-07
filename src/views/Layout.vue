@@ -9,29 +9,30 @@
   </div>
 </template>
 <script>
-import TabBar from './TabBar'
-import { Loading } from 'vant'
-import { mapState } from 'vuex'
+import TabBar from "./TabBar";
+import { Loading } from "vant";
+import { mapState } from "vuex";
 export default {
   components: {
     TabBar,
     [Loading.name]: Loading
   },
   computed: {
-    ...mapState(['loadState'])
+    ...mapState(["loadState"])
   },
   watch: {
-    $route (newVal) {
-    }
+    $route() {}
   }
-}
+};
 </script>
 <style lang="scss" scoped>
-.layout{
+.layout {
   padding-bottom: 1rem;
 }
-.van-loading{
-  position: absolute;top: 45%;left: 50%;transform: translate(-50%);
+.van-loading {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%);
 }
 </style>
-

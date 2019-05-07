@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import storage from "good-storage";
 const state = {
-  title: 'CLOUD MUSIC', // 头部标题
+  title: "CLOUD MUSIC", // 头部标题
   songUrl: ``, // 歌曲播放地址
   currentSongId: ``, // 当前播放歌曲id
   songDetail: {}, // 当前歌曲详情
@@ -29,7 +29,7 @@ const state = {
   loadState: true, // 加载状态（默认加载中）
   minePlayList: [], // 我的的音乐歌单
   likePlayList: storage.get(`likeList`) || [], // 喜欢的音乐id数组
-  commentCount: '' // 当前音乐评论数
+  commentCount: "" // 当前音乐评论数
 };
 
 export default state;

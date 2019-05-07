@@ -35,18 +35,31 @@ export const isAndroid = u.indexOf(`Android`) > -1 || u.indexOf(`Adr`) > -1;
  * 格式化时间 时间戳->2018年12月12日
  */
 export const format = (val, type) => {
-  const d = new Date(val)
+  const d = new Date(val);
   const newTime = {
     year: d.getFullYear(),
-    month: (d.getMonth() + 1) < 10 ? `0${(d.getMonth() + 1)}` : (d.getMonth() + 1),
+    month: d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1,
     day: d.getDay() < 10 ? `0${d.getDay()}` : d.getDay(),
-    hour: d.getHours() < 10 ? `0${d.getHours()}` :d.getHours(),
+    hour: d.getHours() < 10 ? `0${d.getHours()}` : d.getHours(),
     minute: d.getMinutes() < 10 ? `0${d.getMinutes()}` : d.getMinutes(),
     second: d.getSeconds() < 10 ? `0${d.getSeconds()}` : d.getSeconds()
+  };
+  const { year, month, day, hour, minute, second } = newTime;
+  if (type === "all") {
+    return (
+      year +
+      "年" +
+      month +
+      "月" +
+      day +
+      "日" +
+      " " +
+      hour +
+      ":" +
+      minute +
+      ":" +
+      second
+    );
   }
-  const { year, month, day, hour, minute, second } = newTime
-  if (type === 'all') {
-    return year + '年' + month + '月' + day + '日' + ' ' + hour + ':' + minute + ':' + second
-  }
-  return year + '年' + month + '月' + day + '日'
-}
+  return year + "年" + month + "月" + day + "日";
+};

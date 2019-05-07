@@ -4,7 +4,7 @@
 // 3.所有请求都是用get明文请求，因为网易云提供的api就是这样的
 
 const Api = {
-  CD001: {title: `Banner`, url: `/banner` },
+  CD001: { title: `Banner`, url: `/banner` },
   CD002: { title: `推荐歌单`, url: `/personalized` },
   CD003: { title: `最新音乐`, url: `/personalized/newsong` },
   CD004: { title: `专辑详情`, url: `/album` },

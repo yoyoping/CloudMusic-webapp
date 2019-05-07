@@ -28,7 +28,7 @@ let vendor = (() => {
     O: `OTransform`,
     ms: `msTransform`,
     standard: `transform`
-  }
+  };
 
   // 遍历前缀，如果游览器支持的话，就返回对应 key
   for (let key in transformNames) {
