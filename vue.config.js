@@ -1,5 +1,9 @@
 const path = require("path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin")
+
+const env = process.env.NODE_ENV;
+
 function resolve(dir) {
   return path.join(__dirname, "..", dir);
 }
@@ -15,24 +19,35 @@ module.exports = {
       .set(`@util`, resolve(`src/util`))
       .set(`@views`, resolve(`src/views`));
   },
-  configureWebpack: {
-    optimization: {
-      minimizer: [
+  configureWebpack: config => {
+    if (env === 'production') {
+
+      // 生产环境移除console和debugger
+      config.plugins.push(
         new UglifyJsPlugin({
           uglifyOptions: {
             compress: {
               warnings: false,
-              drop_console: true, //console
-              drop_debugger: false,
-              pure_funcs: ["console.log"] //移除console
-            }
-          }
-        })
-      ]
-    },
-    // 取消关于打包报文件大小警告
-    performance: {
-      hints: false
+              drop_debugger: true, // console
+              drop_console: true,
+              pure_funcs: ['console.log'] // 移除console
+            },
+          },
+          sourceMap: false,
+          parallel: true,
+        }),
+      );
+
+      // gzip压缩
+      return {
+        plugins: [
+          new CompressionPlugin({
+            test: /\.js$|\.html$|.\css/, //匹配文件名
+            threshold: 10240,//对超过10k的数据压缩
+            deleteOriginalAssets: false //不删除源文件
+          })
+        ]
+      }
     }
   },
   devServer: {
