@@ -1,5 +1,4 @@
 const path = require("path");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin")
 
 const env = process.env.NODE_ENV;
@@ -21,23 +20,6 @@ module.exports = {
   },
   configureWebpack: config => {
     if (env === 'production') {
-
-      // 生产环境移除console和debugger
-      config.plugins.push(
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: {
-              warnings: false,
-              drop_debugger: true, // console
-              drop_console: true,
-              pure_funcs: ['console.log'] // 移除console
-            },
-          },
-          sourceMap: false,
-          parallel: true,
-        }),
-      );
-
       // gzip压缩
       return {
         plugins: [
