@@ -1,5 +1,5 @@
 const path = require("path");
-const CompressionPlugin = require("compression-webpack-plugin")
+const CompressionPlugin = require("compression-webpack-plugin");
 
 const env = process.env.NODE_ENV;
 
@@ -18,18 +18,18 @@ module.exports = {
       .set(`@util`, resolve(`src/util`))
       .set(`@views`, resolve(`src/views`));
   },
-  configureWebpack: config => {
-    if (env === 'production') {
+  configureWebpack: () => {
+    if (env === "production") {
       // gzip压缩
       return {
         plugins: [
           new CompressionPlugin({
             test: /\.js$|\.html$|.\css/, //匹配文件名
-            threshold: 10240,//对超过10k的数据压缩
+            threshold: 10240, //对超过10k的数据压缩
             deleteOriginalAssets: false //不删除源文件
           })
         ]
-      }
+      };
     }
   },
   devServer: {
