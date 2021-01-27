@@ -10,7 +10,7 @@ const Axios = axios.create({
 });
 
 Axios.defaults.baseURL =
-  process.env.NODE_ENV === `production` ? `http://120.78.128.49:3000` : ``;
+  process.env.NODE_ENV === `production` ? `http://120.0.0.1:3000` : ``;
 // 添加请求拦截器
 Axios.interceptors.request.use(
   config => {
